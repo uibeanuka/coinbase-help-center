@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security & Scam Alerts – Coinbase Help</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <svg width="116" height="24" viewBox="0 0 116 24" fill="none">
+          <circle cx="12" cy="12" r="12" fill="#0052FF"/>
+          <path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/>
+          <text x="28" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#0052FF">coinbase</text>
+        </svg>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Help Center</a>
+        <a href="card.html" class="nav-link">Coinbase Card</a>
+        <a href="scam-alerts.html" class="nav-link active">Security</a>
+        <a href="#" class="nav-link">Community</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-ghost">Sign In</button>
+        <button class="btn-primary">Get started</button>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Help Center</a>
+      <a href="card.html">Coinbase Card</a>
+      <a href="scam-alerts.html">Security</a>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb container">
+    <a href="index.html">Help Center</a>
+    <span>›</span>
+    <span>Security & Scams</span>
+  </div>
+
+  <!-- SECURITY HERO -->
+  <section class="security-hero">
+    <div class="container">
+      <div class="security-hero-badge">🛡️ Security Center</div>
+      <h1>Protect yourself from scams</h1>
+      <p>Scammers target crypto users. Learn how to recognize, avoid, and report fraud attempts — and keep your Coinbase account secure.</p>
+    </div>
+  </section>
+
+  <!-- GOLDEN RULES -->
+  <section class="golden-rules container">
+    <h2 class="section-title">The Golden Rules</h2>
+    <p class="section-sub">If you remember nothing else, remember these:</p>
+    <div class="rules-grid">
+      <div class="rule-card rule-red">
+        <div class="rule-num">01</div>
+        <h3>Never share your recovery phrase</h3>
+        <p>Your 12 or 24-word recovery phrase (seed phrase) gives <strong>complete control</strong> of your wallet to anyone who has it. Coinbase will <em>never</em> ask for it. Not in support chat. Not on the phone. Not in an email. <strong>Never.</strong></p>
+      </div>
+      <div class="rule-card rule-red">
+        <div class="rule-num">02</div>
+        <h3>Never share your password or 2FA code</h3>
+        <p>Your password and one-time 2FA codes are yours alone. Sharing them — even with someone claiming to be Coinbase — gives attackers full access to your account.</p>
+      </div>
+      <div class="rule-card rule-orange">
+        <div class="rule-num">03</div>
+        <h3>Coinbase will never call you first</h3>
+        <p>Coinbase does not make unsolicited outbound calls. If you receive a call from "Coinbase," hang up. Call us back through the official number in the app if you're unsure.</p>
+      </div>
+      <div class="rule-card rule-orange">
+        <div class="rule-num">04</div>
+        <h3>Crypto sent is gone — verify twice</h3>
+        <p>Crypto transactions are irreversible. Always double-check the recipient's address before sending. Scammers use clipboard malware to swap addresses at the last second.</p>
+      </div>
+      <div class="rule-card rule-yellow">
+        <div class="rule-num">05</div>
+        <h3>Too-good-to-be-true = scam</h3>
+        <p>Promises of guaranteed returns, "double your crypto" offers, exclusive investment opportunities, or celebrity endorsements are always scams.</p>
+      </div>
+      <div class="rule-card rule-yellow">
+        <div class="rule-num">06</div>
+        <h3>Coinbase support only through official channels</h3>
+        <p>Real support is available only via the Coinbase app and help.coinbase.com. DMs from "Coinbase" accounts on Twitter/X, Telegram, Instagram, or Discord are fake.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCAM TYPES -->
+  <section class="scam-types container">
+    <h2 class="section-title">Common scam types</h2>
+    <div class="scam-cards">
+
+      <div class="scam-card">
+        <div class="scam-header">
+          <span class="scam-emoji">📞</span>
+          <div>
+            <h3>Impersonation calls</h3>
+            <div class="risk-badge risk-high">HIGH RISK</div>
+          </div>
+        </div>
+        <p>Fraudsters call pretending to be Coinbase security, claiming your account has been compromised. They pressure you to "verify" your identity by providing your password, 2FA code, or recovery phrase.</p>
+        <div class="scam-what-to-do">
+          <strong>What to do:</strong>
+          <ul>
+            <li>Hang up immediately</li>
+            <li>Do not call back the number that called you</li>
+            <li>Lock your account in the Coinbase app if you're concerned</li>
+            <li>Report via <strong>Settings → Contact us</strong> in the app</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-header">
+          <span class="scam-emoji">📧</span>
+          <div>
+            <h3>Phishing emails</h3>
+            <div class="risk-badge risk-high">HIGH RISK</div>
+          </div>
+        </div>
+        <p>Emails that look exactly like official Coinbase messages, with logos, similar email addresses (e.g. "no-reply@coinbase-support.com"), and urgent language like "Your account has been suspended."</p>
+        <div class="scam-what-to-do">
+          <strong>What to do:</strong>
+          <ul>
+            <li>Check the sender — real Coinbase emails end in @coinbase.com only</li>
+            <li>Never click links in suspicious emails — go to coinbase.com directly</li>
+            <li>Enable 2FA so a stolen password alone isn't enough</li>
+            <li>Forward phishing emails to security@coinbase.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-header">
+          <span class="scam-emoji">💌</span>
+          <div>
+            <h3>Romance / pig butchering scams</h3>
+            <div class="risk-badge risk-high">HIGH RISK</div>
+          </div>
+        </div>
+        <p>Scammers build a fake romantic relationship over weeks or months, then introduce a "can't-miss" crypto investment. Victims are coached to invest increasing amounts before the scammer disappears with the funds.</p>
+        <div class="scam-what-to-do">
+          <strong>What to do:</strong>
+          <ul>
+            <li>Never invest in opportunities introduced by someone you met online</li>
+            <li>Be skeptical of platforms not accessible outside the scammer's links</li>
+            <li>Talk to someone you trust before sending any funds</li>
+            <li>Report to the FTC at reportfraud.ftc.gov</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-header">
+          <span class="scam-emoji">🤖</span>
+          <div>
+            <h3>Fake investment platforms</h3>
+            <div class="risk-badge risk-high">HIGH RISK</div>
+          </div>
+        </div>
+        <p>Fraudulent websites or apps that show impressive "returns" to lure victims into depositing more crypto. When you try to withdraw, you're told to pay "taxes" or "fees" — which don't go to any real institution.</p>
+        <div class="scam-what-to-do">
+          <strong>What to do:</strong>
+          <ul>
+            <li>Only use regulated, established exchanges</li>
+            <li>Research any platform before depositing — search the name + "scam"</li>
+            <li>No real platform requires you to pay fees to access your own funds</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-header">
+          <span class="scam-emoji">🧑‍💻</span>
+          <div>
+            <h3>Tech support scams</h3>
+            <div class="risk-badge risk-medium">MEDIUM RISK</div>
+          </div>
+        </div>
+        <p>Pop-ups or calls claiming your computer is infected and you need to grant remote access. Once in, scammers can see your screen while you log in to Coinbase, and steal your credentials.</p>
+        <div class="scam-what-to-do">
+          <strong>What to do:</strong>
+          <ul>
+            <li>Never grant remote desktop access to unsolicited callers</li>
+            <li>Close the browser tab — the pop-up is fake</li>
+            <li>Use a hardware security key where possible</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scam-card">
+        <div class="scam-header">
+          <span class="scam-emoji">🎁</span>
+          <div>
+            <h3>Giveaway &amp; airdrop scams</h3>
+            <div class="risk-badge risk-medium">MEDIUM RISK</div>
+          </div>
+        </div>
+        <p>Fake social media posts from spoofed accounts of celebrities or Coinbase executives promising to "double" any crypto you send them. The sent crypto is never returned.</p>
+        <div class="scam-what-to-do">
+          <strong>What to do:</strong>
+          <ul>
+            <li>Sending crypto to get more back is always a scam — 100% of the time</li>
+            <li>Report the post on the platform where you saw it</li>
+            <li>Verify any announcements on official Coinbase channels only</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ACCOUNT SECURITY CHECKLIST -->
+  <section class="checklist-section">
+    <div class="container">
+      <h2 class="section-title" style="color:#fff">Secure your account — checklist</h2>
+      <p style="color:#93C5FD;text-align:center;margin-bottom:36px">Complete these steps to significantly reduce your risk of being hacked</p>
+      <div class="checklist-grid">
+        <div class="check-item" id="chk1" onclick="toggleCheck('chk1')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Enable 2-factor authentication</h4>
+            <p>Use an authenticator app (like Google Authenticator) — not SMS — for stronger protection</p>
+          </div>
+        </div>
+        <div class="check-item" id="chk2" onclick="toggleCheck('chk2')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Use a strong, unique password</h4>
+            <p>Use a password manager. Never reuse passwords across sites</p>
+          </div>
+        </div>
+        <div class="check-item" id="chk3" onclick="toggleCheck('chk3')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Add a hardware security key</h4>
+            <p>A YubiKey or similar device provides the strongest form of 2FA</p>
+          </div>
+        </div>
+        <div class="check-item" id="chk4" onclick="toggleCheck('chk4')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Review linked devices</h4>
+            <p>Go to Settings → Security → Trusted devices and remove any you don't recognize</p>
+          </div>
+        </div>
+        <div class="check-item" id="chk5" onclick="toggleCheck('chk5')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Enable withdrawal address allow-listing</h4>
+            <p>Restrict withdrawals to pre-approved addresses only</p>
+          </div>
+        </div>
+        <div class="check-item" id="chk6" onclick="toggleCheck('chk6')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Set up account activity alerts</h4>
+            <p>Get notified of every login, withdrawal, and account change</p>
+          </div>
+        </div>
+        <div class="check-item" id="chk7" onclick="toggleCheck('chk7')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Secure your email account</h4>
+            <p>Your email is the key to account recovery. Protect it with 2FA too</p>
+          </div>
+        </div>
+        <div class="check-item" id="chk8" onclick="toggleCheck('chk8')">
+          <div class="check-box">✓</div>
+          <div>
+            <h4>Never store your seed phrase digitally</h4>
+            <p>Write it on paper. Never screenshot it, email it, or save it in cloud storage</p>
+          </div>
+        </div>
+      </div>
+      <div class="checklist-progress">
+        <div class="progress-text"><span id="checkedCount">0</span> of 8 completed</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO REPORT -->
+  <section class="report-section container">
+    <h2 class="section-title">How to report a scam</h2>
+    <div class="report-grid">
+      <div class="report-card">
+        <span class="report-icon">📱</span>
+        <h3>Report in the Coinbase app</h3>
+        <p>Go to <strong>Settings → Help → Contact us</strong> and select "I think my account has been compromised" or "Report a scam."</p>
+      </div>
+      <div class="report-card">
+        <span class="report-icon">🏛️</span>
+        <h3>Report to government agencies</h3>
+        <p>File a complaint with the <strong>FTC</strong> at reportfraud.ftc.gov, the <strong>FBI IC3</strong> at ic3.gov, or your state's attorney general.</p>
+      </div>
+      <div class="report-card">
+        <span class="report-icon">📧</span>
+        <h3>Report phishing emails</h3>
+        <p>Forward phishing emails to <strong>security@coinbase.com</strong> and to the Anti-Phishing Working Group at reportphishing@apwg.org.</p>
+      </div>
+    </div>
+    <div class="report-disclaimer">
+      <span>⚠️</span>
+      <div>
+        <strong>Important:</strong> Unfortunately, crypto transactions are irreversible. Coinbase cannot reverse a completed transaction, even if it was the result of a scam. The best protection is prevention. If you've been scammed, report it immediately but understand that fund recovery is rarely possible.
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner container">
+      <div class="footer-brand">
+        <svg width="120" height="24" viewBox="0 0 140 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/><text x="30" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#fff">coinbase</text></svg>
+        <p style="margin-top:12px;color:#9CA3AF;font-size:13px">Coinbase Help Center<br>© 2025 Coinbase, Inc.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Products</h5>
+          <a href="card.html">Coinbase Card</a>
+          <a href="#">Buy Crypto</a>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <a href="index.html">Help Center</a>
+          <a href="scam-alerts.html">Security</a>
+          <a href="#">Contact Us</a>
+        </div>
+        <div class="footer-col">
+          <h5>Legal</h5>
+          <a href="#">Privacy Policy</a>
+          <a href="#">User Agreement</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>© 2025 Coinbase, Inc. All rights reserved. Cryptocurrency is not legal tender and is not backed by the government. Crypto assets are not subject to FDIC or SIPC protections.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

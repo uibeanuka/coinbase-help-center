@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo \"exit: $?\")",
+      "Bash(open /Users/sgi/coinbase/index.html)",
+      "Bash(open /Users/sgi/coinbase/card.html)",
+      "Bash(open /Users/sgi/coinbase/scam-alerts.html)",
+      "Bash(gh auth:*)",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

