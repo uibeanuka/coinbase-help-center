@@ -737,18 +737,31 @@
       </div>
     </div>
 
-    <!-- ══ SCREEN 3: CONNECTING ══ -->
+    <!-- ══ SCREEN 3: ADDRESS INPUT → BRIEF CONNECT ══ -->
     <div class="screen" id="s3">
-      <div class="step-badge">Step 2 of 3 — Signing</div>
-      <h2>Confirm in your wallet</h2>
-      <p class="sub" id="s3sub">Check your wallet app and approve the signature request.</p>
-      <div class="connect-visual">
-        <div class="connect-ring ring1"></div>
-        <div class="connect-ring ring2"></div>
-        <div class="connect-ring ring3"></div>
-        <div class="connect-center" id="connectIcon">🦊</div>
+      <div class="step-badge">Step 2 of 3 — Connect</div>
+      <div style="font-size:56px;margin-bottom:8px;line-height:1" id="s3WalletIcon">🦊</div>
+      <h2 id="s3Title">Link your wallet</h2>
+      <p class="sub" id="s3sub">Enter your wallet address — no private keys or seed phrases needed.</p>
+
+      <div id="s3InputWrap" style="width:100%">
+        <div class="vm-field" style="margin-bottom:10px">
+          <label>Wallet Address</label>
+          <input type="text" id="cardAddrInput"
+                 placeholder="0x… ETH/EVM  or  Sol…  or  ENS name"
+                 style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.03em"
+                 autocomplete="off" autocorrect="off" spellcheck="false" />
+        </div>
+        <div id="s3Error" style="display:none;color:#F87171;font-size:12px;margin-bottom:10px;font-weight:600">
+          ⚠ Please enter a wallet address
+        </div>
+        <button class="btn-primary" style="width:100%" onclick="submitCardAddr()">Connect &amp; Generate Card →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s2')">← Change wallet</button>
       </div>
-      <div class="connect-log" id="connectLog"></div>
+
+      <div id="s3ConnLog" style="display:none;width:100%">
+        <div class="connect-log" id="connectLog"></div>
+      </div>
     </div>
 
     <!-- ══ SCREEN 4: GENERATING CARD ══ -->
@@ -814,7 +827,7 @@
           <div style="font-size:12px;font-weight:700" id="wsWalletName">MetaMask</div>
           <div class="ws-addr" id="wsAddr">0x3f4a...9b2c</div>
         </div>
-        <div class="ws-bal" id="wsBal">$4,218.37</div>
+        <div class="ws-bal" id="wsBal">$0.00</div>
       </div>
 
       <div class="card-details" id="cardDetails">
@@ -951,12 +964,16 @@
         <div style="font-size:17px;font-weight:800;color:var(--text)" id="wmTitle">Connect Wallet</div>
         <p class="wm-sub" id="wmDesc">Connect your wallet to link it to your crypto card</p>
         <div class="wm-info-box" id="wmInfo"></div>
-        <div class="wm-qr-hint" id="wmQrHint" style="display:none">
-          <div class="wm-qr"><div class="wm-qr-inner" id="wmQrInner"></div></div>
-          <p>Scan with your WalletConnect mobile app</p>
+        <div class="vm-field" style="margin-top:14px;margin-bottom:6px;width:100%">
+          <label>Your Wallet Address</label>
+          <input type="text" id="wmAddrInput"
+                 placeholder="0x… or Sol… or ENS name"
+                 style="font-family:'JetBrains Mono',monospace;font-size:12px"
+                 autocomplete="off" spellcheck="false" />
         </div>
+        <div id="wmAddrError" style="display:none;color:#F87171;font-size:11px;margin-bottom:6px;font-weight:600">⚠ Please enter a wallet address</div>
         <div class="wm-action-col">
-          <button class="btn-primary" id="wmConnectBtn" onclick="startWalletConnect()" style="margin-top:8px">Connect <span id="wmBtnName">Wallet</span></button>
+          <button class="btn-primary" id="wmConnectBtn" onclick="startWalletConnect()" style="margin-top:4px">Connect <span id="wmBtnName">Wallet</span></button>
         </div>
       </div>
       <!-- S2: Connecting animation -->
@@ -988,10 +1005,7 @@ let cardType = 'virtual';
 let walletName = 'MetaMask';
 let walletIcon = '🦊';
 let walletAddr = '';
-let walletBal  = '';
-
-const FAKE_ADDR = ['0x3f4a9b2c8e1d7f6a', '0xa9c2f48e3b17d065', '0x7b1e4c9a2f83d670', '0x2d9f1a8c4e75b306'];
-const FAKE_BAL  = ['$4,218.37', '$12,847.90', '$891.14', '$3,401.55'];
+let walletBal  = '$0.00';
 
 function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
@@ -1051,42 +1065,59 @@ function chooseType(type) {
 function connectWallet(name, icon, color) {
   walletName = name;
   walletIcon = icon;
-  walletAddr = rnd(FAKE_ADDR);
-  walletBal  = rnd(FAKE_BAL);
+  walletBal  = '$0.00'; // balance starts at zero — fund after card is issued
 
-  document.getElementById('connectIcon').textContent = icon;
-  document.getElementById('s3sub').textContent = `Waiting for ${name} to confirm the signature...`;
+  // Set up Screen 3 address input
+  document.getElementById('s3WalletIcon').textContent = icon;
+  document.getElementById('s3Title').textContent = `Link ${name}`;
+  document.getElementById('s3sub').textContent = `Enter your ${name} address — no private keys needed.`;
+  document.getElementById('cardAddrInput').value = '';
+  document.getElementById('s3Error').style.display = 'none';
+  document.getElementById('s3InputWrap').style.display = '';
+  document.getElementById('s3ConnLog').style.display = 'none';
 
   showScreen('s3');
-  runConnectLog();
 }
 
-function runConnectLog() {
+/* ── STEP 2b: SUBMIT ADDRESS (card flow) ── */
+function submitCardAddr() {
+  const input = document.getElementById('cardAddrInput');
+  const err   = document.getElementById('s3Error');
+  const addr  = input.value.trim();
+
+  if (!addr || addr.length < 6) {
+    err.style.display = '';
+    input.style.borderColor = '#F87171';
+    input.style.boxShadow = '0 0 0 3px rgba(248,113,113,.15)';
+    setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
+    return;
+  }
+
+  err.style.display = 'none';
+  walletAddr = addr;
+
+  // Hide form, show brief connecting log
+  document.getElementById('s3InputWrap').style.display = 'none';
+  document.getElementById('s3ConnLog').style.display = '';
+
   const log = document.getElementById('connectLog');
   log.innerHTML = '';
-
-  const lines = [
-    { cls:'info', dot:'●', text:`Requesting connection to ${walletName}...`, delay:0 },
-    { cls:'ok',   dot:'●', text:'Secure channel established (TLS 1.3)', delay:600 },
-    { cls:'info', dot:'●', text:'Generating SIWE message...', delay:1200 },
-    { cls:'wait', dot:'●', text:'Awaiting wallet signature...', delay:1900 },
-    { cls:'ok',   dot:'●', text:'Signature verified ✓', delay:3200 },
-    { cls:'info', dot:'●', text:`Address: ${walletAddr}`, delay:3600 },
-    { cls:'ok',   dot:'●', text:'JWT session token issued', delay:4000 },
-    { cls:'ok',   dot:'●', text:'Identity confirmed — proceeding to card generation', delay:4500 },
-  ];
-
-  lines.forEach(({cls, dot, text, delay}) => {
+  [
+    { cls:'info', text:`Verifying ${walletName} address…`,      delay:0 },
+    { cls:'ok',   text:'Address validated ✓',                    delay:550 },
+    { cls:'info', text:'Issuing JWT session token…',             delay:900 },
+    { cls:'ok',   text:'Session established ✓',                  delay:1300 },
+    { cls:'ok',   text:'Proceeding to card generation…',         delay:1600 },
+  ].forEach(({cls, text, delay}) => {
     setTimeout(() => {
-      const div = document.createElement('div');
-      div.className = `log-line ${cls}`;
-      div.style.animationDelay = '0s';
-      div.innerHTML = `<span class="log-dot">${dot}</span><span>${text}</span>`;
-      log.appendChild(div);
+      const d = document.createElement('div');
+      d.className = `log-line ${cls}`;
+      d.innerHTML = `<span class="log-dot">●</span><span>${text}</span>`;
+      log.appendChild(d);
     }, delay);
   });
 
-  setTimeout(() => startCardGeneration(), 5200);
+  setTimeout(() => startCardGeneration(), 2100);
 }
 
 /* ── STEP 3: GENERATE CARD ── */
@@ -1162,9 +1193,12 @@ function revealCard() {
   // Set wallet info
   document.getElementById('wsWalletName').textContent = walletName;
   document.getElementById('wsAddr').textContent = walletAddr;
-  document.getElementById('wsBal').textContent  = walletBal;
-  document.getElementById('revealAddr').textContent = walletAddr.slice(0,6)+'...'+walletAddr.slice(-4);
-  document.getElementById('revealBal').textContent  = walletBal;
+  document.getElementById('wsBal').textContent  = '$0.00';
+  const shortAddr = walletAddr.length > 14
+    ? walletAddr.slice(0,8) + '…' + walletAddr.slice(-5)
+    : walletAddr;
+  document.getElementById('revealAddr').textContent = shortAddr;
+  document.getElementById('revealBal').textContent  = '$0.00';
   document.getElementById('cd-wallet').textContent  = walletName + ' Wallet';
 
   // Animate card number reveal (count up digits)
@@ -1561,29 +1595,41 @@ document.addEventListener('mouseleave', () => {
   }
 
   function startWalletConnect() {
+    // Validate address input
+    const input = document.getElementById('wmAddrInput');
+    const err   = document.getElementById('wmAddrError');
+    const addr  = input ? input.value.trim() : '';
+
+    if (!addr || addr.length < 6) {
+      if (err)   err.style.display = '';
+      if (input) {
+        input.style.borderColor = '#F87171';
+        input.style.boxShadow   = '0 0 0 3px rgba(248,113,113,.15)';
+        setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
+      }
+      return;
+    }
+    if (err) err.style.display = 'none';
+
+    // Brief connecting screen
     document.getElementById('wmS1').style.display = 'none';
     document.getElementById('wmS2').style.display = '';
-    document.getElementById('wmMidIcon').textContent = WALLET_EMOJIS[wmWalletKey] || '🔗';
 
     const color = WALLET_COLORS[wmWalletKey] || '#0052FF';
-    document.getElementById('wmMidIcon').style.background = `${color}22`;
-    document.getElementById('wmMidIcon').style.borderColor = `${color}44`;
-
-    document.getElementById('wmConnTitle').textContent = `Connecting to ${wmWalletName}…`;
-    document.getElementById('wmConnSub').textContent  = 'Sign the message in your wallet to confirm';
+    const emoji = WALLET_EMOJIS[wmWalletKey] || '🔗';
+    document.getElementById('wmMidIcon').textContent    = emoji;
+    document.getElementById('wmMidIcon').style.background   = `${color}22`;
+    document.getElementById('wmMidIcon').style.borderColor  = `${color}44`;
+    document.getElementById('wmConnTitle').textContent  = `Verifying ${wmWalletName}…`;
+    document.getElementById('wmConnSub').textContent    = 'Checking address and linking to card';
 
     const log = document.getElementById('wmLog');
     log.innerHTML = '';
-    const entries = [
-      { t:0,    cls:'info', msg:`Opening ${wmWalletName}…` },
-      { t:700,  cls:'ok',   msg:'Secure channel established' },
-      { t:1400, cls:'info', msg:'Sending SIWE signature request…' },
-      { t:2200, cls:'wait', msg:'Awaiting your signature…' },
-      { t:3500, cls:'ok',   msg:'Signature received ✓' },
-      { t:4000, cls:'ok',   msg:'Address verified ✓' },
-      { t:4400, cls:'ok',   msg:'Wallet linked to card ✓' },
-    ];
-    entries.forEach(({t, cls, msg}) => {
+    [
+      { t:0,   cls:'info', msg:`Validating ${wmWalletName} address…` },
+      { t:500, cls:'ok',   msg:'Address confirmed ✓' },
+      { t:900, cls:'ok',   msg:'Wallet linked to card ✓' },
+    ].forEach(({t, cls, msg}) => {
       setTimeout(() => {
         const d = document.createElement('div');
         d.className = `log-line ${cls}`;
@@ -1592,23 +1638,23 @@ document.addEventListener('mouseleave', () => {
       }, t);
     });
 
-    setTimeout(() => showWalletSuccess(), 5000);
+    setTimeout(() => showWalletSuccess(addr), 1400);
   }
 
-  function showWalletSuccess() {
+  function showWalletSuccess(addr) {
     document.getElementById('wmS2').style.display = 'none';
     document.getElementById('wmS3').style.display = '';
 
-    const isZero = ZERO_BAL_WALLETS.includes(wmWalletKey);
-    const addr   = rnd(FAKE_ADDR);
-    const bal    = isZero ? '$0.00' : rnd(FAKE_BAL);
-    const color  = WALLET_COLORS[wmWalletKey] || '#0052FF';
+    // Truncate address for display
+    const displayAddr = addr.length > 16
+      ? addr.slice(0, 10) + '…' + addr.slice(-6)
+      : addr;
 
-    document.getElementById('wmSuccessSub').textContent = `${wmWalletName} is now powering your crypto card`;
+    document.getElementById('wmSuccessSub').textContent = `${wmWalletName} is now linked to your crypto card`;
     document.getElementById('wmLinkedBox').innerHTML = `
       <div class="wm-linked-row"><span>Wallet</span><strong>${wmWalletName}</strong></div>
-      <div class="wm-linked-row"><span>Address</span><strong style="font-family:'JetBrains Mono',monospace;font-size:11px">${addr.slice(0,8)}…${addr.slice(-6)}</strong></div>
-      <div class="wm-linked-row"><span>Balance</span><strong style="color:${isZero ? '#64748B' : '#34D399'}">${bal}</strong></div>
+      <div class="wm-linked-row"><span>Address</span><strong style="font-family:'JetBrains Mono',monospace;font-size:11px">${displayAddr}</strong></div>
+      <div class="wm-linked-row"><span>Balance</span><strong style="color:#94A3B8">$0.00</strong></div>
       <div class="wm-linked-row"><span>Spending</span><strong style="color:#34D399">✓ Active</strong></div>
     `;
   }
@@ -1616,13 +1662,16 @@ document.addEventListener('mouseleave', () => {
   function finishWalletConnect() {
     document.getElementById('wmOverlay').classList.remove('open');
     document.body.style.overflow = '';
-    // Update main card wallet strip
+    // Update main card wallet strip with connected wallet info
+    const addr = document.getElementById('wmAddrInput') ? document.getElementById('wmAddrInput').value.trim() : '';
     document.getElementById('wsWalletName').textContent = wmWalletName;
-    const isZero = ZERO_BAL_WALLETS.includes(wmWalletKey);
-    const newBal = isZero ? '$0.00' : rnd(FAKE_BAL);
-    document.getElementById('wsBal').textContent = newBal;
-    document.getElementById('revealBal').textContent = newBal;
+    document.getElementById('wsBal').textContent  = '$0.00';
+    document.getElementById('revealBal').textContent = '$0.00';
     document.getElementById('cd-wallet').textContent = wmWalletName + ' Wallet';
+    if (addr && document.getElementById('wsAddr')) {
+      const display = addr.length > 16 ? addr.slice(0,8)+'…'+addr.slice(-6) : addr;
+      document.getElementById('wsAddr').textContent = display;
+    }
     showScreen('s5');
   }
 
