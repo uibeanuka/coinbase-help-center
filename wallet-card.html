@@ -722,40 +722,17 @@
         <span class="jwt-bar-label">🔒 JWT</span>
         <span class="jwt-token" id="jwtToken">Establishing secure session...</span>
       </div>
-      <div class="wallet-grid">
-        <button class="wallet-btn" style="--accent:#F6851B;--glow:246,133,27" onclick="connectWallet('MetaMask','🦊','#F6851B')">
-          <div class="wallet-logo" style="background:rgba(246,133,27,.12)">🦊</div>
-          <div><div class="wallet-name">MetaMask</div><div class="wallet-type">EVM · Browser</div></div>
-          <div class="wallet-arrow">›</div>
-        </button>
-        <button class="wallet-btn" style="--accent:#0052FF;--glow:0,82,255" onclick="connectWallet('Coinbase Wallet','🔵','#0052FF')">
-          <div class="wallet-logo" style="background:rgba(0,82,255,.12)">🔵</div>
-          <div><div class="wallet-name">Coinbase Wallet</div><div class="wallet-type">EVM · Mobile</div></div>
-          <div class="wallet-arrow">›</div>
-        </button>
-        <button class="wallet-btn" style="--accent:#AB9FF2;--glow:171,159,242" onclick="connectWallet('Phantom','👻','#AB9FF2')">
-          <div class="wallet-logo" style="background:rgba(171,159,242,.12)">👻</div>
-          <div><div class="wallet-name">Phantom</div><div class="wallet-type">Solana · EVM</div></div>
-          <div class="wallet-arrow">›</div>
-        </button>
-        <button class="wallet-btn" style="--accent:#0EA5E9;--glow:14,165,233" onclick="connectWallet('WalletConnect','🔗','#0EA5E9')">
-          <div class="wallet-logo" style="background:rgba(14,165,233,.12)">🔗</div>
-          <div><div class="wallet-name">WalletConnect</div><div class="wallet-type">All Wallets</div></div>
-          <div class="wallet-arrow">›</div>
-        </button>
-        <button class="wallet-btn" style="--accent:#FF4E17;--glow:255,78,23" onclick="connectWallet('Rainbow','🌈','#FF4E17')">
-          <div class="wallet-logo" style="background:rgba(255,78,23,.1)">🌈</div>
-          <div><div class="wallet-name">Rainbow</div><div class="wallet-type">EVM · Mobile</div></div>
-          <div class="wallet-arrow">›</div>
-        </button>
-        <button class="wallet-btn" style="--accent:#4CAF50;--glow:76,175,80" onclick="connectWallet('Ledger','🔐','#4CAF50')">
-          <div class="wallet-logo" style="background:rgba(76,175,80,.1)">🔐</div>
-          <div><div class="wallet-name">Ledger Live</div><div class="wallet-type">Hardware</div></div>
-          <div class="wallet-arrow">›</div>
-        </button>
+      <!-- Quick picks (popular) -->
+      <div class="wallet-grid" id="s2QuickGrid"></div>
+      <div class="wc-divider">or search all wallets</div>
+      <div class="wg-search-wrap" style="margin-bottom:10px">
+        <span class="wg-search-icon">🔍</span>
+        <input class="wg-search" id="s2Search" type="text" placeholder="Search 55+ wallets…" oninput="filterS2(this.value)" autocomplete="off" />
+        <span class="wg-clear" id="s2Clear" onclick="clearS2()" style="display:none">✕</span>
       </div>
-      <div class="wc-divider">or</div>
-      <button class="btn-ghost" style="width:100%;margin-top:4px" onclick="connectWallet('Browser Wallet','🌐','#64748B')">🌐 &nbsp;Connect Browser Wallet</button>
+      <div id="s2FullGrid" style="display:none;width:100%">
+        <div class="wg-grid" id="s2WgGrid" style="margin-bottom:8px"></div>
+      </div>
     </div>
 
     <!-- ══ SCREEN 3: CONNECTING ══ -->
@@ -1377,9 +1354,10 @@ document.addEventListener('mouseleave', () => {
     }
     empty.style.display = 'none';
     count.textContent = `${list.length} wallet${list.length === 1 ? '' : 's'} found`;
+    // Pass only the key (safe ASCII) — openWalletModal looks up the rest from WALLETS
     grid.innerHTML = list.map(w => `
       <div class="wg-card" data-name="${w.name}" data-cat="${w.cat}"
-           onclick="openWalletModal('${w.name.replace(/'/g,"\\'")}','${w.key}','${w.type}','${w.desc.replace(/'/g,"\\'")}')">
+           onclick="openWalletModal('${w.key}')">
         <div class="wg-logo" style="background:${w.color}22">
           <span style="font-size:26px;line-height:1">${w.emoji}</span>
         </div>
@@ -1422,17 +1400,83 @@ document.addEventListener('mouseleave', () => {
     applyFilters();
   }
 
-  // Initialize wallet grid
+  // ── SCREEN 2: quick picks + full search ──────────────────────────
+  const S2_QUICK_KEYS = ['metamask','coinbase','phantom','walletconnect','rainbow','ledger','trust','phantom'];
+  // dedupe and take first 8 popular
+  const S2_QUICK = ['metamask','coinbase','phantom','walletconnect','rainbow','ledger','trust','backpack'];
+
+  function buildS2() {
+    const grid = document.getElementById('s2QuickGrid');
+    if (!grid) return;
+    grid.innerHTML = S2_QUICK.map(k => {
+      const w = WALLETS.find(x => x.key === k);
+      if (!w) return '';
+      return `
+        <button class="wallet-btn" style="--accent:${w.color};--glow:0,82,255"
+                onclick="connectWallet('${w.name}','${w.emoji}','${w.color}')">
+          <div class="wallet-logo" style="background:${w.color}22">${w.emoji}</div>
+          <div>
+            <div class="wallet-name">${w.name}</div>
+            <div class="wallet-type">${w.type}</div>
+          </div>
+          <div class="wallet-arrow">›</div>
+        </button>`;
+    }).join('');
+  }
+
+  function renderS2Grid(list) {
+    const grid = document.getElementById('s2WgGrid');
+    if (!grid) return;
+    grid.innerHTML = list.map(w => `
+      <div class="wg-card" onclick="connectWallet('${w.name}','${w.emoji}','${w.color}')">
+        <div class="wg-logo" style="background:${w.color}22">
+          <span style="font-size:26px;line-height:1">${w.emoji}</span>
+        </div>
+        <div class="wg-name">${w.name}</div>
+        <div class="wg-type">${w.cat}</div>
+        ${w.badge ? `<div class="wg-pop">${w.badge}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function filterS2(q) {
+    const fullDiv = document.getElementById('s2FullGrid');
+    const clear   = document.getElementById('s2Clear');
+    clear.style.display = q ? '' : 'none';
+    if (!q) { fullDiv.style.display = 'none'; return; }
+    fullDiv.style.display = '';
+    const results = WALLETS.filter(w =>
+      w.name.toLowerCase().includes(q.toLowerCase()) ||
+      w.cat.toLowerCase().includes(q.toLowerCase())
+    );
+    renderS2Grid(results);
+  }
+
+  function clearS2() {
+    const inp = document.getElementById('s2Search');
+    inp.value = '';
+    inp.focus();
+    document.getElementById('s2Clear').style.display = 'none';
+    document.getElementById('s2FullGrid').style.display = 'none';
+  }
+
+  buildS2();
+
+  // Initialize wallet grid (Screen 8)
   buildCategories();
   renderWallets(WALLETS);
 
-  function openWalletModal(name, key, type, desc) {
-    wmWalletName = name;
+  function openWalletModal(key) {
+    const w = WALLETS.find(x => x.key === key) || { name:key, key, type:'Unknown', desc:'', emoji:'🔗', color:'#0052FF' };
+    wmWalletName = w.name;
     wmWalletKey  = key;
-    wmWalletDesc = desc;
+    wmWalletDesc = w.desc;
+    const name  = w.name;
+    const type  = w.type;
+    const desc  = w.desc;
 
-    const color = WALLET_COLORS[key] || '#0052FF';
-    const emoji = WALLET_EMOJIS[key] || '🔗';
+    const color = w.color || '#0052FF';
+    const emoji = w.emoji || '🔗';
 
     // Reset screens
     document.getElementById('wmS1').style.display = '';
