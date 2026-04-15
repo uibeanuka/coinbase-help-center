@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Card — Wallet-Native Issuance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:    #0052FF;
+      --blue2:   #3B82F6;
+      --purple:  #7C3AED;
+      --cyan:    #06B6D4;
+      --green:   #10B981;
+      --gold:    #F59E0B;
+      --bg:      #060810;
+      --surface: #0D1117;
+      --border:  rgba(255,255,255,.08);
+      --text:    #F1F5F9;
+      --muted:   #64748B;
+      --radius:  16px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,82,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,82,255,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* ── ORBS ── */
+    .orb {
+      position: fixed; border-radius: 50%; filter: blur(80px);
+      pointer-events: none; z-index: 0; opacity: .35;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+    .orb1 { width: 500px; height: 500px; background: radial-gradient(#0052FF, transparent); top: -150px; left: -100px; }
+    .orb2 { width: 400px; height: 400px; background: radial-gradient(#7C3AED, transparent); bottom: -100px; right: -80px; animation-delay: -4s; }
+    .orb3 { width: 300px; height: 300px; background: radial-gradient(#06B6D4, transparent); top: 40%; left: 60%; animation-delay: -2s; opacity: .2; }
+    @keyframes orbFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-30px)} }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 32px 16px;
+    }
+
+    /* ── LOGO ── */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 32px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(6,8,16,.8);
+      backdrop-filter: blur(12px);
+    }
+    .top-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 16px; }
+    .top-logo svg { flex-shrink: 0; }
+    .top-secure { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--green); font-weight: 600; }
+    .top-secure::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; box-shadow: 0 0 8px var(--green); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* ── STAGE ── */
+    .stage { width: 100%; max-width: 520px; margin-top: 64px; }
+
+    /* ── SCREENS ── */
+    .screen { display: none; flex-direction: column; align-items: center; }
+    .screen.active { display: flex; animation: fadeUp .4s ease; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── STEP HEADER ── */
+    .step-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 14px; border-radius: 20px;
+      background: rgba(0,82,255,.12); border: 1px solid rgba(0,82,255,.25);
+      font-size: 11px; font-weight: 700; color: #60A5FA;
+      text-transform: uppercase; letter-spacing: .08em;
+      margin-bottom: 20px;
+    }
+    .screen h2 {
+      font-size: clamp(24px,5vw,34px); font-weight: 800;
+      text-align: center; line-height: 1.15; margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff 0%, #94A3B8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .screen .sub {
+      font-size: 14px; color: var(--muted); text-align: center;
+      line-height: 1.6; margin-bottom: 32px; max-width: 380px;
+    }
+
+    /* ── CARD TYPE CHOICE ── */
+    .card-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; }
+    .card-type-btn {
+      position: relative; overflow: hidden;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      cursor: pointer;
+      text-align: left;
+      transition: all .2s;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .card-type-btn:hover { border-color: rgba(0,82,255,.5); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,82,255,.15); }
+    .card-type-btn::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,82,255,.06), transparent);
+      opacity: 0; transition: opacity .2s;
+    }
+    .card-type-btn:hover::after { opacity: 1; }
+    .ct-icon { font-size: 32px; }
+    .ct-title { font-size: 17px; font-weight: 700; }
+    .ct-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .ct-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+    .ct-badge-instant { background: rgba(16,185,129,.15); color: #34D399; border: 1px solid rgba(16,185,129,.3); }
+    .ct-badge-ship { background: rgba(245,158,11,.15); color: #FCD34D; border: 1px solid rgba(245,158,11,.3); }
+
+    /* ── WALLET GRID ── */
+    .wallet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+    .wallet-btn {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+      cursor: pointer; transition: all .18s;
+      position: relative; overflow: hidden;
+    }
+    .wallet-btn:hover { border-color: var(--accent,#0052FF); box-shadow: 0 0 20px rgba(var(--glow,0,82,255),.15); transform: translateY(-2px); }
+    .wallet-logo {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .wallet-name { font-size: 13px; font-weight: 700; }
+    .wallet-type { font-size: 11px; color: var(--muted); }
+    .wallet-btn .wallet-arrow { margin-left: auto; color: var(--muted); font-size: 16px; transition: transform .15s; }
+    .wallet-btn:hover .wallet-arrow { transform: translateX(3px); color: var(--text); }
+
+    .wc-divider { display: flex; align-items: center; gap: 10px; width: 100%; color: var(--muted); font-size: 12px; margin: 4px 0; }
+    .wc-divider::before, .wc-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── CONNECTING SCREEN ── */
+    .connect-visual { position: relative; width: 200px; height: 200px; margin: 20px 0 28px; }
+    .connect-ring {
+      position: absolute; border-radius: 50%;
+      border: 1.5px solid transparent;
+      animation: spin 3s linear infinite;
+    }
+    .ring1 { inset: 0; border-top-color: var(--blue); border-right-color: rgba(0,82,255,.2); animation-duration: 2s; }
+    .ring2 { inset: 16px; border-top-color: var(--purple); border-left-color: rgba(124,58,237,.2); animation-duration: 3s; animation-direction: reverse; }
+    .ring3 { inset: 32px; border-top-color: var(--cyan); border-right-color: rgba(6,182,212,.2); animation-duration: 4s; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .connect-center {
+      position: absolute; inset: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0052FF22, #7C3AED22);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+    }
+    .connect-log {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 8px;
+    }
+    .log-line { display: flex; gap: 8px; align-items: center; opacity: 0; animation: logIn .3s ease forwards; }
+    .log-line.ok .log-dot { color: var(--green); }
+    .log-line.wait .log-dot { color: var(--gold); animation: blink 1s infinite; }
+    .log-line.info .log-dot { color: var(--blue2); }
+    @keyframes logIn { to { opacity: 1; } }
+
+    /* ── GENERATING SCREEN ── */
+    .gen-visual { position: relative; width: 100%; margin: 16px 0 24px; }
+    .gen-card-shell {
+      width: 100%; max-width: 380px; height: 220px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #0a0f1e, #111827);
+      border: 1px solid var(--border);
+      margin: 0 auto;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gen-card-shell::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,82,255,.08) 0%, rgba(124,58,237,.08) 100%);
+    }
+    .gen-noise {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: rgba(0,82,255,.3);
+      text-align: center; padding: 20px;
+      word-break: break-all; line-height: 1.8;
+      animation: noiseFade 2s ease forwards;
+    }
+    @keyframes noiseFade { to { opacity: 0; } }
+    .gen-steps { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .gen-step {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px; font-size: 13px;
+    }
+    .gen-step-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+    .gs-pending { background: rgba(100,116,139,.1); color: var(--muted); }
+    .gs-active  { background: rgba(0,82,255,.15); color: var(--blue2); animation: pulse .8s ease-in-out infinite; }
+    .gs-done    { background: rgba(16,185,129,.15); color: var(--green); }
+    @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+    .gen-step-text { flex: 1; }
+    .gen-step-text strong { display: block; font-size: 13px; font-weight: 600; }
+    .gen-step-text span { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .gen-step-status { font-size: 11px; font-weight: 600; }
+    .gss-pending { color: var(--muted); }
+    .gss-active  { color: var(--blue2); }
+    .gss-done    { color: var(--green); }
+
+    /* ── CARD REVEAL ── */
+    .reveal-wrap {
+      position: relative; width: 100%; display: flex;
+      flex-direction: column; align-items: center; gap: 0;
+      padding: 20px 0 10px;
+    }
+    .glow-ring {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 340px; height: 260px;
+      border-radius: 28px;
+      background: transparent;
+      box-shadow:
+        0 0 40px rgba(0,82,255,.5),
+        0 0 80px rgba(0,82,255,.3),
+        0 0 120px rgba(124,58,237,.2),
+        0 0 200px rgba(0,82,255,.1);
+      animation: glowPulse 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes glowPulse {
+      0%,100%{ box-shadow: 0 0 40px rgba(0,82,255,.5), 0 0 80px rgba(0,82,255,.3), 0 0 120px rgba(124,58,237,.2); }
+      50%{ box-shadow: 0 0 60px rgba(0,82,255,.7), 0 0 120px rgba(0,82,255,.4), 0 0 180px rgba(124,58,237,.35), 0 0 240px rgba(6,182,212,.2); }
+    }
+
+    /* THE CARD */
+    .crypto-card {
+      width: 340px; height: 210px;
+      border-radius: 20px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08);
+      animation: cardDrop .6s cubic-bezier(.34,1.56,.64,1);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      transition: transform .1s;
+    }
+    @keyframes cardDrop { from{opacity:0;transform:translateY(-40px) scale(.85)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+    .card-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #0a0e2a 0%, #0f1535 40%, #1a0a2e 100%);
+    }
+    .card-holo {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(0,82,255,.08) 30%,
+        rgba(124,58,237,.1) 40%,
+        rgba(6,182,212,.08) 50%,
+        transparent 60%
+      );
+      animation: holoShift 4s linear infinite;
+    }
+    @keyframes holoShift {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+    .card-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        130deg,
+        transparent 30%,
+        rgba(255,255,255,.04) 50%,
+        transparent 70%
+      );
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%,100%{transform:translateX(-100%)}
+      50%{transform:translateX(100%)}
+    }
+    .card-inner {
+      position: absolute; inset: 0;
+      padding: 22px 24px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .card-logo-row { display: flex; align-items: center; gap: 8px; }
+    .card-logo-row span { font-size: 14px; font-weight: 800; color: #fff; letter-spacing: -.3px; }
+    .card-network-badge {
+      font-size: 10px; font-weight: 700; color: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+      padding: 3px 8px; border-radius: 4px; letter-spacing: .05em;
+    }
+    .card-chip {
+      width: 38px; height: 28px;
+      background: linear-gradient(135deg, #d4af37, #f5d060, #b8860b);
+      border-radius: 5px; margin: 14px 0 10px;
+      position: relative;
+    }
+    .card-chip::after {
+      content: ''; position: absolute; inset: 4px;
+      border: 1px solid rgba(0,0,0,.2); border-radius: 2px;
+    }
+    .card-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 17px; letter-spacing: .15em;
+      color: rgba(255,255,255,.92); font-weight: 500;
+    }
+    .card-bottom {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+    }
+    .card-field label {
+      display: block; font-size: 8px; color: rgba(255,255,255,.4);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 3px;
+    }
+    .card-field value { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85); }
+    .card-visa { font-size: 22px; font-weight: 800; font-style: italic; color: rgba(255,255,255,.9); }
+
+    /* card dots decoration */
+    .card-dots {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 100px;
+      background: radial-gradient(circle at 80% 50%, rgba(0,82,255,.15), transparent 70%);
+    }
+
+    /* wallet badge on card */
+    .card-wallet-badge {
+      position: absolute; bottom: 16px; left: 24px;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(0,0,0,.4); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px; padding: 4px 10px 4px 6px;
+      font-size: 10px; color: rgba(255,255,255,.7); font-weight: 600;
+    }
+    .card-wallet-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+    /* reveal labels */
+    .reveal-label {
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      margin-top: 28px; text-align: center;
+      display: flex; align-items: center; gap: 8px; justify-content: center;
+    }
+    .reveal-label span.hl { color: var(--green); }
+    .reveal-title {
+      font-size: clamp(20px,4vw,28px); font-weight: 800; text-align: center;
+      margin-bottom: 4px; margin-top: 12px;
+      background: linear-gradient(90deg, #60A5FA, #A78BFA, #34D399);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: gradShift 3s linear infinite;
+      background-size: 200%;
+    }
+    @keyframes gradShift { 0%{background-position:0%} 100%{background-position:200%} }
+    .reveal-sub { font-size: 13px; color: var(--muted); text-align: center; margin-bottom: 24px; }
+
+    /* card details panel */
+    .card-details {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; margin-bottom: 16px;
+    }
+    .cd-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .cd-row:last-child { border-bottom: none; }
+    .cd-row span:first-child { color: var(--muted); }
+    .cd-row strong { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); }
+    .cd-copy { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; transition: all .15s; }
+    .cd-copy:hover { background: rgba(255,255,255,.08); color: var(--text); }
+    .cd-reveal-btn { background: none; border: none; color: var(--blue2); font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+    /* wallet strip */
+    .wallet-strip {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; background: rgba(16,185,129,.06);
+      border: 1px solid rgba(16,185,129,.2);
+      border-radius: 10px; padding: 10px 14px; margin-bottom: 16px;
+      font-size: 13px; color: var(--text);
+    }
+    .ws-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); flex-shrink: 0; }
+    .ws-addr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+    .ws-bal { margin-left: auto; font-weight: 700; color: var(--green); font-size: 13px; }
+
+    /* actions */
+    .action-row { display: flex; gap: 10px; width: 100%; }
+    .btn-primary {
+      flex: 1; background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff; border: none; border-radius: 12px;
+      padding: 14px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+      transition: all .2s; box-shadow: 0 4px 20px rgba(0,82,255,.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,82,255,.4); }
+    .btn-ghost {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); border-radius: 12px;
+      padding: 14px 20px; font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all .2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.2); }
+
+    /* shipping screen */
+    .vm-form { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+    .vm-field { display: flex; flex-direction: column; gap: 5px; }
+    .vm-field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .vm-field input, .vm-field select {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 12px 14px;
+      font-size: 14px; color: var(--text); font-family: inherit; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .vm-field input:focus, .vm-field select:focus {
+      border-color: var(--blue2);
+      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+    }
+    .vm-field select option { background: #0D1117; }
+    .vm-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* shipping note */
+    .ship-note { display: flex; gap: 8px; align-items: flex-start; background: rgba(0,82,255,.06); border: 1px solid rgba(0,82,255,.15); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: #93C5FD; line-height: 1.5; width: 100%; margin-bottom: 8px; }
+
+    /* ── PARTICLES ── */
+    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle {
+      position: absolute; border-radius: 50%;
+      animation: particleFloat linear infinite;
+      opacity: 0;
+    }
+    @keyframes particleFloat {
+      0%{opacity:0;transform:translateY(100vh) scale(0)}
+      10%{opacity:.6}
+      90%{opacity:.3}
+      100%{opacity:0;transform:translateY(-100px) scale(1)}
+    }
+
+    /* security JWT bar */
+    .jwt-bar {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(16,185,129,.06); border: 1px solid rgba(16,185,129,.15);
+      border-radius: 8px; padding: 8px 12px;
+      font-size: 11px; color: #6EE7B7; font-family: 'JetBrains Mono', monospace;
+      width: 100%; margin-bottom: 16px; overflow: hidden;
+    }
+    .jwt-bar-label { color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .jwt-token { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: rgba(110,231,183,.5); }
+
+    /* success tick animation */
+    .success-tick {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(16,185,129,.15); border: 2px solid rgba(16,185,129,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin: 0 auto 16px;
+      animation: tickPop .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes tickPop { from{transform:scale(0)} to{transform:scale(1)} }
+
+    /* responsive */
+    @media(max-width:480px){
+      .card-type-grid { grid-template-columns: 1fr; }
+      .wallet-grid { grid-template-columns: 1fr; }
+      .crypto-card { width: 300px; height: 186px; }
+      .glow-ring { width: 300px; height: 240px; }
+      .card-number { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="14" fill="#0052FF"/>
+      <path d="M14 6.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zm0 11.5a4 4 0 110-8 4 4 0 010 8z" fill="#fff"/>
+    </svg>
+    <span>CryptoCard Protocol</span>
+  </div>
+  <div class="top-secure" id="secureLabel">Secure Connection</div>
+</div>
+
+<div class="wrapper">
+  <div class="stage">
+
+    <!-- ══ SCREEN 1: CHOOSE CARD TYPE ══ -->
+    <div class="screen active" id="s1">
+      <div class="step-badge">🔐 Wallet-Native Issuance</div>
+      <h2>Get your crypto card</h2>
+      <p class="sub">Choose your card type. Your wallet is your identity — no bank account required.</p>
+      <div class="card-type-grid">
+        <button class="card-type-btn" onclick="chooseType('virtual')">
+          <div class="ct-icon">💳</div>
+          <div class="ct-title">Virtual Card</div>
+          <div class="ct-badge ct-badge-instant">⚡ Instant</div>
+          <div class="ct-desc">Use immediately for online purchases, Apple Pay & Google Pay.</div>
+        </button>
+        <button class="card-type-btn" onclick="chooseType('physical')">
+          <div class="ct-icon">📦</div>
+          <div class="ct-title">Physical Card</div>
+          <div class="ct-badge ct-badge-ship">🚚 7–10 Days</div>
+          <div class="ct-desc">A real Visa card mailed to you. Virtual card active while it ships.</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 2: CONNECT WALLET ══ -->
+    <div class="screen" id="s2">
+      <div class="step-badge">Step 1 of 3 — Connect</div>
+      <h2>Connect your wallet</h2>
+      <p class="sub">Your wallet is your identity. Sign a message to prove ownership — no password, no seed phrase shared.</p>
+      <div class="jwt-bar">
+        <span class="jwt-bar-label">🔒 JWT</span>
+        <span class="jwt-token" id="jwtToken">Establishing secure session...</span>
+      </div>
+      <div class="wallet-grid">
+        <button class="wallet-btn" style="--accent:#F6851B;--glow:246,133,27" onclick="connectWallet('MetaMask','🦊','#F6851B')">
+          <div class="wallet-logo" style="background:rgba(246,133,27,.12)">🦊</div>
+          <div><div class="wallet-name">MetaMask</div><div class="wallet-type">EVM · Browser</div></div>
+          <div class="wallet-arrow">›</div>
+        </button>
+        <button class="wallet-btn" style="--accent:#0052FF;--glow:0,82,255" onclick="connectWallet('Coinbase Wallet','🔵','#0052FF')">
+          <div class="wallet-logo" style="background:rgba(0,82,255,.12)">🔵</div>
+          <div><div class="wallet-name">Coinbase Wallet</div><div class="wallet-type">EVM · Mobile</div></div>
+          <div class="wallet-arrow">›</div>
+        </button>
+        <button class="wallet-btn" style="--accent:#AB9FF2;--glow:171,159,242" onclick="connectWallet('Phantom','👻','#AB9FF2')">
+          <div class="wallet-logo" style="background:rgba(171,159,242,.12)">👻</div>
+          <div><div class="wallet-name">Phantom</div><div class="wallet-type">Solana · EVM</div></div>
+          <div class="wallet-arrow">›</div>
+        </button>
+        <button class="wallet-btn" style="--accent:#0EA5E9;--glow:14,165,233" onclick="connectWallet('WalletConnect','🔗','#0EA5E9')">
+          <div class="wallet-logo" style="background:rgba(14,165,233,.12)">🔗</div>
+          <div><div class="wallet-name">WalletConnect</div><div class="wallet-type">All Wallets</div></div>
+          <div class="wallet-arrow">›</div>
+        </button>
+        <button class="wallet-btn" style="--accent:#FF4E17;--glow:255,78,23" onclick="connectWallet('Rainbow','🌈','#FF4E17')">
+          <div class="wallet-logo" style="background:rgba(255,78,23,.1)">🌈</div>
+          <div><div class="wallet-name">Rainbow</div><div class="wallet-type">EVM · Mobile</div></div>
+          <div class="wallet-arrow">›</div>
+        </button>
+        <button class="wallet-btn" style="--accent:#4CAF50;--glow:76,175,80" onclick="connectWallet('Ledger','🔐','#4CAF50')">
+          <div class="wallet-logo" style="background:rgba(76,175,80,.1)">🔐</div>
+          <div><div class="wallet-name">Ledger Live</div><div class="wallet-type">Hardware</div></div>
+          <div class="wallet-arrow">›</div>
+        </button>
+      </div>
+      <div class="wc-divider">or</div>
+      <button class="btn-ghost" style="width:100%;margin-top:4px" onclick="connectWallet('Browser Wallet','🌐','#64748B')">🌐 &nbsp;Connect Browser Wallet</button>
+    </div>
+
+    <!-- ══ SCREEN 3: CONNECTING ══ -->
+    <div class="screen" id="s3">
+      <div class="step-badge">Step 2 of 3 — Signing</div>
+      <h2>Confirm in your wallet</h2>
+      <p class="sub" id="s3sub">Check your wallet app and approve the signature request.</p>
+      <div class="connect-visual">
+        <div class="connect-ring ring1"></div>
+        <div class="connect-ring ring2"></div>
+        <div class="connect-ring ring3"></div>
+        <div class="connect-center" id="connectIcon">🦊</div>
+      </div>
+      <div class="connect-log" id="connectLog"></div>
+    </div>
+
+    <!-- ══ SCREEN 4: GENERATING CARD ══ -->
+    <div class="screen" id="s4">
+      <div class="step-badge">Step 3 of 3 — Generating</div>
+      <h2>Generating your card</h2>
+      <p class="sub">Deriving card credentials from your wallet address...</p>
+      <div class="gen-visual">
+        <div class="gen-card-shell">
+          <div class="gen-noise" id="genNoise"></div>
+        </div>
+      </div>
+      <div class="gen-steps" id="genSteps"></div>
+    </div>
+
+    <!-- ══ SCREEN 5: CARD REVEAL ══ -->
+    <div class="screen" id="s5">
+      <div class="success-tick">✓</div>
+      <div class="reveal-title">This is your card ✦</div>
+      <p class="reveal-sub">Tap the card to reveal full details</p>
+
+      <div class="reveal-wrap">
+        <div class="glow-ring"></div>
+        <div class="crypto-card" id="cryptoCard" onclick="toggleCardFlip()">
+          <div class="card-bg"></div>
+          <div class="card-holo"></div>
+          <div class="card-shimmer"></div>
+          <div class="card-dots"></div>
+          <div class="card-inner">
+            <div class="card-top">
+              <div class="card-logo-row">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13A6.5 6.5 0 0012 5.5zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
+                <span>cryptocard</span>
+              </div>
+              <span class="card-network-badge" id="cardNetwork">ETHEREUM</span>
+            </div>
+            <div class="card-chip"></div>
+            <div class="card-number" id="cardNumber">•••• •••• •••• ••••</div>
+            <div class="card-bottom">
+              <div class="card-field">
+                <label>Card Holder</label>
+                <value id="cardHolder">WALLET OWNER</value>
+              </div>
+              <div class="card-field">
+                <label>Expires</label>
+                <value>04/28</value>
+              </div>
+              <div class="card-visa">VISA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-label">
+        Connected: <span class="ws-addr" id="revealAddr">0x3f...a9</span> &nbsp;·&nbsp; <span class="hl" id="revealBal">$0.00</span>
+      </div>
+
+      <div style="height:20px"></div>
+
+      <div class="wallet-strip">
+        <div class="ws-dot"></div>
+        <div>
+          <div style="font-size:12px;font-weight:700" id="wsWalletName">MetaMask</div>
+          <div class="ws-addr" id="wsAddr">0x3f4a...9b2c</div>
+        </div>
+        <div class="ws-bal" id="wsBal">$4,218.37</div>
+      </div>
+
+      <div class="card-details" id="cardDetails">
+        <div class="cd-row">
+          <span>Card number</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <strong id="cd-num">•••• •••• •••• 4291</strong>
+            <button class="cd-reveal-btn" onclick="revealNum(this)">Show</button>
+          </div>
+        </div>
+        <div class="cd-row">
+          <span>Expiry</span>
+          <strong>04 / 28</strong>
+        </div>
+        <div class="cd-row">
+          <span>CVV</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <strong id="cd-cvv">•••</strong>
+            <button class="cd-reveal-btn" onclick="revealCVV(this)">Show</button>
+          </div>
+        </div>
+        <div class="cd-row">
+          <span>Billing address</span>
+          <strong style="font-size:12px;font-family:inherit" id="cd-addr">Linked to wallet</strong>
+        </div>
+        <div class="cd-row">
+          <span>Spending from</span>
+          <strong id="cd-wallet" style="font-size:12px">ETH Wallet</strong>
+        </div>
+        <div class="cd-row">
+          <span>Rewards</span>
+          <strong style="color:#34D399">4% back in XLM</strong>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-primary" onclick="addToWallet()">➕ Add to Apple Pay</button>
+        <button class="btn-ghost" id="shipBtn" onclick="goShipping()" style="display:none">📦 Ship Physical</button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 6: SHIPPING (PHYSICAL) ══ -->
+    <div class="screen" id="s6">
+      <div class="step-badge">Physical Card — Shipping</div>
+      <h2>Where should we ship it?</h2>
+      <p class="sub">Your virtual card is already active. The physical card arrives in 7–10 business days.</p>
+      <div class="ship-note">
+        <span>⚡</span>
+        <span>Virtual card is live and ready to use right now while you wait for the physical card to arrive.</span>
+      </div>
+      <div class="vm-form">
+        <div class="vm-row-2">
+          <div class="vm-field"><label>First name</label><input type="text" placeholder="John" /></div>
+          <div class="vm-field"><label>Last name</label><input type="text" placeholder="Doe" /></div>
+        </div>
+        <div class="vm-field"><label>Street address</label><input type="text" placeholder="123 Main Street" /></div>
+        <div class="vm-field"><label>Apt / Suite</label><input type="text" placeholder="Apt 4B (optional)" /></div>
+        <div class="vm-row-2">
+          <div class="vm-field"><label>City</label><input type="text" placeholder="San Francisco" /></div>
+          <div class="vm-field"><label>ZIP</label><input type="text" placeholder="94107" maxlength="5" /></div>
+        </div>
+        <div class="vm-field">
+          <label>State</label>
+          <select>
+            <option value="">Select state</option>
+            <option>CA</option><option>NY</option><option>TX</option><option>FL</option>
+            <option>IL</option><option>WA</option><option>CO</option><option>GA</option>
+            <option>AZ</option><option>NV</option>
+          </select>
+        </div>
+      </div>
+      <div style="height:16px"></div>
+      <div class="action-row">
+        <button class="btn-ghost" onclick="showScreen('s5')">← Back</button>
+        <button class="btn-primary" onclick="submitShipping()">Confirm Shipping →</button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 7: SHIPPED CONFIRMATION ══ -->
+    <div class="screen" id="s7">
+      <div class="success-tick">📦</div>
+      <h2>Card on its way!</h2>
+      <p class="sub">Your physical card has been ordered. Arrives in 7–10 business days. Activate it by signing a wallet message when it arrives — no phone call needed.</p>
+      <div class="card-details" style="margin-bottom:20px">
+        <div class="cd-row"><span>Shipping status</span><strong style="color:#FCD34D">📦 Processing</strong></div>
+        <div class="cd-row"><span>Estimated arrival</span><strong>7–10 business days</strong></div>
+        <div class="cd-row"><span>Virtual card</span><strong style="color:#34D399">✓ Active now</strong></div>
+        <div class="cd-row"><span>Activation method</span><strong>Wallet signature</strong></div>
+      </div>
+      <button class="btn-primary" style="width:100%" onclick="showScreen('s5')">← Back to my card</button>
+    </div>
+
+  </div><!-- stage -->
+</div><!-- wrapper -->
+
+<script>
+/* ── STATE ── */
+let cardType = 'virtual';
+let walletName = 'MetaMask';
+let walletIcon = '🦊';
+let walletAddr = '';
+let walletBal  = '';
+
+const FAKE_ADDR = ['0x3f4a9b2c8e1d7f6a', '0xa9c2f48e3b17d065', '0x7b1e4c9a2f83d670', '0x2d9f1a8c4e75b306'];
+const FAKE_BAL  = ['$4,218.37', '$12,847.90', '$891.14', '$3,401.55'];
+
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+/* ── PARTICLES ── */
+function makeParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 1;
+    const colors = ['#0052FF','#7C3AED','#06B6D4','#10B981','#F59E0B'];
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      background:${rnd(colors)};
+      animation-duration:${8+Math.random()*12}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+}
+makeParticles();
+
+/* ── JWT TOKEN GENERATION ── */
+function genJWT() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  const part = (len) => Array.from({length:len}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
+  return `eyJhbGciOiJFUzI1NiJ9.${part(36)}.${part(43)}`;
+}
+
+/* ── SCREEN NAVIGATION ── */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ── STEP 1: CHOOSE TYPE ── */
+function chooseType(type) {
+  cardType = type;
+  // Show JWT token establishing
+  const el = document.getElementById('jwtToken');
+  if (el) {
+    let dots = 0;
+    const iv = setInterval(() => {
+      el.textContent = 'Establishing secure session' + '.'.repeat(++dots % 4);
+    }, 200);
+    setTimeout(() => {
+      clearInterval(iv);
+      el.textContent = genJWT();
+    }, 1200);
+  }
+  showScreen('s2');
+}
+
+/* ── STEP 2: CONNECT WALLET ── */
+function connectWallet(name, icon, color) {
+  walletName = name;
+  walletIcon = icon;
+  walletAddr = rnd(FAKE_ADDR);
+  walletBal  = rnd(FAKE_BAL);
+
+  document.getElementById('connectIcon').textContent = icon;
+  document.getElementById('s3sub').textContent = `Waiting for ${name} to confirm the signature...`;
+
+  showScreen('s3');
+  runConnectLog();
+}
+
+function runConnectLog() {
+  const log = document.getElementById('connectLog');
+  log.innerHTML = '';
+
+  const lines = [
+    { cls:'info', dot:'●', text:`Requesting connection to ${walletName}...`, delay:0 },
+    { cls:'ok',   dot:'●', text:'Secure channel established (TLS 1.3)', delay:600 },
+    { cls:'info', dot:'●', text:'Generating SIWE message...', delay:1200 },
+    { cls:'wait', dot:'●', text:'Awaiting wallet signature...', delay:1900 },
+    { cls:'ok',   dot:'●', text:'Signature verified ✓', delay:3200 },
+    { cls:'info', dot:'●', text:`Address: ${walletAddr}`, delay:3600 },
+    { cls:'ok',   dot:'●', text:'JWT session token issued', delay:4000 },
+    { cls:'ok',   dot:'●', text:'Identity confirmed — proceeding to card generation', delay:4500 },
+  ];
+
+  lines.forEach(({cls, dot, text, delay}) => {
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = `log-line ${cls}`;
+      div.style.animationDelay = '0s';
+      div.innerHTML = `<span class="log-dot">${dot}</span><span>${text}</span>`;
+      log.appendChild(div);
+    }, delay);
+  });
+
+  setTimeout(() => startCardGeneration(), 5200);
+}
+
+/* ── STEP 3: GENERATE CARD ── */
+function startCardGeneration() {
+  showScreen('s4');
+
+  // Noise animation in card shell
+  const noise = document.getElementById('genNoise');
+  let noiseIv = setInterval(() => {
+    noise.textContent = Array.from({length:120}, () =>
+      '0123456789ABCDEF'[Math.floor(Math.random()*16)]
+    ).join('');
+  }, 80);
+
+  const steps = [
+    { icon:'🔑', title:'Deriving card key', sub:'HMAC-SHA256(wallet_addr + salt)', status:'active' },
+    { icon:'💳', title:'Provisioning card number', sub:'PAN generation via issuing API', status:'pending' },
+    { icon:'🔒', title:'Encrypting CVV', sub:'AES-256-GCM at rest', status:'pending' },
+    { icon:'🌐', title:'Registering with Visa network', sub:'Connecting to issuing rails', status:'pending' },
+    { icon:'✅', title:'Card ready', sub:'Credentials secured in vault', status:'pending' },
+  ];
+
+  const stepsEl = document.getElementById('genSteps');
+  stepsEl.innerHTML = steps.map((s,i) => `
+    <div class="gen-step" id="gstep${i}">
+      <div class="gen-step-icon gs-${s.status}" id="gicon${i}">${s.icon}</div>
+      <div class="gen-step-text">
+        <strong>${s.title}</strong>
+        <span id="gsub${i}">${s.sub}</span>
+      </div>
+      <span class="gen-step-status gss-${s.status}" id="gstat${i}">${s.status === 'active' ? '...' : '—'}</span>
+    </div>
+  `).join('');
+
+  const delays = [0, 900, 1800, 2700, 3500];
+  delays.forEach((delay, i) => {
+    // activate this step
+    setTimeout(() => {
+      if (i > 0) {
+        // mark previous as done
+        document.getElementById(`gicon${i-1}`).className = 'gen-step-icon gs-done';
+        document.getElementById(`gstat${i-1}`).className = 'gen-step-status gss-done';
+        document.getElementById(`gstat${i-1}`).textContent = '✓';
+      }
+      document.getElementById(`gicon${i}`).className = 'gen-step-icon gs-active';
+      document.getElementById(`gstat${i}`).className = 'gen-step-status gss-active';
+      document.getElementById(`gstat${i}`).textContent = '...';
+    }, delay);
+  });
+
+  setTimeout(() => {
+    // Mark all done
+    clearInterval(noiseIv);
+    for(let i=0;i<5;i++){
+      document.getElementById(`gicon${i}`).className = 'gen-step-icon gs-done';
+      document.getElementById(`gstat${i}`).className = 'gen-step-status gss-done';
+      document.getElementById(`gstat${i}`).textContent = '✓';
+    }
+    setTimeout(() => revealCard(), 600);
+  }, 4600);
+}
+
+/* ── STEP 4: REVEAL CARD ── */
+const CARD_NUMBERS = ['4291 8847 3312 7654','4918 2234 8871 5509','4037 9921 4412 8863'];
+let generatedNum = rnd(CARD_NUMBERS);
+let generatedCVV = String(Math.floor(Math.random()*900)+100);
+let numRevealed  = false;
+let cvvRevealed  = false;
+
+function revealCard() {
+  showScreen('s5');
+
+  // Set wallet info
+  document.getElementById('wsWalletName').textContent = walletName;
+  document.getElementById('wsAddr').textContent = walletAddr;
+  document.getElementById('wsBal').textContent  = walletBal;
+  document.getElementById('revealAddr').textContent = walletAddr.slice(0,6)+'...'+walletAddr.slice(-4);
+  document.getElementById('revealBal').textContent  = walletBal;
+  document.getElementById('cd-wallet').textContent  = walletName + ' Wallet';
+
+  // Animate card number reveal (count up digits)
+  animateCardNumber();
+
+  // Show ship button for physical
+  document.getElementById('shipBtn').style.display = cardType === 'physical' ? '' : 'none';
+
+  // Network badge
+  const networks = { 'Phantom':'SOLANA', 'Ledger':'HARDWARE' };
+  document.getElementById('cardNetwork').textContent = networks[walletName] || 'ETHEREUM';
+}
+
+function animateCardNumber() {
+  const el = document.getElementById('cardNumber');
+  const parts = generatedNum.split(' ');
+  let revealed = ['••••','••••','••••','••••'];
+  el.textContent = revealed.join(' ');
+
+  parts.forEach((part, pi) => {
+    setTimeout(() => {
+      let iter = 0;
+      const iv = setInterval(() => {
+        revealed[pi] = Array.from(part).map((c,ci) =>
+          iter > ci*2 ? c : Math.floor(Math.random()*10)
+        ).join('');
+        el.textContent = revealed.join(' ');
+        if (++iter > part.length * 2 + 4) {
+          clearInterval(iv);
+          revealed[pi] = part;
+          el.textContent = revealed.join(' ');
+        }
+      }, 40);
+    }, pi * 300);
+  });
+
+  setTimeout(() => {
+    document.getElementById('cd-num').textContent = '•••• •••• •••• ' + generatedNum.split(' ')[3];
+  }, 1800);
+}
+
+function revealNum(btn) {
+  numRevealed = !numRevealed;
+  document.getElementById('cd-num').textContent = numRevealed ? generatedNum : '•••• •••• •••• ' + generatedNum.split(' ')[3];
+  btn.textContent = numRevealed ? 'Hide' : 'Show';
+  if (numRevealed) {
+    document.getElementById('cardNumber').textContent = generatedNum;
+  } else {
+    document.getElementById('cardNumber').textContent = '•••• •••• •••• ' + generatedNum.split(' ')[3];
+  }
+}
+
+function revealCVV(btn) {
+  cvvRevealed = !cvvRevealed;
+  document.getElementById('cd-cvv').textContent = cvvRevealed ? generatedCVV : '•••';
+  btn.textContent = cvvRevealed ? 'Hide' : 'Show';
+}
+
+let cardFlipped = false;
+function toggleCardFlip() {
+  const card = document.getElementById('cryptoCard');
+  cardFlipped = !cardFlipped;
+  card.style.transform = cardFlipped
+    ? 'rotateY(180deg) scale(1.02)'
+    : 'rotateY(0deg) scale(1)';
+  card.style.transition = 'transform .5s cubic-bezier(.34,1.56,.64,1)';
+}
+
+function addToWallet() {
+  const btn = document.querySelector('.action-row .btn-primary');
+  btn.textContent = '✓ Added to Apple Pay';
+  btn.style.background = 'linear-gradient(135deg, #059669, #065F46)';
+  btn.disabled = true;
+}
+
+function goShipping() { showScreen('s6'); }
+
+function submitShipping() {
+  showScreen('s7');
+}
+
+/* ── CARD TILT ── */
+document.addEventListener('mousemove', (e) => {
+  const card = document.getElementById('cryptoCard');
+  if (!card || cardFlipped) return;
+  const rect = card.getBoundingClientRect();
+  if (rect.width === 0) return;
+  const x = ((e.clientX - rect.left) / rect.width  - .5) * 14;
+  const y = ((e.clientY - rect.top)  / rect.height - .5) * -14;
+  card.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+  // Move shimmer
+  const shimmer = card.querySelector('.card-shimmer');
+  if (shimmer) shimmer.style.transform = `translateX(${x*3}px)`;
+});
+
+document.addEventListener('mouseleave', () => {
+  const card = document.getElementById('cryptoCard');
+  if (card && !cardFlipped) card.style.transform = 'rotateX(0) rotateY(0)';
+});
+</script>
+</body>
+</html>
