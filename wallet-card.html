@@ -1258,7 +1258,7 @@ document.addEventListener('mouseleave', () => {
   // ── WALLET GRID ────────────────────────────────────────────────
 
   // Zero-balance wallets (show $0.00)
-  const ZERO_BAL_WALLETS = ['phantom', 'argent', 'zerion', 'rabby', 'okx', 'safe', 'slope', 'glow', 'ethos', 'station', 'coldcard', 'sparrow'];
+  const ZERO_BAL_WALLETS = ['phantom','argent','zerion','rabby','okx','safe','slope','glow','ethos','station','coldcard','sparrow','wasabi','alby','nunchuk','status','unstoppable','edge'];
 
   // 55+ wallet data
   const WALLETS = [
@@ -1321,6 +1321,36 @@ document.addEventListener('mouseleave', () => {
     { name:'Sui Wallet',    key:'sui',          cat:'Aptos/Sui',  type:'Browser · Sui',         emoji:'💧', color:'#6FBCF0', badge:'Official',desc:'Official Sui Foundation wallet. Built for Sui network apps.' },
     { name:'Ethos',         key:'ethos',        cat:'Aptos/Sui',  type:'Browser · Sui',         emoji:'🌀', color:'#7B61FF', badge:'',        desc:'Smart wallet for Sui with mobile app and browser extension.' },
     { name:'Nightly',       key:'nightly',      cat:'Aptos/Sui',  type:'Browser · Multi',       emoji:'🌙', color:'#8B5CF6', badge:'',        desc:'Non-custodial wallet for Aptos, Sui, and Solana in one.' },
+    // Multi-chain — extended
+    { name:'SafePal',       key:'safepal',      cat:'Multi-chain',type:'Hardware + App',         emoji:'🛡️', color:'#1BA1E2', badge:'Popular', desc:'SafePal S1 hardware wallet + mobile app. Air-gapped signing.' },
+    { name:'Coin98',        key:'coin98',       cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🪙', color:'#D4A017', badge:'',        desc:'All-in-one DeFi wallet for 40+ blockchains. Huge in Asia.' },
+    { name:'Frontier',      key:'frontier',     cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🌐', color:'#CC2929', badge:'',        desc:'Multi-chain DeFi wallet with staking, swaps, and NFTs.' },
+    { name:'Binance Web3',  key:'binanceweb3',  cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🟡', color:'#F0B90B', badge:'',        desc:'Built-in Web3 wallet inside the Binance app. BNB Chain focus.' },
+    { name:'Bybit Wallet',  key:'bybit',        cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🔷', color:'#F7A600', badge:'',        desc:'Web3 wallet embedded in Bybit exchange. EVM + Solana support.' },
+    { name:'Zengo',         key:'zengo',        cat:'Multi-chain',type:'Mobile · MPC',            emoji:'🔑', color:'#1DC8FF', badge:'',        desc:'MPC wallet — no seed phrase. 3-factor biometric security.' },
+    { name:'Uniswap Wallet',key:'uniswap',      cat:'Multi-chain',type:'Mobile · EVM',           emoji:'🦄', color:'#FF007A', badge:'',        desc:'Official wallet from the Uniswap team. Swap directly in-app.' },
+    { name:'ShapeShift',    key:'shapeshift',   cat:'Multi-chain',type:'Browser · Multi-chain',  emoji:'🦊', color:'#0037FF', badge:'',        desc:'Open-source, self-custody multi-chain wallet with built-in DEX.' },
+    { name:'Unstoppable',   key:'unstoppable',  cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🔒', color:'#4F46E5', badge:'',        desc:'Privacy-focused multi-chain wallet. No KYC, no accounts.' },
+    { name:'Edge',          key:'edge',         cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🔺', color:'#0073FF', badge:'',        desc:'Security-first mobile wallet. Client-side encryption on device.' },
+    { name:'Venly',         key:'venly',        cat:'Multi-chain',type:'Mobile · Gaming',        emoji:'🎮', color:'#7B3FE4', badge:'',        desc:'Gaming-focused Web3 wallet with social login and NFT support.' },
+    { name:'Status',        key:'status',       cat:'Multi-chain',type:'Mobile · EVM',           emoji:'💬', color:'#4360DF', badge:'',        desc:'Encrypted messenger + Ethereum wallet + dApp browser in one.' },
+    // Hardware — extended
+    { name:'OneKey',        key:'onekey',       cat:'Hardware',   type:'Hardware · All chains',  emoji:'1️⃣', color:'#00B760', badge:'',        desc:'Open-source hardware wallet. Compatible with MetaMask & more.' },
+    { name:'Ellipal Titan', key:'ellipal',      cat:'Hardware',   type:'Hardware · Air-gapped',  emoji:'🏔️', color:'#2F80ED', badge:'',        desc:'100% air-gapped. No USB, no Bluetooth — QR code only.' },
+    { name:'Tangem',        key:'tangem',       cat:'Hardware',   type:'Hardware · NFC card',    emoji:'💳', color:'#27AE60', badge:'',        desc:'Hardware wallet as a physical NFC card. Tap to sign.' },
+    { name:'D\'CENT',       key:'dcent',        cat:'Hardware',   type:'Hardware · Biometric',   emoji:'👆', color:'#E84393', badge:'',        desc:'Biometric hardware wallet with built-in fingerprint scanner.' },
+    { name:'KeepKey',       key:'keepkey',      cat:'Hardware',   type:'Hardware · EVM/BTC',     emoji:'🔷', color:'#1D3557', badge:'',        desc:'Simple, elegant hardware wallet by ShapeShift. Large screen.' },
+    { name:'Cypherock X1',  key:'cypherock',    cat:'Hardware',   type:'Hardware · Seedless',    emoji:'⚗️', color:'#7928CA', badge:'',        desc:'Seedless hardware wallet using shamir secret sharing cards.' },
+    { name:'Jade',          key:'jade',         cat:'Hardware',   type:'Hardware · Bitcoin',     emoji:'💚', color:'#00B386', badge:'',        desc:'Blockstream Jade — open-source Bitcoin hardware wallet.' },
+    { name:'Passport',      key:'passport',     cat:'Hardware',   type:'Hardware · Bitcoin',     emoji:'📗', color:'#2D6A4F', badge:'',        desc:'Foundation Passport — open-source Bitcoin-only hardware wallet.' },
+    // Bitcoin — extended
+    { name:'BlueWallet',    key:'bluewallet',   cat:'Bitcoin',    type:'Mobile · BTC + Lightning',emoji:'🔵', color:'#1877F2', badge:'',        desc:'Simple and powerful Bitcoin and Lightning wallet for mobile.' },
+    { name:'Muun',          key:'muun',         cat:'Bitcoin',    type:'Mobile · BTC + Lightning',emoji:'🌙', color:'#5B2D8E', badge:'',        desc:'Self-custodial Bitcoin + Lightning wallet. Very easy UX.' },
+    { name:'Electrum',      key:'electrum',     cat:'Bitcoin',    type:'Desktop · Bitcoin',      emoji:'⚡', color:'#2F86FB', badge:'',        desc:'Legendary desktop Bitcoin wallet since 2011. Hardware compatible.' },
+    { name:'Green Wallet',  key:'green',        cat:'Bitcoin',    type:'Mobile · Bitcoin',       emoji:'🟢', color:'#00B050', badge:'',        desc:'Blockstream Green — multi-sig Bitcoin wallet for iOS & Android.' },
+    { name:'Wasabi',        key:'wasabi',       cat:'Bitcoin',    type:'Desktop · Bitcoin',      emoji:'🫐', color:'#735BF2', badge:'',        desc:'Privacy-first Bitcoin wallet with built-in CoinJoin mixing.' },
+    { name:'Alby',          key:'alby',         cat:'Bitcoin',    type:'Browser · Lightning',    emoji:'⚡', color:'#FFDE00', badge:'',        desc:'Bitcoin Lightning browser extension. Zap and stream sats.' },
+    { name:'Nunchuk',       key:'nunchuk',      cat:'Bitcoin',    type:'Mobile · Bitcoin',       emoji:'🥷', color:'#374151', badge:'',        desc:'Collaborative multi-sig Bitcoin wallet for teams and families.' },
   ];
 
   // Derived lookup maps from WALLETS array
@@ -1336,7 +1366,7 @@ document.addEventListener('mouseleave', () => {
 
   function buildCategories() {
     const cats = document.getElementById('wgCats');
-    const order = ['All','EVM','Solana','Bitcoin','Hardware','Multi-chain','Cosmos','Aptos/Sui'];
+    const order = ['All','EVM','Multi-chain','Solana','Bitcoin','Hardware','Cosmos','Aptos/Sui'];
     cats.innerHTML = order.map((c, i) => `
       <button class="wg-cat-btn${i === 0 ? ' active' : ''}" data-cat="${c}" onclick="filterByCategory('${c}', this)">${c}</button>
     `).join('');
