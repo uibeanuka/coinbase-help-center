@@ -7,6 +7,172 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── DARK APPLY-FLOW — matches wallet-card.html design system ── */
+    .apply-flow {
+      background: #060810 !important;
+      border-top: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: relative;
+    }
+    .apply-flow::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,82,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,82,255,.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .apply-flow .container { position: relative; z-index: 1; }
+    .apply-flow .section-title { color: #F1F5F9 !important; }
+    .apply-flow .section-sub   { color: #94A3B8 !important; }
+
+    /* Progress track */
+    .apply-flow .ap-track { background: rgba(255,255,255,.08); }
+    .apply-flow .ap-dot span {
+      background: rgba(255,255,255,.05);
+      border: 2px solid rgba(255,255,255,.12);
+      color: #64748B;
+    }
+    .apply-flow .ap-dot label { color: #64748B; }
+    .apply-flow .ap-dot.active span {
+      background: #0052FF; border-color: #0052FF; color: #fff;
+      box-shadow: 0 0 0 4px rgba(0,82,255,.2);
+    }
+    .apply-flow .ap-dot.active label { color: #60A5FA; }
+    .apply-flow .ap-dot.done span   { background: #059669; border-color: #059669; color: #fff; }
+    .apply-flow .ap-dot.done label  { color: #34D399; }
+
+    /* Panel card */
+    .apply-flow .apply-panel.active {
+      background: #0D1420;
+      border: 1.5px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.4);
+    }
+
+    /* Text */
+    .apply-flow .ap-step-label { color: #60A5FA !important; }
+    .apply-flow .ap-text h3    { color: #F1F5F9 !important; }
+    .apply-flow .ap-text > p   { color: #94A3B8 !important; }
+    .apply-flow strong         { color: #F1F5F9; }
+    .apply-flow em             { color: #FDA4AF; font-style: normal; font-weight: 600; }
+
+    /* Checklist */
+    .apply-flow .ap-check {
+      background: rgba(16,185,129,.15);
+      color: #34D399;
+      border: 1px solid rgba(16,185,129,.3);
+    }
+    .apply-flow .ap-check-item strong { color: #F1F5F9; }
+    .apply-flow .ap-check-item span   { color: #94A3B8; }
+
+    /* Notes */
+    .apply-flow .ap-note-info   { background: rgba(0,82,255,.08); border-color: rgba(0,82,255,.25); color: #BAE6FD; }
+    .apply-flow .ap-note-warn   { background: rgba(245,158,11,.07); border-color: rgba(245,158,11,.25); color: #FDE68A; }
+    .apply-flow .ap-note-danger { background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.25); color: #FCA5A5; }
+    .apply-flow .ap-note-info strong,
+    .apply-flow .ap-note-warn strong,
+    .apply-flow .ap-note-danger strong { color: inherit; }
+
+    /* Tips */
+    .apply-flow .ap-tip-box {
+      background: rgba(255,255,255,.03);
+      border-color: rgba(255,255,255,.1);
+      border-radius: 12px;
+    }
+    .apply-flow .ap-tip-box strong { color: #F1F5F9; }
+    .apply-flow .ap-tip-box p      { color: #94A3B8; }
+    .apply-flow .ap-tip-warn {
+      background: rgba(245,158,11,.07);
+      border-color: rgba(245,158,11,.25);
+    }
+
+    /* Rewards */
+    .apply-flow .ap-reward-opt {
+      background: rgba(255,255,255,.03);
+      border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 12px;
+    }
+    .apply-flow .ap-reward-opt strong { color: #F1F5F9; }
+    .apply-flow .ap-reward-opt > div > span { color: #94A3B8; }
+    .apply-flow .ap-reward-selected {
+      background: rgba(0,82,255,.12);
+      border-color: rgba(0,82,255,.45);
+    }
+
+    /* Form fields */
+    .apply-flow .ap-form-preview {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px; overflow: hidden;
+    }
+    .apply-flow .ap-field { border-bottom-color: rgba(255,255,255,.07); }
+    .apply-flow .ap-field label    { color: #64748B; }
+    .apply-flow .ap-field-val      { color: #F1F5F9; }
+
+    /* Timeline */
+    .apply-flow .ap-tl-dot { background: rgba(255,255,255,.05); border: 2px solid rgba(255,255,255,.12); color: #64748B; }
+    .apply-flow .ap-tl-done .ap-tl-dot  { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.4); color: #34D399; }
+    .apply-flow .ap-tl-active .ap-tl-dot { background: rgba(0,82,255,.15); border-color: rgba(0,82,255,.4); color: #60A5FA; }
+    .apply-flow .ap-tl-item strong { color: #F1F5F9; }
+    .apply-flow .ap-tl-item > div > span { color: #94A3B8; }
+    .apply-flow .ap-tl-line { background: rgba(255,255,255,.08); }
+
+    /* Nav row */
+    .apply-flow .ap-nav {
+      border-top: 1px solid rgba(255,255,255,.07);
+      margin-top: 28px; padding-top: 20px;
+    }
+    .apply-flow .ap-nav .btn-ghost {
+      background: rgba(255,255,255,.05);
+      border-color: rgba(255,255,255,.12);
+      color: #94A3B8;
+    }
+    .apply-flow .ap-nav .btn-ghost:hover {
+      background: rgba(255,255,255,.1);
+      color: #F1F5F9;
+    }
+
+    /* Success / done grid */
+    .apply-flow .ap-success > h3  { color: #F1F5F9 !important; }
+    .apply-flow .ap-success > p   { color: #94A3B8 !important; }
+    .apply-flow .ap-success-icon  { font-size: 56px; margin-bottom: 16px; }
+    .apply-flow .ap-done-item {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+    }
+    .apply-flow .ap-done-item strong { color: #F1F5F9; }
+    .apply-flow .ap-done-item span:last-child { color: #94A3B8; }
+
+    /* Demo CTA banner */
+    .apply-demo-cta {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; margin-top: 36px; padding: 28px 24px;
+      background: linear-gradient(135deg, rgba(0,82,255,.12), rgba(124,58,237,.12));
+      border: 1px solid rgba(0,82,255,.25);
+      border-radius: 16px;
+    }
+    .apply-demo-cta p {
+      font-size: 13px; color: #94A3B8; margin: 0; text-align: center;
+    }
+    .btn-demo {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #0052FF, #7C3AED);
+      color: #fff; border: none; border-radius: 12px;
+      padding: 14px 28px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: inherit; text-decoration: none;
+      box-shadow: 0 6px 24px rgba(0,82,255,.35);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-demo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(0,82,255,.45);
+    }
+  </style>
 </head>
 <body>
 
@@ -494,7 +660,11 @@
                   <span>Lock your card in the app with one tap</span>
                 </div>
               </div>
-              <button class="btn-primary btn-lg" style="margin-top:32px" onclick="goStep(0)">Start over ↺</button>
+              <div class="apply-demo-cta">
+                <p>Ready to see the full wallet-native card issuance flow?</p>
+                <a href="wallet-card.html" class="btn-demo">✦ Try the Crypto Card Protocol Demo</a>
+                <p>Virtual &amp; physical card · 82+ wallets · SIWE connection · Holographic reveal</p>
+              </div>
             </div>
           </div>
         </div>
