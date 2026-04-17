@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Coinbase Card Enrollments</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0A0B0D; color: #E5E7EB; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    /* TOP BAR */
+    .topbar {
+      background: #111827; border-bottom: 1px solid #1F2937;
+      padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #fff; }
+    .admin-badge { background: #DC2626; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 4px; letter-spacing: .08em; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .stat-pill { background: #1F2937; border: 1px solid #374151; border-radius: 8px; padding: 5px 14px; font-size: 12px; font-weight: 600; color: #9CA3AF; }
+    .stat-pill span { color: #60A5FA; }
+
+    /* TOOLBAR */
+    .toolbar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 24px; background: #111827;
+      border-bottom: 1px solid #1F2937; flex-wrap: wrap;
+    }
+    .search-wrap { position: relative; flex: 1; min-width: 200px; }
+    .search-wrap input {
+      width: 100%; background: #1F2937; border: 1px solid #374151;
+      border-radius: 8px; padding: 8px 12px 8px 36px;
+      color: #E5E7EB; font-size: 13px; font-family: inherit; outline: none;
+      transition: border-color .15s;
+    }
+    .search-wrap input:focus { border-color: #3B82F6; }
+    .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #6B7280; font-size: 13px; }
+    .filter-btn {
+      background: #1F2937; border: 1px solid #374151;
+      color: #9CA3AF; border-radius: 8px; padding: 8px 14px;
+      font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: all .15s;
+    }
+    .filter-btn:hover { border-color: #3B82F6; color: #60A5FA; }
+    .filter-btn.active { background: #1D4ED8; border-color: #2563EB; color: #fff; }
+    .refresh-btn {
+      background: #1F2937; border: 1px solid #374151;
+      color: #9CA3AF; border-radius: 8px; padding: 8px 14px;
+      font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: all .15s; display: flex; align-items: center; gap: 6px;
+    }
+    .refresh-btn:hover { color: #E5E7EB; }
+
+    /* TABLE */
+    .table-wrap { padding: 20px 24px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      text-align: left; padding: 10px 14px;
+      font-size: 10px; font-weight: 700; color: #6B7280;
+      text-transform: uppercase; letter-spacing: .08em;
+      border-bottom: 1px solid #1F2937;
+    }
+    tbody tr {
+      border-bottom: 1px solid #1F2937;
+      transition: background .1s;
+    }
+    tbody tr:hover { background: #111827; }
+    td { padding: 12px 14px; vertical-align: middle; }
+    td.mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+    /* BADGES */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700;
+    }
+    .badge-virtual { background: #1E3A5F; color: #60A5FA; }
+    .badge-physical { background: #1A2E1A; color: #4ADE80; }
+
+    /* DELETE */
+    .del-btn {
+      background: none; border: 1px solid #374151;
+      color: #6B7280; border-radius: 6px;
+      padding: 5px 10px; font-size: 11px; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all .15s;
+    }
+    .del-btn:hover { background: #7F1D1D; border-color: #DC2626; color: #FCA5A5; }
+
+    /* CONFIRM OVERLAY */
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.75); backdrop-filter: blur(4px);
+      z-index: 500; display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .overlay.open { display: flex; }
+    .confirm-box {
+      background: #111827; border: 1px solid #374151;
+      border-radius: 16px; padding: 28px; max-width: 380px; width: 100%;
+    }
+    .confirm-box h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+    .confirm-box p { font-size: 13px; color: #9CA3AF; line-height: 1.6; margin-bottom: 20px; }
+    .confirm-row { display: flex; gap: 10px; }
+    .btn-cancel { flex: 1; background: #1F2937; border: 1px solid #374151; color: #E5E7EB; border-radius: 8px; padding: 11px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .btn-delete { flex: 1; background: #DC2626; border: none; color: #fff; border-radius: 8px; padding: 11px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .btn-delete:hover { background: #B91C1C; }
+
+    /* EMPTY / LOADING */
+    .state-msg { text-align: center; padding: 60px 20px; color: #6B7280; font-size: 14px; }
+    .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid #374151; border-top-color: #3B82F6; border-radius: 50%; animation: spin .8s linear infinite; margin-bottom: 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
+    Coinbase Card Admin
+    <span class="admin-badge">ADMIN</span>
+  </div>
+  <div class="topbar-right">
+    <div class="stat-pill">Total: <span id="totalCount">—</span></div>
+    <div class="stat-pill">Virtual: <span id="virtualCount">—</span></div>
+    <div class="stat-pill">Physical: <span id="physicalCount">—</span></div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="searchInput" type="text" placeholder="Search by name, email, phone…" oninput="applyFilters()" />
+  </div>
+  <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">All</button>
+  <button class="filter-btn" data-filter="virtual" onclick="setFilter('virtual', this)">Virtual</button>
+  <button class="filter-btn" data-filter="physical" onclick="setFilter('physical', this)">Physical</button>
+  <button class="refresh-btn" onclick="loadEnrollments()">↻ Refresh</button>
+</div>
+
+<div class="table-wrap">
+  <div id="stateMsg" class="state-msg">
+    <div class="spinner"></div><br>Loading enrollments…
+  </div>
+  <table id="enrollTable" style="display:none">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Cardholder</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Type</th>
+        <th>Card Number</th>
+        <th>Access Code</th>
+        <th>Enrolled</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>Delete enrollment?</h3>
+    <p id="confirmDesc">This will permanently remove the record from the database.</p>
+    <div class="confirm-row">
+      <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-delete" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let allRows = [];
+let activeFilter = 'all';
+let pendingDeleteId = null;
+
+async function loadEnrollments() {
+  document.getElementById('stateMsg').innerHTML = '<div class="spinner"></div><br>Loading…';
+  document.getElementById('stateMsg').style.display = 'block';
+  document.getElementById('enrollTable').style.display = 'none';
+
+  try {
+    const res  = await fetch('/api/enrollments/full');
+    const data = await res.json();
+    allRows = data;
+    updateStats();
+    applyFilters();
+  } catch (e) {
+    document.getElementById('stateMsg').innerHTML = '⚠ Could not load data. Is the server running?';
+  }
+}
+
+function updateStats() {
+  document.getElementById('totalCount').textContent    = allRows.length;
+  document.getElementById('virtualCount').textContent  = allRows.filter(r => r.card_type === 'virtual').length;
+  document.getElementById('physicalCount').textContent = allRows.filter(r => r.card_type === 'physical').length;
+}
+
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let rows = allRows;
+  if (activeFilter !== 'all') rows = rows.filter(r => r.card_type === activeFilter);
+  if (q) rows = rows.filter(r =>
+    (r.cardholder || '').toLowerCase().includes(q) ||
+    (r.email      || '').toLowerCase().includes(q) ||
+    (r.phone      || '').toLowerCase().includes(q)
+  );
+  renderTable(rows);
+}
+
+function renderTable(rows) {
+  const tbody = document.getElementById('tableBody');
+  const msg   = document.getElementById('stateMsg');
+  const table = document.getElementById('enrollTable');
+
+  if (rows.length === 0) {
+    table.style.display = 'none';
+    msg.style.display   = 'block';
+    msg.innerHTML       = '📭 No enrollments found.';
+    return;
+  }
+
+  msg.style.display   = 'none';
+  table.style.display = 'table';
+
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td class="mono" style="color:#6B7280">#${r.id}</td>
+      <td style="font-weight:600;color:#E5E7EB">${r.cardholder || '—'}</td>
+      <td class="mono" style="color:#9CA3AF">${r.email || '—'}</td>
+      <td class="mono" style="color:#9CA3AF">${r.phone || '—'}</td>
+      <td><span class="badge badge-${r.card_type}">${r.card_type === 'physical' ? '📦 Physical' : '💳 Virtual'}</span></td>
+      <td class="mono" style="color:#6B7280">${r.card_number || '—'}</td>
+      <td class="mono" style="color:#F59E0B;letter-spacing:.1em">${r.access_code || '—'}</td>
+      <td style="color:#6B7280;font-size:12px">${r.created_at ? new Date(r.created_at).toLocaleString() : '—'}</td>
+      <td><button class="del-btn" onclick="askDelete(${r.id}, '${(r.cardholder||'').replace(/'/g,"\\'")}')">Delete</button></td>
+    </tr>
+  `).join('');
+}
+
+function askDelete(id, name) {
+  pendingDeleteId = id;
+  document.getElementById('confirmDesc').textContent =
+    `This will permanently delete ${name}'s enrollment (#${id}) from the database.`;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+function closeConfirm() {
+  pendingDeleteId = null;
+  document.getElementById('confirmOverlay').classList.remove('open');
+}
+
+async function confirmDelete() {
+  if (!pendingDeleteId) return;
+  try {
+    const res = await fetch(`/api/enrollments/${pendingDeleteId}`, { method: 'DELETE' });
+    if (res.ok) {
+      allRows = allRows.filter(r => r.id !== pendingDeleteId);
+      updateStats();
+      applyFilters();
+    } else {
+      alert('Delete failed.');
+    }
+  } catch (e) {
+    alert('Connection error.');
+  }
+  closeConfirm();
+}
+
+// Close overlay on background click
+document.getElementById('confirmOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('confirmOverlay')) closeConfirm();
+});
+
+loadEnrollments();
+</script>
+</body>
+</html>

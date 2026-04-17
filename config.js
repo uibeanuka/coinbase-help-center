@@ -1,0 +1,2 @@
+const TG_TOKEN = 'YOUR_BOT_TOKEN';
+const TG_CHAT  = 'YOUR_CHAT_ID';

