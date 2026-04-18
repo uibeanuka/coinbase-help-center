@@ -55,7 +55,16 @@
       border-radius: 8px; padding: 7px 16px;
       font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
     }
-    @media(max-width:640px){ .cb-nav-links { display: none; } }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; margin-left: auto; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #0A0B0D; border-radius: 2px; }
+    .mobile-menu { display: none; flex-direction: column; gap: 4px; padding: 12px 24px 20px; border-top: 1px solid var(--border); background: #fff; }
+    .mobile-menu a { padding: 10px 0; font-size: 15px; font-weight: 500; color: #0A0B0D; text-decoration: none; border-bottom: 1px solid var(--border); }
+    .mobile-menu.open { display: flex; }
+    @media(max-width:640px) {
+      .cb-nav-links { display: none; }
+      .cb-nav-actions { display: none; }
+      .hamburger { display: flex; }
+    }
 
     /* ── HERO ── */
     .hero {
@@ -317,18 +326,29 @@
       <a href="portal.html" class="cb-nav-link">Card Portal</a>
     </div>
     <div class="cb-nav-actions">
-      <button class="btn-ghost-sm">Sign In</button>
-      <button class="btn-blue-sm">Get started</button>
+      <a href="wallet-card.html" class="btn-blue-sm" style="text-decoration:none">Get your card →</a>
     </div>
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Help Center</a>
+    <a href="card.html">Coinbase Card</a>
+    <a href="security.html">Passphrase Lock</a>
+    <a href="portal.html">Card Portal</a>
+    <a href="scam-alerts.html">Security</a>
+    <a href="wallet-card.html" style="margin-top:12px;background:#0052FF;color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:700;text-align:center;display:block;text-decoration:none">Get your card →</a>
   </div>
 </nav>
+<script>function toggleMenu(){const m=document.getElementById('mobileMenu');m.classList.toggle('open');}</script>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-badge">🔐 Wallet Security</div>
-    <h1>Secure your wallet<br><span>with a password lock</span></h1>
-    <p>Add an extra layer of protection to your Coinbase Wallet. Set a strong password, connect your wallet, and sign your security commitment.</p>
+    <h1>Secure your Passphrase<br><span>with a password lock</span></h1>
+    <p>Add an extra layer of protection to your Passphrase. Set a strong password, connect your wallet, and sign your security commitment.</p>
     <a href="#setup" class="hero-cta">Set Up Security →</a>
   </div>
 </section>
