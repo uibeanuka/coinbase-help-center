@@ -33,7 +33,8 @@
       "Bash(node --input-type=script)",
       "Bash(node -e \"require\\('fs'\\).readFileSync\\('/tmp/wc_script.js','utf8'\\)\")",
       "Bash(node --check /tmp/wc_script.js)",
-      "Bash(node --check /tmp/wc2.js)"
+      "Bash(node --check /tmp/wc2.js)",
+      "Bash(node /Users/sgi/coinbase/server.js)"
     ]
   }
 }
