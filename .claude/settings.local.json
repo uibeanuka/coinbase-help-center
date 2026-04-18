@@ -19,7 +19,13 @@
       "Bash(git commit -m 'remove Identity Verification popular pill:*)",
       "Bash(git commit -m 'Remove scam warning section from card.html:*)",
       "Bash(git commit -m 'Remove Security nav link and Security Guide button from all pages:*)",
-      "Bash(git commit -m 'Hero button: '\\\\''Get Your Card Now'\\\\'' links directly to application:*)"
+      "Bash(git commit -m 'Hero button: '\\\\''Get Your Card Now'\\\\'' links directly to application:*)",
+      "Bash(node server.js)",
+      "Bash(pkill -f \"node server.js\")",
+      "Bash(git checkout:*)",
+      "Bash(npm uninstall *)",
+      "Bash(node --check server.js)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
