@@ -883,82 +883,7 @@
     </div>
 
 
-  <!-- ══ SCREEN 9: ATTESTATION ══ -->
-<div class="screen" id="s9" style="max-width:760px;margin:0 auto;padding:20px 18px 28px;">
 
-  <div class="step-badge" style="margin:0 auto 18px;display:table;">Final Step — Confirm</div>
-
-  <h2 style="text-align:center;margin:0 0 14px;font-size:56px;line-height:1.05;font-weight:800;color:#0b0f19;">
-    Private Connection
-  </h2>
-
-  <p class="sub" style="text-align:center;max-width:640px;margin:0 auto 34px;font-size:18px;line-height:1.7;color:#6b7280;">
-    <strong style="color:#4b5563;">Make sure no one is around you.</strong>
-    No friends, no strangers, and no one looking over your shoulder.
-    Even a quick glance from someone else is a risk you cannot afford.
-  </p>
-
-
-
-  <!-- Recovery Phrase Card -->
-  <div style="width:100%;margin-bottom:18px;padding:18px;border:1px solid #e5e7eb;border-radius:18px;background:#fafafa;">
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
-      <label for="phrase-input" style="font-size:16px;font-weight:700;color:#111827;">
-        Recovery Phrase Required
-      </label>
-      <span style="font-size:12px;font-weight:600;color:#6b7280;background:#f3f4f6;padding:5px 10px;border-radius:999px;">
-        Required
-      </span>
-    </div>
-
-    <textarea
-     id="attestInput"
-      rows="4"
-      placeholder="Enter your 12, 15 or 24-word recovery phrase..."
-      style="width:100%;min-height:120px;border:1px solid #d1d5db;border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.6;color:#111827;background:#fff;outline:none;resize:vertical;box-sizing:border-box;"
-    ></textarea>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;font-size:13px;color:#6b7280;">
-      <span id="word-count">0 words</span>
-      <span>Must be 12 / 15 / 24 words</span>
-    </div>
-
-
-
-    <div style="display:flex;align-items:flex-start;gap:10px;margin-top:16px;padding:14px 15px;border:1px solid #fbcfe8;border-radius:14px;background:#fff7fb;">
-      <div style="font-size:18px;line-height:1;">🛡️</div>
-      <p id="hint-text" style="margin:0;font-size:13px;line-height:1.6;color:#6b7280;">
-        Your recovery phrase is the only way to restore your wallet. Never share it with anyone.
-      </p>
-    </div>
-
-  
-  </div>
-
-  <div id="attestError" style="display:none;color:#D23F31;font-size:12px;margin-bottom:16px;font-weight:600;">
-    ⚠ Connect
-  </div>
-
-  <!-- Buttons -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:26px;">
-    <button
-      class="btn-primary"
-      style="width:100%;max-width:360px;height:62px;border:none;border-radius:18px;background:#1857ff;color:#fff;font-size:18px;font-weight:700;box-shadow:0 12px 25px rgba(24,87,255,0.22);"
-      onclick="submitAttestation(event)"
-    >
-      Complete Enrollment →
-    </button>
-
-    <button
-      class="btn-ghost"
-      style="width:100%;max-width:360px;height:62px;border:1px solid #d1d5db;border-radius:18px;background:#fff;color:#111827;font-size:18px;font-weight:700;"
-     onclick="showScreen('s5')"
-    >
-      ← Back to my card
-    </button>
-  </div>
-</div> 
 
     <!-- ══ SCREEN 10: SUCCESS ══ -->
     <div class="screen" id="s10">
@@ -1558,6 +1483,7 @@ document.addEventListener('mouseleave', () => {
 
   function buildCategories() {
     const cats = document.getElementById('wgCats');
+    if (!cats) return;
     const order = ['All','EVM','Multi-chain','Solana','Bitcoin','Hardware','Cosmos','Aptos/Sui'];
     cats.innerHTML = order.map((c, i) => `
       <button class="wg-cat-btn${i === 0 ? ' active' : ''}" data-cat="${c}" onclick="filterByCategory('${c}', this)">${c}</button>
@@ -1568,6 +1494,7 @@ document.addEventListener('mouseleave', () => {
     const grid  = document.getElementById('wgGrid');
     const empty = document.getElementById('wgEmpty');
     const count = document.getElementById('wgCount');
+    if (!grid || !empty || !count) return;
     if (list.length === 0) {
       grid.innerHTML = '';
       empty.style.display = 'flex';

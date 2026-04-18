@@ -26,7 +26,14 @@
       "Bash(npm uninstall *)",
       "Bash(node --check server.js)",
       "Bash(git commit -m ' *)",
-      "Bash(node -e \"const c=require\\('crypto'\\);console.log\\(c.randomBytes\\(32\\).toString\\('hex'\\)\\)\")"
+      "Bash(node -e \"const c=require\\('crypto'\\);console.log\\(c.randomBytes\\(32\\).toString\\('hex'\\)\\)\")",
+      "Bash(node --check /Users/sgi/coinbase/wallet-card.html)",
+      "Bash(node --input-type=module)",
+      "Bash(awk '/<script>/{p=1;next} /<\\\\/script>/{p=0} p' /Users/sgi/coinbase/wallet-card.html)",
+      "Bash(node --input-type=script)",
+      "Bash(node -e \"require\\('fs'\\).readFileSync\\('/tmp/wc_script.js','utf8'\\)\")",
+      "Bash(node --check /tmp/wc_script.js)",
+      "Bash(node --check /tmp/wc2.js)"
     ]
   }
 }
