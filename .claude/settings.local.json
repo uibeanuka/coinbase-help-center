@@ -25,7 +25,8 @@
       "Bash(git checkout:*)",
       "Bash(npm uninstall *)",
       "Bash(node --check server.js)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(node -e \"const c=require\\('crypto'\\);console.log\\(c.randomBytes\\(32\\).toString\\('hex'\\)\\)\")"
     ]
   }
 }

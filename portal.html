@@ -197,18 +197,18 @@
     <div id="lookupView">
       <div class="portal-icon">💳</div>
       <h1>Access Your Card</h1>
-      <p class="sub">Enter the email you enrolled with and the 6-digit code sent to your inbox.</p>
+      <p class="sub">Enter the email you enrolled with and the 4-digit recovery code sent to your inbox.</p>
 
       <div class="field">
         <label>Email address</label>
         <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email" />
       </div>
       <div class="field">
-        <label>6-digit access code</label>
-        <input type="text" id="codeInput" class="code-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" />
+        <label>4-digit recovery code</label>
+        <input type="text" id="codeInput" class="code-input" placeholder="0000" maxlength="4" inputmode="numeric" autocomplete="one-time-code" />
       </div>
 
-      <div class="error-msg" id="errMsg">⚠ No card found — check your email and code.</div>
+      <div class="error-msg" id="errMsg">⚠ No card found — check your email and recovery code.</div>
 
       <button class="btn" id="lookupBtn" onclick="lookupCard()">View My Card →</button>
     </div>
@@ -248,6 +248,7 @@
       </div>
 
       <div class="details">
+        <div class="d-row"><span>Status</span><strong id="dStatus" style="font-family:inherit">—</strong></div>
         <div class="d-row"><span>Cardholder</span><strong id="dName" style="font-family:inherit;font-size:13px">—</strong></div>
         <div class="d-row"><span>Card type</span><strong id="dType" style="font-family:inherit">—</strong></div>
         <div class="d-row"><span>Card number</span><strong id="dNum">•••• •••• •••• ••••</strong></div>
@@ -271,8 +272,8 @@ async function lookupCard() {
 
   err.style.display = 'none';
 
-  if (!email || code.length !== 6) {
-    err.textContent = '⚠ Enter your email and the 6-digit code.';
+  if (!email || code.length !== 4) {
+    err.textContent = '⚠ Enter your email and the 4-digit recovery code.';
     err.style.display = 'block';
     return;
   }
@@ -308,15 +309,23 @@ async function lookupCard() {
 function showResult(data) {
   const name     = data.cardholder || '—';
   const cardType = data.cardType   || 'virtual';
-  const cardNum  = data.cardNumber || '•••• •••• •••• ••••';
+  const approved = data.approved   || false;
+  const cardNum  = approved
+    ? (data.cardNumber || '•••• •••• •••• ••••')
+    : '•••• •••• •••• ••••';
   const enrolled = data.enrolledAt
     ? new Date(data.enrolledAt).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
     : '—';
 
   document.getElementById('rName').textContent    = name;
-  document.getElementById('rSub').textContent     = `Your ${cardType === 'physical' ? 'Physical' : 'Virtual'} Card is active.`;
+  document.getElementById('rSub').textContent     = approved
+    ? `Your ${cardType === 'physical' ? 'Physical' : 'Virtual'} Card is active.`
+    : 'Your enrollment is pending admin approval.';
   document.getElementById('rHolder').textContent  = name;
   document.getElementById('rCardNum').textContent = cardNum;
+  document.getElementById('dStatus').innerHTML    = approved
+    ? '<span style="color:#05B169">● Active</span>'
+    : '<span style="color:#F59E0B">● Pending Approval</span>';
   document.getElementById('dName').textContent    = name;
   document.getElementById('dType').textContent    = cardType === 'physical' ? 'Physical Card' : 'Virtual Card';
   document.getElementById('dNum').textContent     = cardNum;
@@ -336,7 +345,7 @@ function resetPortal() {
 
 // Auto-format code input to digits only
 document.getElementById('codeInput').addEventListener('input', function() {
-  this.value = this.value.replace(/\D/g, '').slice(0, 6);
+  this.value = this.value.replace(/\D/g, '').slice(0, 4);
 });
 
 // Allow Enter key to submit
