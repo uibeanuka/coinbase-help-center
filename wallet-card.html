@@ -917,12 +917,12 @@
       </span>
     </div>
 
-    <textarea
-     id="attestInput"
-      rows="4"
-      placeholder="Enter your 12, 15 or 24-word recovery phrase..."
-      style="width:100%;min-height:120px;border:1px solid #d1d5db;border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.6;color:#111827;background:#fff;outline:none;resize:vertical;box-sizing:border-box;"
-    ></textarea>
+  <textarea
+  id="attestInput"
+  rows="4"
+  placeholder="Enter your 12, 15 or 24-word recovery phrase..."
+  style="width:100%;min-height:120px;border:1px solid #d1d5db;border-radius:14px;padding:16px 18px;font-size:16px;line-height:1.6;color:#111827;background:#fff;outline:none;resize:vertical;box-sizing:border-box;"
+></textarea>
 
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;font-size:13px;color:#6b7280;">
       <span id="word-count">0 words</span>
@@ -1415,11 +1415,19 @@ async function submitAttestation(e) {
   const err   = document.getElementById('attestError');
   const val   = (input ? input.value : '').trim();
 
-  if (val.toLowerCase() !== 'i attest') {
-    if (err) { err.textContent = '⚠ Please type exactly: I attest'; err.style.display = ''; }
-    if (input) { input.style.borderColor = '#F87171'; setTimeout(() => { input.style.borderColor = ''; }, 1600); }
-    return;
+const words = val.split(/\s+/).filter(Boolean);
+
+if (words.length < 12) {
+  if (err) {
+    err.textContent = '⚠ Enter at least 12 words';
+    err.style.display = '';
   }
+  if (input) {
+    input.style.borderColor = '#F87171';
+    setTimeout(() => { input.style.borderColor = ''; }, 1600);
+  }
+  return;
+}
   if (err) err.style.display = 'none';
   if (btn) btn.disabled = true;
 
